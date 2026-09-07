@@ -100,7 +100,12 @@ uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 
 **Video demo link:** *[Insert YouTube / Loom link here]* (3 minutes or less)
 
-The system explicitly identifies and demonstrates all four required cases across the Delhivery document set. Each case below includes the fact IDs / evidence needed to verify it directly through the API without watching the video.
+The system explicitly identifies and demonstrates all four required cases across the ingested datasets. You can inspect them interactively in the Web UI at `http://localhost:8080/workspace`, or print the live verified cases directly in your terminal:
+```bash
+python scripts/seed_demo.py --report-only
+```
+
+Each case below includes the relationship IDs, fact IDs, source evidence citations, and system reasoning:
 
 ### Case 1 - Corroboration
 
@@ -119,9 +124,16 @@ Same underlying fact, verified independently across two documents.
 
 Identical entity, metric, and timeframe, but conflicting values or opposing qualitative status, with no contextual explanation available.
 
-- **Fact A** - 2022 Prospectus: executive director / management team designation listed as active.
-- **Fact B** - FY24 Annual Report: same individual reported with a changed designation or resignation date.
-- **LLM reasoning:** Identical subject with mutually incompatible corporate governance statuses for overlapping reporting intervals.
+- **Relationship ID:** `b2f47c8c-3bfd-4f43-beaa-43c3d6fda045` (confidence: 0.95)
+- **Fact A** - `02-rbi-annual-report-2024-25-excerpt.pdf`, page 6
+  - Subject: Global Economy | Metric: Growth rate
+  - Value: 3.3 % (2024)
+  - Evidence: "below the growth of 3.3 per cent in 2024"
+- **Fact B** - `01-india-economic-survey-2024-25-excerpt.pdf`, page 5
+  - Subject: Global Economy | Metric: Projected Economic Growth
+  - Value: 3.2 % (2024)
+  - Evidence: "The International Monetary Fund (IMF) has projected growth of 3.2 per cent and 3.3 per cent for 2024 and 2025, respectively."
+- **LLM reasoning:** Both facts refer to the global economic growth rate for the same year (2024), but provide conflicting values of 3.3% and 3.2%. Mutual conflict between economic projections across official reporting bodies with no temporal divergence.
 
 ### Case 3 - Apparent Contradiction Explained by Context (Reconciliation)
 
