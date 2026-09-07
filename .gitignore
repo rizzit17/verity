@@ -1,0 +1,15 @@
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite
+*.sqlite3
+data/facts.db
+data/uploads/*
+!data/uploads/.gitkeep
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+env/
+venv/
