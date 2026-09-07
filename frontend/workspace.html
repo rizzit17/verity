@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Verity — Knowledge Workspace &amp; Relationships</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Verity - Knowledge Workspace &amp; Relationships</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
   <style>
     @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      main > :first-child { margin-top: 0 !important; }
-      main > :last-child { margin-bottom: 0 !important; }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main> :first-child {
+        margin-top: 0 !important;
+      }
+
+      main> :last-child {
+        margin-bottom: 0 !important;
+      }
     }
-    ::-webkit-scrollbar { display: none; }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -118,55 +140,74 @@
     };
   </script>
 </head>
+
 <body class="bg-background font-body-md text-on-background min-h-screen">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
+  <header
+    class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
     <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
       <div class="flex items-center gap-space-3 shrink-0">
         <a href="/" class="flex items-center gap-space-2 text-decoration-none">
           <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
-          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+          <span
+            class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
-          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+        <div
+          class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
+              class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts"
+              class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span
+              id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue"
+              class="text-error font-bold">...</span></span>
         </div>
       </div>
       <nav class="hidden md:flex items-center h-full gap-space-1">
-        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
-        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+        <a href="/workspace"
+          class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Workspace
         </a>
-        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/explorer"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
-        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/review"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Review Queue
         </a>
       </nav>
       <div class="flex items-center gap-space-2 shrink-0">
         <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
+            type="button" title="Seed Demo Database">
             [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
+          <button id="btn-clear-db" onclick="handleClearDb()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
+            type="button" title="Clear All Data">
             [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
+            href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
           </a>
         </div>
-        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
+          class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
+          type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
         <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
@@ -175,19 +216,26 @@
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
-    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
+    <div id="mobile-nav-menu"
+      class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
       <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
-      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Workspace</a>
-      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
-      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Review Queue</a>
-      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
+      <a href="/workspace"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Workspace</a>
+      <a href="/explorer"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
+      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Review
+        Queue</a>
+      <a href="/docs" target="_blank"
+        class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs
+          (API)</span></a>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
   <main class="w-full pt-16 bg-background min-h-screen flex flex-col">
     <!-- Top Command & Session Ribbon -->
-    <div class="w-full bg-surface-container-lowest border-b border-white/10 px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+    <div
+      class="w-full bg-surface-container-lowest border-b border-white/10 px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
       <div class="flex items-center gap-2.5">
         <span class="relative flex h-2 w-2">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
@@ -196,24 +244,30 @@
         <span class="font-mono text-xs font-bold text-on-surface tracking-tight">
           KNOWLEDGE WORKBENCH <span class="text-outline">//</span> RECONCILIATION RUNNER
         </span>
-        <span class="hidden sm:inline-block px-2 py-0.5 bg-primary/10 border border-primary/30 text-primary font-mono text-[10px] uppercase tracking-wider font-semibold">
+        <span
+          class="hidden sm:inline-block px-2 py-0.5 bg-primary/10 border border-primary/30 text-primary font-mono text-[10px] uppercase tracking-wider font-semibold">
           CROSS-DOCUMENT FACT LAYER
         </span>
       </div>
       <div class="flex items-center gap-2 font-mono text-[11px]">
-        <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="text-outline">EMBEDDINGS:</span>
           <span class="text-secondary font-bold">all-MiniLM-L6-v2</span>
         </div>
-        <div class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="text-outline">REASONER:</span>
           <span class="text-primary font-bold">Gemini 3.5 Flash Lite</span>
         </div>
-        <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="text-outline">SYNC:</span>
           <span class="text-tertiary font-bold">ACTIVE (14ms)</span>
         </div>
-        <button onclick="handleSeedDemo()" class="px-3 py-1 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-[11px] font-bold tracking-wider transition-colors shadow-sm" type="button">
+        <button onclick="handleSeedDemo()"
+          class="px-3 py-1 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-[11px] font-bold tracking-wider transition-colors shadow-sm"
+          type="button">
           [TRIGGER SEED RUN]
         </button>
       </div>
@@ -222,48 +276,64 @@
     <!-- Primary Workspace Split: Left Sidebar (Ingestion) + Right Content Hub -->
     <div class="w-full flex-1 flex flex-col xl:flex-row bg-surface-container-lowest">
       <!-- LEFT COLUMN: Ingestion Gateway & Ingested Document Tree (Fixed width sidebar on xl) -->
-      <aside class="w-full xl:w-[320px] 2xl:w-[350px] shrink-0 flex flex-col bg-surface-container-lowest border-r border-white/10">
+      <aside
+        class="w-full xl:w-[320px] 2xl:w-[350px] shrink-0 flex flex-col bg-surface-container-lowest border-r border-white/10">
         <!-- Upload Dropzone Card -->
         <div class="p-4 border-b border-white/10 flex flex-col gap-3 bg-surface-container-low/30">
           <div class="flex items-center justify-between">
-            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // INGESTION GATEWAY</span>
-            <span class="px-1.5 py-0.5 bg-surface-container-high border border-white/10 text-secondary font-mono text-[10px]">MIME: PDF</span>
+            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // INGESTION
+              GATEWAY</span>
+            <span
+              class="px-1.5 py-0.5 bg-surface-container-high border border-white/10 text-secondary font-mono text-[10px]">MIME:
+              PDF</span>
           </div>
-          <div class="relative group bg-surface-container-low/80 hover:bg-surface-container-high p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 border border-dashed border-white/20 hover:border-primary/60" id="drop-zone">
-            <div class="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+          <div
+            class="relative group bg-surface-container-low/80 hover:bg-surface-container-high p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 border border-dashed border-white/20 hover:border-primary/60"
+            id="drop-zone">
+            <div
+              class="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <span class="material-symbols-outlined text-primary text-[22px]">upload_file</span>
             </div>
-            <span class="font-sans text-sm text-on-surface font-semibold mb-0.5">Drop Financial Prospectus or 10-K</span>
+            <span class="font-sans text-sm text-on-surface font-semibold mb-0.5">Drop Financial Prospectus or
+              10-K</span>
             <span class="font-mono text-[11px] text-outline mb-2.5">Annual Reports, Filings, Form 8-K (Max 50MB)</span>
-            <div class="w-full bg-surface-container-lowest/80 p-2 border border-white/5 flex items-center justify-between font-mono text-[10px] text-on-surface-variant">
+            <div
+              class="w-full bg-surface-container-lowest/80 p-2 border border-white/5 flex items-center justify-between font-mono text-[10px] text-on-surface-variant">
               <span class="flex items-center gap-1 text-tertiary">
                 <span class="material-symbols-outlined text-[13px]">bolt</span>
                 PYMUPDUL OCR CHUNKING
               </span>
               <span class="text-outline">FACT DEDUPLICATION ON</span>
             </div>
-            <input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" id="pdf-input" type="file" onchange="handleFileUpload(this.files)"/>
+            <input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" id="pdf-input" type="file"
+              onchange="handleFileUpload(this.files)" />
           </div>
 
           <!-- Active Multi-Stage Parsing Stepper (hidden unless uploading) -->
-          <div id="pipeline-stepper" class="hidden bg-surface-container-low p-3 border border-white/10 flex flex-col gap-2.5">
+          <div id="pipeline-stepper"
+            class="hidden bg-surface-container-low p-3 border border-white/10 flex flex-col gap-2.5">
             <div class="flex items-center justify-between font-mono text-xs">
-              <span id="stepper-filename" class="text-on-surface font-bold truncate max-w-[180px]">Extracting Document...</span>
+              <span id="stepper-filename" class="text-on-surface font-bold truncate max-w-[180px]">Extracting
+                Document...</span>
               <span id="stepper-step" class="text-secondary font-mono text-[11px]">STEP 1 / 4</span>
             </div>
             <!-- Step 1: Chunking -->
-            <div id="step-1" class="flex items-center justify-between text-xs font-mono bg-surface-container p-2 border border-white/5">
+            <div id="step-1"
+              class="flex items-center justify-between text-xs font-mono bg-surface-container p-2 border border-white/5">
               <div class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 bg-tertiary text-on-tertiary flex items-center justify-center text-[9px] font-bold">✓</span>
+                <span
+                  class="w-3.5 h-3.5 bg-tertiary text-on-tertiary flex items-center justify-center text-[9px] font-bold">✓</span>
                 <span class="text-on-surface">PyMuPDF Document Chunking</span>
               </div>
               <span class="font-mono text-[10px] text-tertiary">ACTIVE</span>
             </div>
             <!-- Step 2: Gemini Fact Extraction -->
-            <div id="step-2" class="flex flex-col gap-1.5 bg-surface-container-high p-2 shadow-sm border border-primary/20">
+            <div id="step-2"
+              class="flex flex-col gap-1.5 bg-surface-container-high p-2 shadow-sm border border-primary/20">
               <div class="flex items-center justify-between text-xs font-mono">
                 <div class="flex items-center gap-2">
-                  <span class="w-3.5 h-3.5 bg-primary text-on-primary flex items-center justify-center text-[9px] font-bold animate-pulse">●</span>
+                  <span
+                    class="w-3.5 h-3.5 bg-primary text-on-primary flex items-center justify-center text-[9px] font-bold animate-pulse">●</span>
                   <span class="text-on-surface font-semibold">Gemini Fact Extraction</span>
                 </div>
                 <span class="font-mono text-[10px] text-primary font-bold">PROCESSING</span>
@@ -273,17 +343,21 @@
               </div>
             </div>
             <!-- Step 3: Embeddings -->
-            <div id="step-3" class="flex items-center justify-between text-xs font-mono bg-surface-container/60 p-2 opacity-60 border border-white/5">
+            <div id="step-3"
+              class="flex items-center justify-between text-xs font-mono bg-surface-container/60 p-2 opacity-60 border border-white/5">
               <div class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 bg-surface-container-highest text-outline flex items-center justify-center text-[9px] font-bold">3</span>
+                <span
+                  class="w-3.5 h-3.5 bg-surface-container-highest text-outline flex items-center justify-center text-[9px] font-bold">3</span>
                 <span class="text-outline">Compute MiniLM Embeddings</span>
               </div>
               <span class="font-mono text-[10px] text-outline">PENDING</span>
             </div>
             <!-- Step 4: Cross-Doc Synthesis -->
-            <div id="step-4" class="flex items-center justify-between text-xs font-mono bg-surface-container/60 p-2 opacity-60 border border-white/5">
+            <div id="step-4"
+              class="flex items-center justify-between text-xs font-mono bg-surface-container/60 p-2 opacity-60 border border-white/5">
               <div class="flex items-center gap-2">
-                <span class="w-3.5 h-3.5 bg-surface-container-highest text-outline flex items-center justify-center text-[9px] font-bold">4</span>
+                <span
+                  class="w-3.5 h-3.5 bg-surface-container-highest text-outline flex items-center justify-center text-[9px] font-bold">4</span>
                 <span class="text-outline">Synthesize Cross-Document Graph</span>
               </div>
               <span class="font-mono text-[10px] text-outline">QUEUED</span>
@@ -300,7 +374,9 @@
                 INGESTED ARTIFACTS (<span id="doc-count" class="text-on-surface font-bold">0</span>)
               </span>
             </div>
-            <button onclick="loadDocuments()" class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors" type="button">
+            <button onclick="loadDocuments()"
+              class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors"
+              type="button">
               <span class="material-symbols-outlined text-[13px]">refresh</span>
               REFRESH
             </button>
@@ -313,7 +389,8 @@
           </div>
           <!-- Audit Summary Metric Tile -->
           <div class="mt-auto pt-4 border-t border-white/10 flex flex-col gap-2">
-            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">WORKSPACE STATS MATRIX</span>
+            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">WORKSPACE STATS
+              MATRIX</span>
             <div class="grid grid-cols-2 gap-2">
               <div class="bg-surface-container-low border border-white/5 p-2.5 flex flex-col">
                 <span id="stat-isolated-facts" class="font-mono text-xl text-on-surface font-bold">...</span>
@@ -321,7 +398,8 @@
               </div>
               <div class="bg-surface-container-low border border-white/5 p-2.5 flex flex-col">
                 <span id="stat-certainty" class="font-mono text-xl text-tertiary font-bold">...</span>
-                <span class="font-mono text-[9px] text-outline tracking-wider uppercase mt-0.5">AGGREGATE CERTAINTY</span>
+                <span class="font-mono text-[9px] text-outline tracking-wider uppercase mt-0.5">AGGREGATE
+                  CERTAINTY</span>
               </div>
             </div>
           </div>
@@ -331,10 +409,12 @@
       <!-- RIGHT / MAIN AREA: Cross-Document Relationships Explorer (Generous reading area) -->
       <div class="flex-1 min-w-0 bg-surface-container-lowest flex flex-col p-4 md:p-6 xl:p-8 gap-6 overflow-y-auto">
         <!-- Top Explorer Sub-Header & Multi-Tab Filter Switcher -->
-        <div class="bg-surface-container/60 border border-white/10 p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div
+          class="bg-surface-container/60 border border-white/10 p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
             <div class="flex items-center gap-2.5 flex-wrap">
-              <span class="px-2 py-0.5 bg-primary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase font-bold tracking-wider">
+              <span
+                class="px-2 py-0.5 bg-primary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase font-bold tracking-wider">
                 MODULE 02
               </span>
               <h1 class="font-sans text-lg lg:text-xl text-on-surface font-bold tracking-tight">
@@ -347,10 +427,15 @@
           </div>
           <div class="flex items-center gap-2.5 shrink-0 flex-wrap sm:flex-nowrap">
             <div class="relative w-full sm:w-64">
-              <input id="rel-filter-input" oninput="applyFilters()" class="bg-surface-container-low/90 px-3 py-1.5 pr-8 font-mono text-xs text-on-surface placeholder:text-outline w-full focus:outline-none focus:border-primary/60 border border-white/15 transition-colors" placeholder="FILTER METRICS / SUBJECTS..." type="text"/>
-              <span class="material-symbols-outlined absolute right-2.5 top-2 text-outline text-[16px] pointer-events-none">search</span>
+              <input id="rel-filter-input" oninput="applyFilters()"
+                class="bg-surface-container-low/90 px-3 py-1.5 pr-8 font-mono text-xs text-on-surface placeholder:text-outline w-full focus:outline-none focus:border-primary/60 border border-white/15 transition-colors"
+                placeholder="FILTER METRICS / SUBJECTS..." type="text" />
+              <span
+                class="material-symbols-outlined absolute right-2.5 top-2 text-outline text-[16px] pointer-events-none">search</span>
             </div>
-            <button onclick="exportRelationshipsCSV()" class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-3 py-1.5 font-mono text-xs flex items-center gap-1.5 border border-white/10 hover:border-white/20 transition-colors shrink-0 cursor-pointer" type="button">
+            <button onclick="exportRelationshipsCSV()"
+              class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-3 py-1.5 font-mono text-xs flex items-center gap-1.5 border border-white/10 hover:border-white/20 transition-colors shrink-0 cursor-pointer"
+              type="button">
               <span class="material-symbols-outlined text-[15px]">download</span>
               <span>[EXPORT CSV]</span>
             </button>
@@ -358,25 +443,35 @@
         </div>
 
         <!-- Segmented Tab Filter Bar -->
-        <div class="flex flex-wrap items-center gap-2 bg-surface-container-low/60 border border-white/10 p-1.5" id="rel-filter-tabs">
-          <button onclick="setRelTypeFilter('all')" class="rel-tab px-3 py-1.5 font-mono text-xs bg-primary text-on-primary font-bold shadow-sm flex items-center gap-2 transition-all cursor-pointer" data-type="all">
+        <div class="flex flex-wrap items-center gap-2 bg-surface-container-low/60 border border-white/10 p-1.5"
+          id="rel-filter-tabs">
+          <button onclick="setRelTypeFilter('all')"
+            class="rel-tab px-3 py-1.5 font-mono text-xs bg-primary text-on-primary font-bold shadow-sm flex items-center gap-2 transition-all cursor-pointer"
+            data-type="all">
             <span>ALL RELATIONSHIPS</span>
             <span id="tab-count-all" class="px-1.5 py-0.2 bg-black/20 text-on-primary font-bold rounded-sm">0</span>
           </button>
-          <button onclick="setRelTypeFilter('corroborates')" class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer" data-type="corroborates">
+          <button onclick="setRelTypeFilter('corroborates')"
+            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
+            data-type="corroborates">
             <span class="w-2 h-2 rounded-full bg-tertiary"></span>
             <span>CORROBORATES</span>
             <span id="tab-count-corrob" class="px-1.5 py-0.2 bg-tertiary/10 text-tertiary font-bold rounded-sm">0</span>
           </button>
-          <button onclick="setRelTypeFilter('contradicts')" class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer" data-type="contradicts">
+          <button onclick="setRelTypeFilter('contradicts')"
+            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
+            data-type="contradicts">
             <span class="w-2 h-2 rounded-full bg-error"></span>
             <span>CONTRADICTS</span>
             <span id="tab-count-contradict" class="px-1.5 py-0.2 bg-error/10 text-error font-bold rounded-sm">0</span>
           </button>
-          <button onclick="setRelTypeFilter('contextual_reconciliation')" class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer" data-type="contextual_reconciliation">
+          <button onclick="setRelTypeFilter('contextual_reconciliation')"
+            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
+            data-type="contextual_reconciliation">
             <span class="w-2 h-2 rounded-full bg-primary"></span>
             <span>CONTEXTUAL RECONCILIATION</span>
-            <span id="tab-count-reconcile" class="px-1.5 py-0.2 bg-primary/10 text-primary font-bold rounded-sm">0</span>
+            <span id="tab-count-reconcile"
+              class="px-1.5 py-0.2 bg-primary/10 text-primary font-bold rounded-sm">0</span>
           </button>
         </div>
 
@@ -838,4 +933,5 @@
     loadRelationships();
   </script>
 </body>
+
 </html>

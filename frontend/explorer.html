@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Verity — Document Facts Explorer</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Verity - Document Facts Explorer</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
   <style>
     @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      main > :first-child { margin-top: 0 !important; }
-      main > :last-child { margin-bottom: 0 !important; }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main> :first-child {
+        margin-top: 0 !important;
+      }
+
+      main> :last-child {
+        margin-bottom: 0 !important;
+      }
     }
-    ::-webkit-scrollbar { display: none; }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -116,55 +138,74 @@
     };
   </script>
 </head>
+
 <body class="bg-background font-body-md text-on-background min-h-screen">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
+  <header
+    class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
     <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
       <div class="flex items-center gap-space-3 shrink-0">
         <a href="/" class="flex items-center gap-space-2 text-decoration-none">
           <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
-          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+          <span
+            class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
-          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+        <div
+          class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
+              class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts"
+              class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span
+              id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue"
+              class="text-error font-bold">...</span></span>
         </div>
       </div>
       <nav class="hidden md:flex items-center h-full gap-space-1">
-        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
-        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/workspace"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
-        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+        <a href="/explorer"
+          class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Explorer
         </a>
-        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/review"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Review Queue
         </a>
       </nav>
       <div class="flex items-center gap-space-2 shrink-0">
         <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
+            type="button" title="Seed Demo Database">
             [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
+          <button id="btn-clear-db" onclick="handleClearDb()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
+            type="button" title="Clear All Data">
             [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
+            href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
           </a>
         </div>
-        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
+          class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
+          type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
         <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
@@ -173,22 +214,30 @@
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
-    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
+    <div id="mobile-nav-menu"
+      class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
       <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
-      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
-      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Explorer</a>
-      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Review Queue</a>
-      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
+      <a href="/workspace"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
+      <a href="/explorer"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Explorer</a>
+      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Review
+        Queue</a>
+      <a href="/docs" target="_blank"
+        class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs
+          (API)</span></a>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
   <main class="w-full pt-16 bg-background min-h-screen flex flex-col">
     <!-- Top Status Bar -->
-    <div class="w-full bg-surface-container-lowest px-space-4 py-space-3 flex flex-wrap items-center justify-between gap-space-4 border-b border-white/10">
+    <div
+      class="w-full bg-surface-container-lowest px-space-4 py-space-3 flex flex-wrap items-center justify-between gap-space-4 border-b border-white/10">
       <div class="flex items-center gap-space-3 min-w-0">
         <div class="w-2 h-2 bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.6)]"></div>
-        <div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline uppercase tracking-wider">
+        <div
+          class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline uppercase tracking-wider">
           <span class="text-on-surface font-bold">ACTIVE CORPUS:</span>
           <span id="active-corpus-label" class="text-secondary font-mono">FINANCIAL STATEMENTS</span>
           <span class="text-outline-variant">/</span>
@@ -196,11 +245,14 @@
         </div>
       </div>
       <div class="flex items-center gap-space-2">
-        <span class="inline-flex items-center gap-space-1 px-space-2 py-space-1 bg-surface-container-high text-on-surface font-label-caps text-label-caps">
+        <span
+          class="inline-flex items-center gap-space-1 px-space-2 py-space-1 bg-surface-container-high text-on-surface font-label-caps text-label-caps">
           <span class="material-symbols-outlined text-[14px] text-tertiary">check_circle</span>
           <span id="header-status-pill">ENGINE READY</span>
         </span>
-        <button onclick="exportDocumentFactsJSON()" class="px-space-2 py-space-1 bg-surface-container-low hover:bg-surface-container-high text-outline hover:text-on-surface transition-colors font-label-caps text-label-caps flex items-center gap-space-1" type="button">
+        <button onclick="exportDocumentFactsJSON()"
+          class="px-space-2 py-space-1 bg-surface-container-low hover:bg-surface-container-high text-outline hover:text-on-surface transition-colors font-label-caps text-label-caps flex items-center gap-space-1"
+          type="button">
           <span class="material-symbols-outlined text-[14px]">download</span>
           <span>EXPORT FACTS JSON</span>
         </button>
@@ -216,9 +268,13 @@
           <div class="p-space-4 bg-surface-container-low flex items-center justify-between border-b border-white/5">
             <div class="flex items-center gap-space-2">
               <span class="material-symbols-outlined text-secondary text-[18px]">folder_data</span>
-              <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase font-semibold">Corpus Index</span>
+              <span
+                class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase font-semibold">Corpus
+                Index</span>
             </div>
-            <span id="corpus-count-badge" class="px-space-2 py-0.5 bg-surface-container-highest text-secondary font-label-caps text-label-caps">0 LOADED</span>
+            <span id="corpus-count-badge"
+              class="px-space-2 py-0.5 bg-surface-container-highest text-secondary font-label-caps text-label-caps">0
+              LOADED</span>
           </div>
 
           <!-- Document Selector List -->
@@ -259,15 +315,20 @@
 
         <!-- Left Sidebar Action Triggers -->
         <div class="p-space-3 bg-surface-container-low space-y-space-2 border-t border-white/10">
-          <button onclick="triggerReExtraction()" class="w-full py-space-2 px-space-3 bg-primary text-on-primary font-body-sm text-body-sm font-bold flex items-center justify-center gap-space-2 hover:bg-primary-fixed-dim transition-all shadow-[0_0_12px_rgba(208,188,255,0.25)]" type="button">
+          <button onclick="triggerReExtraction()"
+            class="w-full py-space-2 px-space-3 bg-primary text-on-primary font-body-sm text-body-sm font-bold flex items-center justify-center gap-space-2 hover:bg-primary-fixed-dim transition-all shadow-[0_0_12px_rgba(208,188,255,0.25)]"
+            type="button">
             <span class="material-symbols-outlined text-[18px]">sync</span>
             <span>[RE-EXTRACT DOCUMENT]</span>
           </button>
           <div class="grid grid-cols-2 gap-space-2">
-            <button onclick="exportDocumentFactsJSON()" class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors" type="button">
+            <button onclick="exportDocumentFactsJSON()"
+              class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors"
+              type="button">
               [EXPORT JSON]
             </button>
-            <a href="/workspace" class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors block text-decoration-none">
+            <a href="/workspace"
+              class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors block text-decoration-none">
               [PROVENANCE GRAPH]
             </a>
           </div>
@@ -277,13 +338,16 @@
       <!-- Center Viewport: Mined Facts Explorer & Multi-Dimensional Grid (lg:col-span-6) -->
       <main class="lg:col-span-6 bg-surface flex flex-col border-r border-white/10 overflow-y-auto">
         <!-- File Header Banner & Fact Metric Bar -->
-        <div class="p-space-4 bg-surface-container-lowest flex flex-col md:flex-row items-start md:items-center justify-between gap-space-3 border-b border-white/5">
+        <div
+          class="p-space-4 bg-surface-container-lowest flex flex-col md:flex-row items-start md:items-center justify-between gap-space-3 border-b border-white/5">
           <div class="min-w-0">
             <div class="flex items-center gap-space-2">
-              <span class="px-space-2 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps">ACTIVE TARGET</span>
+              <span class="px-space-2 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps">ACTIVE
+                TARGET</span>
               <span id="active-doc-id-pill" class="font-label-caps text-label-caps text-outline">SELECT A FILE</span>
             </div>
-            <h1 id="active-doc-title" class="mt-space-1 font-headline-md text-headline-md text-on-surface font-bold tracking-tight truncate">
+            <h1 id="active-doc-title"
+              class="mt-space-1 font-headline-md text-headline-md text-on-surface font-bold tracking-tight truncate">
               Loading document facts...
             </h1>
             <p id="active-doc-entity" class="font-body-sm text-body-sm text-on-surface-variant">
@@ -292,21 +356,30 @@
           </div>
           <div class="flex items-center gap-space-3">
             <div class="relative">
-              <input id="fact-search-input" oninput="renderFactsGrid()" class="bg-surface-container-low px-space-3 py-space-1 font-body-sm text-body-sm text-on-surface placeholder:text-outline w-52 focus:outline-none focus:bg-surface-container-highest border border-white/10" placeholder="SEARCH FACTS..." type="text"/>
+              <input id="fact-search-input" oninput="renderFactsGrid()"
+                class="bg-surface-container-low px-space-3 py-space-1 font-body-sm text-body-sm text-on-surface placeholder:text-outline w-52 focus:outline-none focus:bg-surface-container-highest border border-white/10"
+                placeholder="SEARCH FACTS..." type="text" />
             </div>
           </div>
         </div>
 
         <!-- Filter Category Tabs -->
-        <div class="p-space-3 bg-surface-container-low flex flex-wrap items-center justify-between gap-space-3 border-b border-white/5">
+        <div
+          class="p-space-3 bg-surface-container-low flex flex-wrap items-center justify-between gap-space-3 border-b border-white/5">
           <div class="flex flex-wrap items-center gap-space-2">
-            <button onclick="setCategoryFilter('all')" class="cat-pill px-space-3 py-space-1 bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-bold" data-cat="all">
+            <button onclick="setCategoryFilter('all')"
+              class="cat-pill px-space-3 py-space-1 bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-bold"
+              data-cat="all">
               ALL FACTS (<span id="cat-count-all">0</span>)
             </button>
-            <button onclick="setCategoryFilter('financial')" class="cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps" data-cat="financial">
+            <button onclick="setCategoryFilter('financial')"
+              class="cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps"
+              data-cat="financial">
               FINANCIAL METRICS
             </button>
-            <button onclick="setCategoryFilter('operational')" class="cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps" data-cat="operational">
+            <button onclick="setCategoryFilter('operational')"
+              class="cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps"
+              data-cat="operational">
               OPERATIONAL STATS
             </button>
           </div>
@@ -336,14 +409,16 @@
           <!-- Coordinates Banner -->
           <div class="p-space-3 bg-surface-container-low border-l-2 border-secondary flex flex-col gap-space-1">
             <span class="font-label-caps text-label-caps text-secondary font-bold">SOURCE COORDINATES</span>
-            <span id="insp-page-coord" class="font-code-inline text-code-inline text-on-surface font-bold">PAGE 4 • PHYSICAL ANCHOR</span>
+            <span id="insp-page-coord" class="font-code-inline text-code-inline text-on-surface font-bold">PAGE 4 •
+              PHYSICAL ANCHOR</span>
             <span class="font-label-caps text-label-caps text-outline">GROUNDING TYPE: VERBATIM TOKEN MATCH</span>
           </div>
 
           <!-- Snippet Display -->
           <div class="bg-surface-container p-space-3 flex flex-col gap-space-2">
             <span class="font-label-caps text-label-caps text-outline">DOCUMENT EXTRACT STREAM:</span>
-            <p id="insp-snippet" class="font-body-sm text-body-sm text-on-surface italic bg-surface-container-lowest p-space-3 border border-white/5 leading-relaxed">
+            <p id="insp-snippet"
+              class="font-body-sm text-body-sm text-on-surface italic bg-surface-container-lowest p-space-3 border border-white/5 leading-relaxed">
               "Select any fact card on the center panel to view exact verbatim evidence and raw JSON metadata."
             </p>
           </div>
@@ -351,16 +426,19 @@
           <!-- Fact Attributes Raw Inspector -->
           <div class="bg-surface-container p-space-3 flex flex-col gap-space-2">
             <span class="font-label-caps text-label-caps text-outline">FACT PROPERTIES JSON:</span>
-            <pre id="insp-json" class="bg-surface-container-lowest p-space-3 text-[11px] font-code-inline text-secondary overflow-x-auto max-h-48 border border-white/5">{
+            <pre id="insp-json"
+              class="bg-surface-container-lowest p-space-3 text-[11px] font-code-inline text-secondary overflow-x-auto max-h-48 border border-white/5">{
   "status": "ready",
   "click_card_to_inspect": true
 }</pre>
           </div>
 
           <!-- Document SHA256 Fingerprint -->
-          <div class="mt-auto p-space-3 bg-surface-container-low flex flex-col gap-space-1 font-label-caps text-label-caps text-outline">
+          <div
+            class="mt-auto p-space-3 bg-surface-container-low flex flex-col gap-space-1 font-label-caps text-label-caps text-outline">
             <span>FILE PROVENANCE HASH:</span>
-            <span id="insp-doc-hash" class="font-code-inline text-on-surface text-[10px] truncate">SHA256:VERITY-INGESTED-ARTIFACT</span>
+            <span id="insp-doc-hash"
+              class="font-code-inline text-on-surface text-[10px] truncate">SHA256:VERITY-INGESTED-ARTIFACT</span>
             <span class="text-tertiary mt-1">✓ DETERMINISTIC PROVENANCE</span>
           </div>
         </div>
@@ -661,4 +739,5 @@
     loadCorpus();
   </script>
 </body>
+
 </html>

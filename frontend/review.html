@@ -1,24 +1,57 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Verity — Human Review &amp; Exception Queue</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Verity - Human Review &amp; Exception Queue</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
   <style>
     @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      main > :first-child { margin-top: 0 !important; }
-      main > :last-child { margin-bottom: 0 !important; }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main> :first-child {
+        margin-top: 0 !important;
+      }
+
+      main> :last-child {
+        margin-bottom: 0 !important;
+      }
     }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0e17; }
-    ::-webkit-scrollbar-thumb { background: #262a34; border-radius: 2px; }
-    ::-webkit-scrollbar-thumb:hover { background: #353943; }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0e17;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #262a34;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #353943;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -121,55 +154,74 @@
     };
   </script>
 </head>
+
 <body class="bg-background font-body-md text-on-background min-h-screen flex flex-col">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
+  <header
+    class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
     <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
       <div class="flex items-center gap-space-3 shrink-0">
         <a href="/" class="flex items-center gap-space-2 text-decoration-none">
           <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
-          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+          <span
+            class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
-          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+        <div
+          class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
+              class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts"
+              class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span
+              id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue"
+              class="text-error font-bold">...</span></span>
         </div>
       </div>
       <nav class="hidden md:flex items-center h-full gap-space-1">
-        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
-        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/workspace"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
-        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/explorer"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
-        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+        <a href="/review"
+          class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Review Queue
         </a>
       </nav>
       <div class="flex items-center gap-space-2 shrink-0">
         <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
+            type="button" title="Seed Demo Database">
             [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
+          <button id="btn-clear-db" onclick="handleClearDb()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
+            type="button" title="Clear All Data">
             [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
+            href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
           </a>
         </div>
-        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
+          class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
+          type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
         <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
@@ -178,19 +230,26 @@
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
-    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
+    <div id="mobile-nav-menu"
+      class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
       <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
-      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
-      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
-      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Review Queue</a>
-      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
+      <a href="/workspace"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
+      <a href="/explorer"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
+      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Review
+        Queue</a>
+      <a href="/docs" target="_blank"
+        class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs
+          (API)</span></a>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
   <main class="w-full pt-16 bg-background min-h-screen flex flex-col">
     <!-- Macro Telemetry & Execution Header Ribbon -->
-    <div class="w-full bg-surface-container-lowest border-b border-white/10 px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+    <div
+      class="w-full bg-surface-container-lowest border-b border-white/10 px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
       <div class="flex items-center gap-2.5">
         <span class="relative flex h-2 w-2">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
@@ -199,32 +258,38 @@
         <span class="font-mono text-xs font-bold text-on-surface tracking-tight uppercase">
           HUMAN REVIEW <span class="text-outline">//</span> EXCEPTION QUEUE
         </span>
-        <span class="hidden sm:inline-block px-2 py-0.5 bg-error/10 border border-error/30 text-error font-mono text-[10px] uppercase tracking-wider font-semibold">
+        <span
+          class="hidden sm:inline-block px-2 py-0.5 bg-error/10 border border-error/30 text-error font-mono text-[10px] uppercase tracking-wider font-semibold">
           EVALUATION CASE 4: HITL RECONCILIATION
         </span>
       </div>
 
       <!-- Telemetry Status Badges -->
       <div class="flex items-center gap-2 font-mono text-[11px] flex-wrap">
-        <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-error/30 text-on-surface-variant">
+        <div
+          class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-error/30 text-on-surface-variant">
           <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
           <span class="text-outline">UNRESOLVED:</span>
           <span id="stat-unresolved" class="text-error font-bold">0</span>
         </div>
-        <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="material-symbols-outlined text-tertiary text-[14px]">verified</span>
           <span class="text-outline">RESOLVED:</span>
           <span id="stat-resolved" class="text-tertiary font-bold">14</span>
         </div>
-        <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="text-outline">ACCURACY:</span>
           <span class="text-secondary font-bold">99.2%</span>
         </div>
-        <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="text-outline">AUTO-FLAG GATE:</span>
           <span class="text-primary font-bold">&lt; 70% CONF</span>
         </div>
-        <div class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+        <div
+          class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="text-outline">POLICY:</span>
           <span class="text-secondary font-bold">STRICT DETERMINISM</span>
         </div>
@@ -234,12 +299,16 @@
     <!-- Primary Layout Structure (Sidebar + Roomy Console) -->
     <div class="w-full flex-1 flex flex-col xl:flex-row bg-surface-container-lowest">
       <!-- Left Ingested Documents Sub-Drawer (Fixed width for generous main view) -->
-      <aside class="w-full xl:w-[320px] 2xl:w-[350px] shrink-0 flex flex-col bg-surface-container-lowest border-r border-white/10">
+      <aside
+        class="w-full xl:w-[320px] 2xl:w-[350px] shrink-0 flex flex-col bg-surface-container-lowest border-r border-white/10">
         <!-- Ingestion / Auditor Gate Card -->
         <div class="p-4 border-b border-white/10 flex flex-col gap-3 bg-surface-container-low/30">
           <div class="flex items-center justify-between">
-            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // AUDIT PIPELINE GATEWAY</span>
-            <span class="px-1.5 py-0.5 bg-surface-container-high border border-error/30 text-error font-mono text-[10px] font-bold">HITL ENGAGED</span>
+            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // AUDIT PIPELINE
+              GATEWAY</span>
+            <span
+              class="px-1.5 py-0.5 bg-surface-container-high border border-error/30 text-error font-mono text-[10px] font-bold">HITL
+              ENGAGED</span>
           </div>
           <div class="p-3 bg-surface-container-low border border-white/5 flex flex-col gap-1.5">
             <div class="flex items-center gap-2 text-on-surface">
@@ -261,7 +330,9 @@
                 INGESTED ARTIFACTS (<span id="doc-active-badge" class="text-on-surface font-bold">0</span>)
               </span>
             </div>
-            <button onclick="loadDocumentsList()" class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors" type="button">
+            <button onclick="loadDocumentsList()"
+              class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors"
+              type="button">
               <span class="material-symbols-outlined text-[13px]">refresh</span>
               REFRESH
             </button>
@@ -292,7 +363,8 @@
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div class="flex flex-col gap-1">
               <div class="flex items-center gap-2.5 flex-wrap">
-                <span class="px-2 py-0.5 bg-error/20 border border-error/40 text-error font-mono text-[10px] uppercase font-bold tracking-wider">
+                <span
+                  class="px-2 py-0.5 bg-error/20 border border-error/40 text-error font-mono text-[10px] uppercase font-bold tracking-wider">
                   MODULE 04
                 </span>
                 <h2 class="font-sans text-lg lg:text-xl text-on-surface font-bold tracking-tight m-0">
@@ -300,19 +372,25 @@
                 </h2>
               </div>
               <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
-                Forensic disambiguation of low-confidence extractions, missing entity scopes, and cross-filing semantic contradictions.
+                Forensic disambiguation of low-confidence extractions, missing entity scopes, and cross-filing semantic
+                contradictions.
               </p>
             </div>
 
             <!-- Active Case Pager Stepper -->
-            <div id="casePager" class="flex items-center gap-3 bg-surface-container-low px-3 py-1.5 border border-white/10 font-mono text-xs shrink-0">
+            <div id="casePager"
+              class="flex items-center gap-3 bg-surface-container-low px-3 py-1.5 border border-white/10 font-mono text-xs shrink-0">
               <span class="text-outline">CASE</span>
               <span id="caseIndexDisplay" class="text-on-surface font-bold text-sm">1</span>
               <span class="text-outline">OF</span>
               <span id="caseTotalDisplay" class="text-secondary font-bold text-sm">1</span>
               <div class="flex items-center gap-1.5 ml-2">
-                <button onclick="prevCase()" class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10" title="Previous Case" type="button">◀ PREV</button>
-                <button onclick="nextCase()" class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10" title="Next Case" type="button">NEXT ▶</button>
+                <button onclick="prevCase()"
+                  class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10"
+                  title="Previous Case" type="button">◀ PREV</button>
+                <button onclick="nextCase()"
+                  class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10"
+                  title="Next Case" type="button">NEXT ▶</button>
               </div>
             </div>
           </div>
@@ -320,15 +398,21 @@
           <!-- Filter Tabs Switcher -->
           <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/5">
             <div class="flex flex-wrap items-center gap-2" id="filterTabs">
-              <button class="px-3.5 py-1.5 bg-error text-surface font-mono text-xs font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer" type="button">
+              <button
+                class="px-3.5 py-1.5 bg-error text-surface font-mono text-xs font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer"
+                type="button">
                 <span>▲ NEEDS REVIEW</span>
                 <span id="tab-review-count" class="px-1.5 py-0.2 bg-black/30 text-white font-bold text-[11px]">0</span>
               </button>
-              <button class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer" type="button">
+              <button
+                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer"
+                type="button">
                 <span class="w-1.5 h-1.5 bg-tertiary"></span>
                 <span>RESOLVED / APPROVED (14)</span>
               </button>
-              <button class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer" type="button">
+              <button
+                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer"
+                type="button">
                 <span class="w-1.5 h-1.5 bg-outline"></span>
                 <span>DISCARDED (0)</span>
               </button>
@@ -350,35 +434,43 @@
           <div class="p-4 bg-surface-container-high/70 flex items-center justify-between border-b border-white/10">
             <div class="flex items-center gap-2.5">
               <span class="material-symbols-outlined text-tertiary text-[20px]">history</span>
-              <span class="font-sans text-base text-on-surface font-bold">Resolved Audits &amp; Disambiguation Trail</span>
+              <span class="font-sans text-base text-on-surface font-bold">Resolved Audits &amp; Disambiguation
+                Trail</span>
             </div>
-            <span class="font-mono text-xs text-tertiary px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 font-bold uppercase tracking-wider">AUTO-SYNC: REALTIME</span>
+            <span
+              class="font-mono text-xs text-tertiary px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 font-bold uppercase tracking-wider">AUTO-SYNC:
+              REALTIME</span>
           </div>
 
           <!-- Table Stream -->
           <div class="w-full overflow-x-auto">
             <div class="min-w-[760px] flex flex-col">
-              <div class="grid grid-cols-12 bg-surface-container-lowest px-5 py-3 font-mono text-xs text-outline uppercase tracking-wider border-b border-white/10">
+              <div
+                class="grid grid-cols-12 bg-surface-container-lowest px-5 py-3 font-mono text-xs text-outline uppercase tracking-wider border-b border-white/10">
                 <div class="col-span-2">Resolution Time</div>
                 <div class="col-span-5">Target Assertion / Document</div>
                 <div class="col-span-3">Discrepancy Nature</div>
                 <div class="col-span-2 text-right">Verification State</div>
               </div>
               <div id="resolved-audit-rows" class="flex flex-col divide-y divide-white/5">
-                <div class="grid grid-cols-12 items-center px-5 py-3.5 bg-surface-container-low hover:bg-surface-container transition-colors">
+                <div
+                  class="grid grid-cols-12 items-center px-5 py-3.5 bg-surface-container-low hover:bg-surface-container transition-colors">
                   <div class="col-span-2 font-mono text-xs text-on-surface-variant flex items-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
                     <span>14:02:19 UTC</span>
                   </div>
                   <div class="col-span-5 flex flex-col pr-4">
-                    <span class="font-sans text-sm text-on-surface font-semibold truncate">Reconciled Adjusted vs Statutory EBITDA</span>
-                    <span class="font-mono text-xs text-outline mt-0.5">01-delhivery-prospectus vs 02-annual-report</span>
+                    <span class="font-sans text-sm text-on-surface font-semibold truncate">Reconciled Adjusted vs
+                      Statutory EBITDA</span>
+                    <span class="font-mono text-xs text-outline mt-0.5">01-delhivery-prospectus vs
+                      02-annual-report</span>
                   </div>
                   <div class="col-span-3 font-sans text-sm text-secondary leading-snug">
                     Non-cash ESOP scope alignment (₹512 Mn)
                   </div>
                   <div class="col-span-2 text-right">
-                    <span class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary font-mono text-xs font-bold inline-flex items-center gap-1">
+                    <span
+                      class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary font-mono text-xs font-bold inline-flex items-center gap-1">
                       <span>■</span> <span>VERIFIED AUDIT</span>
                     </span>
                   </div>
@@ -790,4 +882,5 @@
     loadFailures();
   </script>
 </body>
+
 </html>

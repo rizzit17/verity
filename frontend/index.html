@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Verity — The Fact Knowledge Layer</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Verity</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
   <style>
     @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      main > :first-child { margin-top: 0 !important; }
-      main > :last-child { margin-bottom: 0 !important; }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main> :first-child {
+        margin-top: 0 !important;
+      }
+
+      main> :last-child {
+        margin-bottom: 0 !important;
+      }
     }
-    ::-webkit-scrollbar { display: none; }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -116,55 +138,74 @@
     };
   </script>
 </head>
+
 <body class="bg-background font-body-md text-on-background min-h-screen">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
+  <header
+    class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
     <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
       <div class="flex items-center gap-space-3 shrink-0">
         <a href="/" class="flex items-center gap-space-2 text-decoration-none">
           <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
-          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+          <span
+            class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
-          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+        <div
+          class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
+              class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts"
+              class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span
+              id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue"
+              class="text-error font-bold">...</span></span>
         </div>
       </div>
       <nav class="hidden md:flex items-center h-full gap-space-1">
-        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+        <a href="/"
+          class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Overview
         </a>
-        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/workspace"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
-        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/explorer"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
-        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/review"
+          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Review Queue
         </a>
       </nav>
       <div class="flex items-center gap-space-2 shrink-0">
         <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
+            type="button" title="Seed Demo Database">
             [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
+          <button id="btn-clear-db" onclick="handleClearDb()"
+            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
+            type="button" title="Clear All Data">
             [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
+            href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
           </a>
         </div>
-        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
+          class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
+          type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
         <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
@@ -173,12 +214,18 @@
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
-    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
+    <div id="mobile-nav-menu"
+      class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
       <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Overview</a>
-      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
-      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
-      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Review Queue</a>
-      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
+      <a href="/workspace"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
+      <a href="/explorer"
+        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
+      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Review
+        Queue</a>
+      <a href="/docs" target="_blank"
+        class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs
+          (API)</span></a>
     </div>
   </header>
 
@@ -186,15 +233,18 @@
   <main class="w-full pt-16 bg-background min-h-screen">
     <div class="flex flex-col w-full">
       <!-- HERO SECTION -->
-      <section class="relative w-full overflow-hidden bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
+      <section
+        class="relative w-full overflow-hidden bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <!-- Ambient Tech Glows -->
         <div class="absolute -top-40 left-1/4 w-96 h-96 bg-primary-container/15 blur-3xl pointer-events-none"></div>
         <div class="absolute top-1/3 -right-32 w-80 h-80 bg-secondary-container/15 blur-3xl pointer-events-none"></div>
         <div class="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
           <!-- AESTHETIC CENTRE-ALIGNED VERITY TOP HEADING BADGE -->
-          <div class="inline-flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-2.5 sm:py-3 bg-surface-container-lowest/95 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.6)] mb-space-6 backdrop-blur-md">
+          <div
+            class="inline-flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-2.5 sm:py-3 bg-surface-container-lowest/95 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.6)] mb-space-6 backdrop-blur-md">
             <!-- Verified Cyber Icon -->
-            <div class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded bg-secondary/15 border border-secondary/40 text-secondary shrink-0">
+            <div
+              class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded bg-secondary/15 border border-secondary/40 text-secondary shrink-0">
               <span class="material-symbols-outlined text-[18px] sm:text-[20px]">verified</span>
             </div>
 
@@ -207,45 +257,55 @@
             <span class="font-mono text-secondary/40 text-sm font-semibold select-none">//</span>
 
             <!-- Layer Title -->
-            <span class="font-label-caps text-secondary text-xs sm:text-sm font-semibold tracking-wider uppercase select-none">
+            <span
+              class="font-label-caps text-secondary text-xs sm:text-sm font-semibold tracking-wider uppercase select-none">
               FACT KNOWLEDGE LAYER
             </span>
 
             <!-- Status Dot & Audited Tag -->
             <div class="flex items-center gap-2 pl-2 border-l border-white/10">
               <span class="w-2 h-2 rounded-full bg-tertiary shrink-0 animate-pulse"></span>
-              <span class="font-label-caps text-tertiary text-xs sm:text-sm font-semibold tracking-wider uppercase select-none">
+              <span
+                class="font-label-caps text-tertiary text-xs sm:text-sm font-semibold tracking-wider uppercase select-none">
                 v2.4 AUDITED
               </span>
             </div>
           </div>
 
           <!-- Terminal Badge -->
-          <div class="inline-flex items-center gap-space-2 px-space-3 py-space-1 bg-surface-container-low shadow-sm mb-space-6 border border-white/5">
+          <div
+            class="inline-flex items-center gap-space-2 px-space-3 py-space-1 bg-surface-container-low shadow-sm mb-space-6 border border-white/5">
             <span class="w-2 h-2 bg-tertiary animate-pulse"></span>
             <span class="font-label-caps text-label-caps tracking-widest text-on-surface-variant uppercase">
               NEXT-GEN AUDITABLE FACT ENGINE • POWERED BY GEMINI &amp; HYBRID MULTI-VECTOR RETRIEVAL
             </span>
           </div>
           <!-- Headline -->
-          <h1 class="font-display-xl text-3xl sm:text-5xl lg:text-6xl tracking-tight text-on-surface max-w-5xl mb-space-4 font-bold">
-            Transform Unstructured Corporate Filings into <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed via-secondary to-tertiary">Proven, Auditable Truth.</span>
+          <h1
+            class="font-display-xl text-3xl sm:text-5xl lg:text-6xl tracking-tight text-on-surface max-w-5xl mb-space-4 font-bold">
+            Transform Unstructured Corporate Filings into <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed via-secondary to-tertiary">Proven,
+              Auditable Truth.</span>
           </h1>
           <!-- Subtitle -->
           <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mb-space-8">
-            Ingest complex financial PDFs, auto-extract structured facts with physical page provenance, and resolve cross-document contradictions with deterministic multi-step LLM reasoning.
+            Ingest complex financial PDFs, auto-extract structured facts with physical page provenance, and resolve
+            cross-document contradictions with deterministic multi-step LLM reasoning.
           </p>
           <!-- CTAs -->
           <div class="flex flex-wrap items-center justify-center gap-space-4 mb-space-16">
-            <a href="/workspace" class="px-space-6 py-space-3 bg-primary text-on-primary font-body-md text-body-md font-semibold tracking-tight shadow-md hover:bg-primary-container transition-all flex items-center gap-space-2">
+            <a href="/workspace"
+              class="px-space-6 py-space-3 bg-primary text-on-primary font-body-md text-body-md font-semibold tracking-tight shadow-md hover:bg-primary-container transition-all flex items-center gap-space-2">
               <span class="material-symbols-outlined text-[18px]">terminal</span>
               Launch Interactive Workspace
             </a>
-            <a href="/workspace" class="px-space-6 py-space-3 bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high transition-all flex items-center gap-space-2">
+            <a href="/workspace"
+              class="px-space-6 py-space-3 bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high transition-all flex items-center gap-space-2">
               <span class="material-symbols-outlined text-[18px]">dataset</span>
               Explore Live Demo Dataset
             </a>
-            <a href="/docs" target="_blank" class="px-space-4 py-space-3 bg-surface-container-low text-secondary font-label-caps text-label-caps hover:bg-surface-container transition-all flex items-center gap-space-1">
+            <a href="/docs" target="_blank"
+              class="px-space-4 py-space-3 bg-surface-container-low text-secondary font-label-caps text-label-caps hover:bg-surface-container transition-all flex items-center gap-space-1">
               <span>[VIEW ARCHITECTURE // /docs]</span>
               <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
             </a>
@@ -254,7 +314,8 @@
           <!-- DUAL-DOCUMENT PIPELINE HERO VISUAL -->
           <div class="w-full max-w-6xl bg-surface-container p-space-4 lg:p-space-6 shadow-xl relative text-left">
             <!-- Top Telemetry Strip -->
-            <div class="flex flex-wrap items-center justify-between pb-space-3 mb-space-4 bg-surface-container-high px-space-3 py-space-2">
+            <div
+              class="flex flex-wrap items-center justify-between pb-space-3 mb-space-4 bg-surface-container-high px-space-3 py-space-2">
               <div class="flex items-center gap-space-3">
                 <span class="font-label-caps text-label-caps text-tertiary">■ LIVE PIPELINE: SYNCHRONIZED</span>
                 <span class="font-body-sm text-body-sm text-outline">SESSION ID: #048-DELHIVERY-RECON</span>
@@ -271,14 +332,18 @@
                 <div>
                   <div class="flex items-center justify-between mb-space-2">
                     <span class="font-label-caps text-label-caps text-primary uppercase">INGEST // DOC A</span>
-                    <span class="px-space-2 py-0.5 bg-surface-container text-tertiary font-label-caps text-label-caps">PAGE 4</span>
+                    <span
+                      class="px-space-2 py-0.5 bg-surface-container text-tertiary font-label-caps text-label-caps">PAGE
+                      4</span>
                   </div>
-                  <p class="font-body-md text-body-md font-bold text-on-surface mb-space-1 truncate">01-delhivery-prospectus-2022.pdf</p>
+                  <p class="font-body-md text-body-md font-bold text-on-surface mb-space-1 truncate">
+                    01-delhivery-prospectus-2022.pdf</p>
                   <p class="font-body-sm text-body-sm text-outline mb-space-4">PyMuPDF Page Chunked</p>
                   <div class="bg-surface-container-low p-space-3 mb-space-3">
                     <p class="font-label-caps text-label-caps text-outline mb-space-1">RAW EXTRACTED SNIPPET</p>
                     <p class="font-body-sm text-body-sm text-on-surface italic">
-                      "...Adjusted EBITDA of <span class="bg-secondary-container/30 text-secondary px-1 font-bold">₹758 Mn</span> for the fiscal year ended March 31, 2024, demonstrating core margin expansion..."
+                      "...Adjusted EBITDA of <span class="bg-secondary-container/30 text-secondary px-1 font-bold">₹758
+                        Mn</span> for the fiscal year ended March 31, 2024, demonstrating core margin expansion..."
                     </p>
                   </div>
                 </div>
@@ -292,10 +357,15 @@
               <div class="lg:col-span-6 bg-surface-container-low p-space-5 flex flex-col justify-between">
                 <div>
                   <!-- Synthesis Header -->
-                  <div class="flex items-center justify-between pb-space-3 mb-space-3 bg-surface-container-lowest p-space-2">
+                  <div
+                    class="flex items-center justify-between pb-space-3 mb-space-3 bg-surface-container-lowest p-space-2">
                     <div class="flex items-center gap-space-2">
-                      <span class="px-space-2 py-0.5 bg-primary-container/20 text-primary font-label-caps text-label-caps font-bold">◆ CONTEXTUAL RECONCILIATION</span>
-                      <span class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">STABLE EQUIVALENCE</span>
+                      <span
+                        class="px-space-2 py-0.5 bg-primary-container/20 text-primary font-label-caps text-label-caps font-bold">◆
+                        CONTEXTUAL RECONCILIATION</span>
+                      <span
+                        class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">STABLE
+                        EQUIVALENCE</span>
                     </div>
                     <div class="flex items-center gap-space-2">
                       <span class="font-label-caps text-label-caps text-outline">CONFIDENCE:</span>
@@ -306,13 +376,20 @@
                   <div class="bg-surface-container-highest p-space-4 mb-space-3">
                     <div class="flex items-center gap-space-2 mb-space-2">
                       <span class="material-symbols-outlined text-primary text-[18px]">psychology</span>
-                      <span class="font-label-caps text-label-caps text-primary tracking-wider uppercase font-bold">LLM Multi-Step Proof Chain</span>
+                      <span class="font-label-caps text-label-caps text-primary tracking-wider uppercase font-bold">LLM
+                        Multi-Step Proof Chain</span>
                     </div>
                     <p class="font-body-sm text-body-sm text-on-surface leading-relaxed mb-space-3">
-                      <strong class="text-secondary">Fact A</strong> reports specific metric 'Adjusted EBITDA' at <span class="text-secondary">₹758 Mn</span> (75.80 Rs. Cr) for FY24. <strong class="text-tertiary">Fact B</strong> states EBITDA turned profitable with statutory EBITDA reported at <span class="text-tertiary">₹127 Cr</span> (1,270 Mn). The difference reflects non-cash ESOP charges and lease amortization adjustments explicitly delineated in accounting disclosures.
+                      <strong class="text-secondary">Fact A</strong> reports specific metric 'Adjusted EBITDA' at <span
+                        class="text-secondary">₹758 Mn</span> (75.80 Rs. Cr) for FY24. <strong
+                        class="text-tertiary">Fact B</strong> states EBITDA turned profitable with statutory EBITDA
+                      reported at <span class="text-tertiary">₹127 Cr</span> (1,270 Mn). The difference reflects
+                      non-cash ESOP charges and lease amortization adjustments explicitly delineated in accounting
+                      disclosures.
                     </p>
                     <!-- Mathematical Breakdown -->
-                    <div class="bg-surface-container-lowest p-space-3 font-code-inline text-code-inline text-on-surface-variant">
+                    <div
+                      class="bg-surface-container-lowest p-space-3 font-code-inline text-code-inline text-on-surface-variant">
                       <div class="flex justify-between py-0.5">
                         <span>Base Adjusted EBITDA (Doc A):</span>
                         <span class="text-secondary font-bold">₹758.00 Mn (₹75.8 Cr)</span>
@@ -350,14 +427,19 @@
                 <div>
                   <div class="flex items-center justify-between mb-space-2">
                     <span class="font-label-caps text-label-caps text-tertiary uppercase">INGEST // DOC B</span>
-                    <span class="px-space-2 py-0.5 bg-surface-container text-tertiary font-label-caps text-label-caps">PAGE 5</span>
+                    <span
+                      class="px-space-2 py-0.5 bg-surface-container text-tertiary font-label-caps text-label-caps">PAGE
+                      5</span>
                   </div>
-                  <p class="font-body-md text-body-md font-bold text-on-surface mb-space-1 truncate">02-delhivery-annual-report-fy24-excerpt.pdf</p>
+                  <p class="font-body-md text-body-md font-bold text-on-surface mb-space-1 truncate">
+                    02-delhivery-annual-report-fy24-excerpt.pdf</p>
                   <p class="font-body-sm text-body-sm text-outline mb-space-4">Physical Text Anchored</p>
                   <div class="bg-surface-container-low p-space-3 mb-space-3">
                     <p class="font-label-caps text-label-caps text-outline mb-space-1">RAW EXTRACTED SNIPPET</p>
                     <p class="font-body-sm text-body-sm text-on-surface italic">
-                      "...FY24 EBITDA increased by Rs. 578 Cr to <span class="bg-tertiary-container/30 text-tertiary px-1 font-bold">Rs. 127 Cr</span> from Rs. (452 Cr) in FY23, driven by volume growth..."
+                      "...FY24 EBITDA increased by Rs. 578 Cr to <span
+                        class="bg-tertiary-container/30 text-tertiary px-1 font-bold">Rs. 127 Cr</span> from Rs. (452
+                      Cr) in FY23, driven by volume growth..."
                     </p>
                   </div>
                 </div>
@@ -377,27 +459,39 @@
         <div class="max-w-7xl mx-auto">
           <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-6 gap-space-4">
             <div>
-              <div class="font-label-caps text-label-caps text-secondary mb-space-1 uppercase">INTERACTIVE RECONCILIATION SANDBOX</div>
-              <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Cross-Document Verification Scenarios</h2>
-              <p class="font-body-md text-body-md text-on-surface-variant">Switch scenarios to inspect how Verity handles semantic convergence, contradictory figures, unit changes, and OCR noise.</p>
+              <div class="font-label-caps text-label-caps text-secondary mb-space-1 uppercase">INTERACTIVE
+                RECONCILIATION SANDBOX</div>
+              <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Cross-Document Verification
+                Scenarios</h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">Switch scenarios to inspect how Verity
+                handles semantic convergence, contradictory figures, unit changes, and OCR noise.</p>
             </div>
-            <div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline bg-surface-container-highest px-space-3 py-space-2">
+            <div
+              class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline bg-surface-container-highest px-space-3 py-space-2">
               <span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
               <span>EVALUATOR MODEL: GEMINI 3.5 FLASH LITE</span>
             </div>
           </div>
           <!-- Tab Selectors -->
           <div class="flex flex-wrap gap-space-2 mb-space-6" id="case-tabs">
-            <button class="case-btn px-space-4 py-space-2 bg-surface-container-highest text-tertiary font-label-caps text-label-caps flex items-center gap-space-2" id="tab-corrob" onclick="switchCase('case-corrob')">
+            <button
+              class="case-btn px-space-4 py-space-2 bg-surface-container-highest text-tertiary font-label-caps text-label-caps flex items-center gap-space-2"
+              id="tab-corrob" onclick="switchCase('case-corrob')">
               <span>■</span> CASE 1: CORROBORATION
             </button>
-            <button class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high" id="tab-contradict" onclick="switchCase('case-contradict')">
+            <button
+              class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high"
+              id="tab-contradict" onclick="switchCase('case-contradict')">
               <span>▲</span> CASE 2: CONTRADICTION
             </button>
-            <button class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high" id="tab-reconcile" onclick="switchCase('case-reconcile')">
+            <button
+              class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high"
+              id="tab-reconcile" onclick="switchCase('case-reconcile')">
               <span>◆</span> CASE 3: CONTEXTUAL RECONCILIATION
             </button>
-            <button class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high" id="tab-review" onclick="switchCase('case-review')">
+            <button
+              class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high"
+              id="tab-review" onclick="switchCase('case-review')">
               <span>!</span> CASE 4: OCR FAILURE &amp; REVIEW
             </button>
           </div>
@@ -405,9 +499,12 @@
           <div class="bg-surface-container p-space-6 shadow-md" id="demo-card-container">
             <!-- Default Content: Case 1 -->
             <div id="case-content" class="flex flex-col gap-space-4">
-              <div class="flex flex-wrap items-center justify-between gap-space-2 pb-space-3 bg-surface-container-low px-space-4 py-space-2">
+              <div
+                class="flex flex-wrap items-center justify-between gap-space-2 pb-space-3 bg-surface-container-low px-space-4 py-space-2">
                 <div class="flex items-center gap-space-3">
-                  <span class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">■ CORROBORATES</span>
+                  <span
+                    class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">■
+                    CORROBORATES</span>
                   <span class="font-body-sm text-body-sm text-outline">Target Metric: FY24 Operating Revenue</span>
                 </div>
                 <div class="flex items-center gap-space-3">
@@ -416,9 +513,12 @@
                 </div>
               </div>
               <div class="bg-surface-container-lowest p-space-4">
-                <span class="font-label-caps text-label-caps text-primary uppercase mb-space-1 block font-bold">LLM Deterministic Proof</span>
+                <span class="font-label-caps text-label-caps text-primary uppercase mb-space-1 block font-bold">LLM
+                  Deterministic Proof</span>
                 <p class="font-body-md text-body-md text-on-surface leading-relaxed">
-                  Fact A (Prospectus Excerpt, Page 4) cites FY24 revenue of ₹8,142 Cr. Fact B (Annual Report FY24, Page 4) confirms statutory revenue from operations at Rs. 8,144 Cr. Minor rounding delta (0.02%) across preliminary vs audited accounts confirms mutual factual corroboration.
+                  Fact A (Prospectus Excerpt, Page 4) cites FY24 revenue of ₹8,142 Cr. Fact B (Annual Report FY24, Page
+                  4) confirms statutory revenue from operations at Rs. 8,144 Cr. Minor rounding delta (0.02%) across
+                  preliminary vs audited accounts confirms mutual factual corroboration.
                 </p>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-space-4">
@@ -428,7 +528,8 @@
                     <span class="font-label-caps text-label-caps text-secondary">PAGE 4</span>
                   </div>
                   <p class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-1">8,142 INR Crore</p>
-                  <p class="font-body-sm text-body-sm text-outline italic">"Revenue from contracts with customers grew to ₹8,142 Cr in FY24..."</p>
+                  <p class="font-body-sm text-body-sm text-outline italic">"Revenue from contracts with customers grew
+                    to ₹8,142 Cr in FY24..."</p>
                 </div>
                 <div class="bg-surface-container-low p-space-4">
                   <div class="flex items-center justify-between mb-space-2">
@@ -436,7 +537,8 @@
                     <span class="font-label-caps text-label-caps text-tertiary">PAGE 4</span>
                   </div>
                   <p class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-1">8,144 INR Crore</p>
-                  <p class="font-body-sm text-body-sm text-outline italic">"Statutory revenue from operations stood at Rs. 8,144 Cr for the year ended March 31, 2024..."</p>
+                  <p class="font-body-sm text-body-sm text-outline italic">"Statutory revenue from operations stood at
+                    Rs. 8,144 Cr for the year ended March 31, 2024..."</p>
                 </div>
               </div>
             </div>
@@ -448,22 +550,31 @@
       <section class="w-full bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <div class="max-w-7xl mx-auto">
           <div class="text-left mb-space-10">
-            <span class="font-label-caps text-label-caps text-primary uppercase font-bold">MISSION CRITICAL ARCHITECTURE</span>
-            <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-space-1">Forensic Precision Across Every Dimension</h2>
-            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Traditional RAG hallucinates or overlooks fiscal nuance. Verity treats corporate filings as verifiable computational assertions.</p>
+            <span class="font-label-caps text-label-caps text-primary uppercase font-bold">MISSION CRITICAL
+              ARCHITECTURE</span>
+            <h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-space-1">Forensic Precision Across
+              Every Dimension</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Traditional RAG hallucinates or
+              overlooks fiscal nuance. Verity treats corporate filings as verifiable computational assertions.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-space-4">
             <!-- Card 1: Physical Page-Anchored Citations (Span 7) -->
             <div class="lg:col-span-7 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
               <div>
                 <div class="flex items-center justify-between mb-space-4">
-                  <span class="px-space-2 py-1 bg-surface-container-high text-secondary font-label-caps text-label-caps uppercase">PROVENANCE LAYER</span>
+                  <span
+                    class="px-space-2 py-1 bg-surface-container-high text-secondary font-label-caps text-label-caps uppercase">PROVENANCE
+                    LAYER</span>
                   <span class="font-label-caps text-label-caps text-tertiary">ZERO HALLUCINATION SCORE: 100%</span>
                 </div>
-                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Physical Page-Anchored Citations</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant mb-space-6">Every extracted fact carries physical page numbers and verbatim quotation boundaries. Reviewers can trace any extracted claim directly back to its source text in the original document.</p>
+                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Physical
+                  Page-Anchored Citations</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-space-6">Every extracted fact carries
+                  physical page numbers and verbatim quotation boundaries. Reviewers can trace any extracted claim
+                  directly back to its source text in the original document.</p>
                 <div class="bg-surface-container-lowest p-space-4 mb-space-4 relative overflow-hidden">
-                  <div class="flex items-center justify-between pb-space-2 mb-space-3 bg-surface-container-low px-space-2 py-1">
+                  <div
+                    class="flex items-center justify-between pb-space-2 mb-space-3 bg-surface-container-low px-space-2 py-1">
                     <span class="font-code-inline text-code-inline text-outline">RENDER: 01-PROSPECTUS_P4.PDF</span>
                     <span class="font-label-caps text-label-caps text-primary">PAGE: 4 | CHUNK: 2</span>
                   </div>
@@ -471,7 +582,8 @@
                     <div class="h-2 w-5/6 bg-surface-container-highest"></div>
                     <div class="h-2 w-full bg-surface-container-highest"></div>
                     <div class="h-4 w-11/12 bg-secondary/30 p-1 flex items-center">
-                      <span class="text-secondary font-code-inline text-[11px] font-bold">Adjusted EBITDA of ₹758 Mn for FY24</span>
+                      <span class="text-secondary font-code-inline text-[11px] font-bold">Adjusted EBITDA of ₹758 Mn for
+                        FY24</span>
                     </div>
                     <div class="h-2 w-4/6 bg-surface-container-highest"></div>
                   </div>
@@ -486,11 +598,16 @@
             <div class="lg:col-span-5 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
               <div>
                 <div class="flex items-center justify-between mb-space-4">
-                  <span class="px-space-2 py-1 bg-surface-container-high text-primary font-label-caps text-label-caps uppercase">VECTOR RETRIEVAL</span>
+                  <span
+                    class="px-space-2 py-1 bg-surface-container-high text-primary font-label-caps text-label-caps uppercase">VECTOR
+                    RETRIEVAL</span>
                   <span class="font-label-caps text-label-caps text-outline">MINILM / NUMPY COSINE</span>
                 </div>
-                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Multi-Vector Candidate Search</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant mb-space-4">Combines dense sentence embeddings over normalized descriptor strings (Subject, Metric, Scope) with cosine similarity clustering to find candidate pairs in milliseconds.</p>
+                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Multi-Vector
+                  Candidate Search</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-space-4">Combines dense sentence
+                  embeddings over normalized descriptor strings (Subject, Metric, Scope) with cosine similarity
+                  clustering to find candidate pairs in milliseconds.</p>
                 <div class="bg-surface-container-lowest p-space-4 mb-space-4 flex flex-col items-center justify-center">
                   <svg class="w-full h-32 text-primary" fill="none" viewBox="0 0 300 120">
                     <circle class="fill-secondary" cx="50" cy="40" r="6"></circle>
@@ -499,26 +616,34 @@
                     <circle class="fill-primary" cx="230" cy="80" r="7"></circle>
                     <circle class="fill-primary/60" cx="260" cy="70" r="4"></circle>
                     <circle class="fill-primary/80" cx="210" cy="100" r="5"></circle>
-                    <line opacity="0.4" stroke="currentColor" stroke-dasharray="3 3" x1="50" x2="140" y1="40" y2="60"></line>
-                    <line opacity="0.4" stroke="currentColor" stroke-dasharray="3 3" x1="230" x2="140" y1="80" y2="60"></line>
+                    <line opacity="0.4" stroke="currentColor" stroke-dasharray="3 3" x1="50" x2="140" y1="40" y2="60">
+                    </line>
+                    <line opacity="0.4" stroke="currentColor" stroke-dasharray="3 3" x1="230" x2="140" y1="80" y2="60">
+                    </line>
                     <rect class="fill-tertiary" height="10" width="10" x="135" y="55"></rect>
                     <text fill="#dfe2ef" font-family="JetBrains Mono" font-size="10" x="110" y="85">Cosine: 0.942</text>
                   </svg>
                   <span class="font-label-caps text-label-caps text-outline">384 EMBEDDING DIMS • ZERO DATA DRIFT</span>
                 </div>
               </div>
-              <span class="font-body-sm text-body-sm text-outline">Candidate filtering ensures high precision and eliminates O(N²) explosion.</span>
+              <span class="font-body-sm text-body-sm text-outline">Candidate filtering ensures high precision and
+                eliminates O(N²) explosion.</span>
             </div>
             <!-- Card 3: Automated Unit & Fiscal Reconciliation (Span 6) -->
             <div class="lg:col-span-6 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
               <div>
                 <div class="flex items-center justify-between mb-space-4">
-                  <span class="px-space-2 py-1 bg-surface-container-high text-tertiary font-label-caps text-label-caps uppercase">NORMALIZATION ENGINE</span>
+                  <span
+                    class="px-space-2 py-1 bg-surface-container-high text-tertiary font-label-caps text-label-caps uppercase">NORMALIZATION
+                    ENGINE</span>
                   <span class="font-label-caps text-label-caps text-tertiary">AUTOMATED PARSING</span>
                 </div>
-                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Automated Unit &amp; Fiscal Reconciliation</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant mb-space-4">Normalizes across Lakhs, Crores, Millions, and Billions, while aligning disparate corporate reporting periods (FY23 vs FY24 vs Q4).</p>
-                <div class="bg-surface-container-lowest p-space-4 space-y-2 font-code-inline text-code-inline mb-space-4">
+                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Automated Unit &amp;
+                  Fiscal Reconciliation</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-space-4">Normalizes across Lakhs, Crores,
+                  Millions, and Billions, while aligning disparate corporate reporting periods (FY23 vs FY24 vs Q4).</p>
+                <div
+                  class="bg-surface-container-lowest p-space-4 space-y-2 font-code-inline text-code-inline mb-space-4">
                   <div class="flex items-center justify-between py-1 bg-surface-container-low px-space-2">
                     <span class="text-on-surface-variant">INPUT METRIC: "₹758 Mn"</span>
                     <span class="text-secondary font-bold">→ ₹75.80 Crore Equivalent</span>
@@ -533,29 +658,39 @@
                   </div>
                 </div>
               </div>
-              <span class="font-body-sm text-body-sm text-outline">Handles multi-currency conversions and complex Indian/Western accounting notations.</span>
+              <span class="font-body-sm text-body-sm text-outline">Handles multi-currency conversions and complex
+                Indian/Western accounting notations.</span>
             </div>
             <!-- Card 4: Human-in-the-Loop Audit Queue (Span 6) -->
             <div class="lg:col-span-6 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
               <div>
                 <div class="flex items-center justify-between mb-space-4">
-                  <span class="px-space-2 py-1 bg-surface-container-high text-error font-label-caps text-label-caps uppercase">GOVERNANCE &amp; REVIEW</span>
+                  <span
+                    class="px-space-2 py-1 bg-surface-container-high text-error font-label-caps text-label-caps uppercase">GOVERNANCE
+                    &amp; REVIEW</span>
                   <span class="font-label-caps text-label-caps text-error">EVALUATION CASE 4</span>
                 </div>
-                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Human-in-the-Loop Audit Queue</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant mb-space-4">When model confidence falls below threshold or an entity is ambiguous, Verity isolates the record into an auditable compliance queue with full human override controls.</p>
+                <h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Human-in-the-Loop
+                  Audit Queue</h3>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-space-4">When model confidence falls
+                  below threshold or an entity is ambiguous, Verity isolates the record into an auditable compliance
+                  queue with full human override controls.</p>
                 <div class="bg-surface-container-lowest p-space-3 mb-space-4 flex items-center justify-between">
                   <div class="flex items-center gap-space-3">
                     <span class="w-3 h-3 bg-error animate-ping"></span>
                     <div>
-                      <p class="font-body-sm text-body-sm text-on-surface font-bold">Unspecified Entity (EBITDA status)</p>
-                      <p class="font-label-caps text-label-caps text-outline">Low Confidence: 40% • Trigger: Entity Ambiguity</p>
+                      <p class="font-body-sm text-body-sm text-on-surface font-bold">Unspecified Entity (EBITDA status)
+                      </p>
+                      <p class="font-label-caps text-label-caps text-outline">Low Confidence: 40% • Trigger: Entity
+                        Ambiguity</p>
                     </div>
                   </div>
-                  <a href="/review" class="px-space-2 py-1 bg-tertiary text-on-tertiary font-label-caps text-label-caps hover:bg-tertiary-fixed transition-colors">[INSPECT]</a>
+                  <a href="/review"
+                    class="px-space-2 py-1 bg-tertiary text-on-tertiary font-label-caps text-label-caps hover:bg-tertiary-fixed transition-colors">[INSPECT]</a>
                 </div>
               </div>
-              <span class="font-body-sm text-body-sm text-outline">Audit records remain immutable and exportable for statutory compliance filings.</span>
+              <span class="font-body-sm text-body-sm text-outline">Audit records remain immutable and exportable for
+                statutory compliance filings.</span>
             </div>
           </div>
         </div>
@@ -566,7 +701,8 @@
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-space-6">
           <div>
             <span class="font-label-caps text-label-caps text-outline uppercase">ENTERPRISE PIPELINE FOUNDATION</span>
-            <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Built with High-Integrity Deterministic Tooling</h4>
+            <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Built with High-Integrity
+              Deterministic Tooling</h4>
           </div>
           <div class="flex flex-wrap items-center gap-space-3">
             <div class="bg-surface-container-low px-space-3 py-space-2 flex items-center gap-space-2">
@@ -592,16 +728,21 @@
       <!-- BOTTOM CALL TO ACTION -->
       <section class="w-full bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-16 text-center">
         <div class="max-w-4xl mx-auto flex flex-col items-center">
-          <span class="font-label-caps text-label-caps text-secondary mb-space-2 tracking-widest uppercase">GET STARTED IMMEDIATELY</span>
-          <h2 class="font-display-xl text-3xl sm:text-5xl text-on-surface font-bold mb-space-4">Eliminate Uncertainty in Corporate Intelligence</h2>
+          <span class="font-label-caps text-label-caps text-secondary mb-space-2 tracking-widest uppercase">GET STARTED
+            IMMEDIATELY</span>
+          <h2 class="font-display-xl text-3xl sm:text-5xl text-on-surface font-bold mb-space-4">Eliminate Uncertainty in
+            Corporate Intelligence</h2>
           <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mb-space-8">
-            Run live multi-PDF reconciliations right now. Explore audited corporate disclosures or upload your own 10-K, prospectus, or balance sheet filings.
+            Run live multi-PDF reconciliations right now. Explore audited corporate disclosures or upload your own 10-K,
+            prospectus, or balance sheet filings.
           </p>
           <div class="flex flex-wrap items-center justify-center gap-space-4">
-            <a href="/workspace" class="px-space-8 py-space-4 bg-primary text-on-primary font-body-md text-body-md font-bold hover:bg-primary-container transition-all">
+            <a href="/workspace"
+              class="px-space-8 py-space-4 bg-primary text-on-primary font-body-md text-body-md font-bold hover:bg-primary-container transition-all">
               Launch Verity Workspace Now
             </a>
-            <a href="/explorer" class="px-space-6 py-space-4 bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high transition-all">
+            <a href="/explorer"
+              class="px-space-6 py-space-4 bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high transition-all">
               Explore Mined Document Facts
             </a>
           </div>
@@ -612,7 +753,8 @@
 
   <!-- FOOTER -->
   <footer class="w-full bg-surface-container-lowest border-t border-white/10 py-space-6">
-    <div class="w-full px-space-4 flex flex-col md:flex-row items-center justify-between gap-space-4 font-body-sm text-body-sm text-outline">
+    <div
+      class="w-full px-space-4 flex flex-col md:flex-row items-center justify-between gap-space-4 font-body-sm text-body-sm text-outline">
       <div><span>VERITY FACT ENGINE // HIGH INTEGRITY INTELLIGENCE</span></div>
       <div class="flex items-center gap-space-6">
         <span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY: P95 OPTIMIZED</span>
@@ -777,4 +919,5 @@
     syncTelemetry();
   </script>
 </body>
+
 </html>
