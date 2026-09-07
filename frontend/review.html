@@ -6,7 +6,7 @@
   <title>Verity — Human Review &amp; Exception Queue</title>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
   <style>
     @layer base {
@@ -15,7 +15,10 @@
       main > :first-child { margin-top: 0 !important; }
       main > :last-child { margin-bottom: 0 !important; }
     }
-    ::-webkit-scrollbar { display: none; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0e17; }
+    ::-webkit-scrollbar-thumb { background: #262a34; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #353943; }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -98,6 +101,9 @@
             "panel-padding-standard": "1.5rem"
           },
           fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            headline: ["Space Grotesk", "sans-serif"],
             "headline-md": ["Space Grotesk", "sans-serif"],
             "headline-sm": ["Space Grotesk", "sans-serif"],
             "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
@@ -116,55 +122,55 @@
     };
   </script>
 </head>
-<body class="bg-background font-body-md text-on-background min-h-screen">
+<body class="bg-background font-sans text-on-background min-h-screen antialiased flex flex-col">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
   <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
-    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
-      <div class="flex items-center gap-space-3 shrink-0">
-        <a href="/" class="flex items-center gap-space-2 text-decoration-none">
-          <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
-          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+    <div class="h-16 w-full px-4 lg:px-6 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
+          <span class="font-headline text-xl lg:text-2xl tracking-tight text-on-surface font-bold group-hover:text-primary transition-colors">Verity</span>
+          <span class="hidden sm:inline-block px-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
-          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+        <div class="hidden 2xl:flex items-center gap-3 px-3 py-1 bg-surface-container-low border border-white/10 font-mono text-xs text-on-surface-variant">
+          <span class="flex items-center gap-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="flex items-center gap-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="flex items-center gap-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+          <span class="flex items-center gap-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
         </div>
       </div>
-      <nav class="hidden md:flex items-center h-full gap-space-1">
-        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+      <nav class="hidden md:flex items-center h-full gap-1">
+        <a href="/" class="px-3.5 h-16 flex items-center font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
-        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/workspace" class="px-3.5 h-16 flex items-center font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
-        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/explorer" class="px-3.5 h-16 flex items-center font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
-        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+        <a href="/review" class="px-3.5 h-16 flex items-center font-mono text-xs whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors font-semibold">
           Review Queue
         </a>
       </nav>
-      <div class="flex items-center gap-space-2 shrink-0">
-        <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
+      <div class="flex items-center gap-2 shrink-0">
+        <div class="flex items-center gap-1.5">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-2.5 py-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-mono text-[11px] transition-colors cursor-pointer" type="button" title="Seed Demo Database">
             [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
+          <button id="btn-clear-db" onclick="handleClearDb()" class="px-2.5 py-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-mono text-[11px] transition-colors cursor-pointer" type="button" title="Clear All Data">
             [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface font-mono text-[11px] hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
           </a>
         </div>
-        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low cursor-pointer" type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
         <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
@@ -173,159 +179,184 @@
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
-    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
-      <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
-      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
-      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
-      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Review Queue</a>
-      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
+    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-4 py-3 flex flex-col gap-2">
+      <a href="/" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface">Overview</a>
+      <a href="/workspace" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface">Workspace</a>
+      <a href="/explorer" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface">Explorer</a>
+      <a href="/review" class="px-3 py-2 font-mono text-xs text-on-surface bg-surface-container-high">Review Queue</a>
+      <a href="/docs" target="_blank" class="px-3 py-2 font-mono text-xs text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
-  <main class="w-full pt-16 bg-background min-h-screen flex flex-col">
-    <!-- Macro Telemetry & Execution Header -->
-    <div class="w-full bg-surface-container-lowest px-space-4 py-space-3 flex flex-wrap items-center justify-between gap-space-4 border-b border-white/10">
-      <div class="flex items-center gap-space-3">
-        <span class="material-symbols-outlined text-error text-[20px]">warning</span>
-        <div class="flex items-baseline gap-space-2">
-          <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-semibold">
+  <main class="w-full pt-16 bg-background flex-1 flex flex-col">
+    <!-- Streamlined Macro Telemetry & Execution Header -->
+    <div class="w-full bg-surface-container-lowest px-4 lg:px-6 py-3 flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 bg-error/15 border border-error/30 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-error text-[18px]">warning</span>
+        </div>
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <h1 class="font-headline text-base lg:text-lg tracking-tight text-on-surface font-semibold m-0">
             Human Review &amp; Exception Queue
-          </span>
-          <span class="font-label-caps text-label-caps text-outline uppercase">
-            [EVALUATION CASE 4: HITL RECONCILIATION]
+          </h1>
+          <span class="px-2 py-0.5 bg-error/10 border border-error/20 text-error font-mono text-[10px] uppercase tracking-wider font-semibold">
+            EVALUATION CASE 4: HITL RECONCILIATION
           </span>
         </div>
       </div>
-      <!-- Telemetry Bar -->
-      <div class="flex items-center gap-space-2 overflow-x-auto">
-        <div class="px-space-3 py-space-1 bg-surface-container-low flex items-center gap-space-2">
-          <span class="w-2 h-2 bg-error animate-ping"></span>
-          <span class="font-label-caps text-label-caps text-outline">UNRESOLVED:</span>
-          <span id="stat-unresolved" class="font-data-metric text-body-md text-error font-bold">0</span>
+
+      <!-- Telemetry Status Badges -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="px-3 py-1 bg-surface-container-low border border-error/20 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+          <span class="font-mono text-[11px] text-outline">UNRESOLVED:</span>
+          <span id="stat-unresolved" class="font-mono text-xs text-error font-bold">0</span>
         </div>
-        <div class="px-space-3 py-space-1 bg-surface-container-low flex items-center gap-space-2">
-          <span class="material-symbols-outlined text-tertiary text-[16px]">verified</span>
-          <span class="font-label-caps text-label-caps text-outline">RESOLVED:</span>
-          <span id="stat-resolved" class="font-data-metric text-body-md text-tertiary font-bold">14</span>
+        <div class="px-3 py-1 bg-surface-container-low border border-white/5 flex items-center gap-2">
+          <span class="material-symbols-outlined text-tertiary text-[14px]">verified</span>
+          <span class="font-mono text-[11px] text-outline">RESOLVED:</span>
+          <span id="stat-resolved" class="font-mono text-xs text-tertiary font-bold">14</span>
         </div>
-        <div class="px-space-3 py-space-1 bg-surface-container-low flex items-center gap-space-2">
-          <span class="font-label-caps text-label-caps text-outline">ACCURACY:</span>
-          <span class="font-data-metric text-body-md text-secondary font-bold">99.2%</span>
+        <div class="hidden sm:flex px-3 py-1 bg-surface-container-low border border-white/5 items-center gap-2">
+          <span class="font-mono text-[11px] text-outline">ACCURACY:</span>
+          <span class="font-mono text-xs text-secondary font-bold">99.2%</span>
         </div>
-        <div class="px-space-3 py-space-1 bg-surface-container-low flex items-center gap-space-2">
-          <span class="font-label-caps text-label-caps text-outline">AUTO-FLAG GATE:</span>
-          <span class="font-data-metric text-body-md text-primary font-bold">&lt; 70% CONF</span>
+        <div class="hidden md:flex px-3 py-1 bg-surface-container-low border border-white/5 items-center gap-2">
+          <span class="font-mono text-[11px] text-outline">AUTO-FLAG GATE:</span>
+          <span class="font-mono text-xs text-primary font-bold">&lt; 70% CONF</span>
         </div>
       </div>
     </div>
 
-    <!-- Primary Layout Grid -->
-    <div class="w-full flex-1 grid grid-cols-1 xl:grid-cols-12 gap-gutter-default bg-surface-container-highest">
-      <!-- Left Ingested Documents Sub-Drawer (Col 1-3) -->
-      <aside class="xl:col-span-3 bg-surface-container-low p-space-4 flex flex-col gap-space-4 border-r border-white/10">
-        <div class="flex items-center justify-between pb-space-2 border-b border-white/5">
-          <div class="flex items-center gap-space-2">
+    <!-- Primary Layout Structure (Sidebar + Roomy Console) -->
+    <div class="w-full flex-1 flex flex-col xl:flex-row min-h-0">
+      <!-- Left Ingested Documents Sub-Drawer (Fixed width for generous main view) -->
+      <aside class="w-full xl:w-[320px] 2xl:w-[340px] shrink-0 bg-surface-container-low border-b xl:border-b-0 xl:border-r border-white/10 p-4 lg:p-5 flex flex-col gap-4">
+        <div class="flex items-center justify-between pb-2 border-b border-white/10">
+          <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-outline text-[18px]">folder_open</span>
-            <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Documents Ingested</span>
+            <span class="font-headline text-sm text-on-surface font-semibold">Documents Ingested</span>
           </div>
-          <span id="doc-active-badge" class="font-label-caps text-label-caps text-primary px-space-2 py-space-1 bg-primary/10">3 ACTIVE</span>
+          <span id="doc-active-badge" class="font-mono text-[10px] text-primary px-2 py-0.5 bg-primary/10 border border-primary/20 font-bold">3 ACTIVE</span>
         </div>
 
-        <div class="p-space-3 bg-surface-container-lowest flex flex-col gap-space-2 border border-white/5">
+        <div class="p-3.5 bg-surface-container-lowest flex flex-col gap-2 border border-white/5">
           <div class="flex items-center justify-between">
-            <span class="font-label-caps text-label-caps text-on-surface-variant">PIPELINE AUDITOR</span>
-            <span class="font-label-caps text-label-caps text-secondary font-bold">ACTIVE GATEWAY</span>
+            <span class="font-mono text-[11px] text-on-surface-variant uppercase font-bold tracking-wider">PIPELINE AUDITOR</span>
+            <span class="font-mono text-[10px] text-secondary font-bold px-1.5 py-0.5 bg-secondary/10 border border-secondary/20">ACTIVE GATEWAY</span>
           </div>
-          <p class="font-body-sm text-body-sm text-outline">
+          <p class="font-sans text-xs text-outline leading-relaxed m-0">
             Facts extracted with confidence &lt; 0.70 or missing critical entity attribution are quarantined here for auditor sign-off.
           </p>
         </div>
 
         <!-- Ingested Files Stream -->
-        <div id="review-doc-list" class="flex flex-col gap-space-2 overflow-y-auto max-h-[420px]">
-          <div class="p-space-3 text-outline text-body-sm">
-            Loading document status...
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between text-[11px] font-mono text-outline uppercase tracking-wider px-1">
+            <span>INGESTED ARTIFACTS</span>
+            <span class="text-tertiary">AUDITED STATUS</span>
+          </div>
+          <div id="review-doc-list" class="flex flex-col gap-2 overflow-y-auto max-h-[380px] pr-1">
+            <div class="p-3 text-outline font-mono text-xs">
+              Loading document status...
+            </div>
           </div>
         </div>
 
         <!-- Provenance Guarantee Badge -->
-        <div class="mt-auto p-space-4 bg-surface-container-lowest flex flex-col gap-space-2 border border-white/5">
-          <div class="flex items-center gap-space-2 text-secondary">
+        <div class="mt-auto p-4 bg-surface-container-lowest flex flex-col gap-2 border border-white/5">
+          <div class="flex items-center gap-2 text-secondary">
             <span class="material-symbols-outlined text-[18px]">verified_user</span>
-            <span class="font-label-caps text-label-caps tracking-wider uppercase font-bold">Provenance Ledger</span>
+            <span class="font-mono text-xs tracking-wider uppercase font-bold">Provenance Ledger</span>
           </div>
-          <p class="font-body-sm text-body-sm text-on-surface-variant">
+          <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
             Every approved assertion is stamped into the knowledge graph with auditor digital verification.
           </p>
         </div>
       </aside>
 
-      <!-- Main Workspace / HITL Remediation Deck (Col 4-12) -->
-      <section class="xl:col-span-9 bg-surface p-space-4 lg:p-space-6 flex flex-col gap-space-6 overflow-y-auto">
-        <!-- Filter Bar with Segment Counters -->
-        <div class="w-full flex flex-wrap items-center justify-between gap-space-3 bg-surface-container-low p-space-2 border border-white/5">
-          <div class="flex flex-wrap items-center gap-space-1" id="filterTabs">
-            <button class="px-space-3 py-space-1 bg-surface-container-highest text-on-surface font-label-caps text-label-caps flex items-center gap-space-2 shadow-sm font-bold" type="button">
+      <!-- Main Workspace / HITL Remediation Deck (75% Screen Width for Maximum Legibility) -->
+      <section class="flex-1 min-w-0 bg-surface p-4 lg:p-6 2xl:p-8 flex flex-col gap-6 overflow-y-auto">
+        <!-- Filter Bar with Segment Counters & Interactive Case Pager -->
+        <div class="w-full flex flex-wrap items-center justify-between gap-3 bg-surface-container-low p-2.5 border border-white/5">
+          <div class="flex flex-wrap items-center gap-1.5" id="filterTabs">
+            <button class="px-3 py-1.5 bg-surface-container-highest text-on-surface font-mono text-xs flex items-center gap-2 border border-error/30 font-bold" type="button">
               <span class="w-1.5 h-1.5 bg-error"></span>
               <span>NEEDS REVIEW</span>
-              <span id="tab-review-count" class="px-space-1 bg-error text-surface font-bold text-[10px]">0</span>
+              <span id="tab-review-count" class="px-1.5 py-0.2 bg-error text-surface font-bold text-[10px]">0</span>
             </button>
-            <button class="px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 transition-colors" type="button">
+            <button class="px-3 py-1.5 bg-transparent hover:bg-surface-container text-on-surface-variant font-mono text-xs flex items-center gap-2 border border-transparent hover:border-white/5 transition-colors" type="button">
               <span class="w-1.5 h-1.5 bg-tertiary"></span>
               <span>RESOLVED / APPROVED</span>
               <span class="text-outline">(14)</span>
             </button>
-            <button class="px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 transition-colors" type="button">
+            <button class="px-3 py-1.5 bg-transparent hover:bg-surface-container text-on-surface-variant font-mono text-xs flex items-center gap-2 border border-transparent hover:border-white/5 transition-colors" type="button">
               <span class="w-1.5 h-1.5 bg-outline"></span>
               <span>DISCARDED</span>
               <span class="text-outline">(0)</span>
             </button>
           </div>
-          <div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline">
-            <span>AUDIT POLICY: STRICT DETERMINISM</span>
+
+          <!-- Active Case Pager and Audit Policy -->
+          <div class="flex items-center gap-4 flex-wrap">
+            <div id="casePager" class="hidden items-center gap-2 bg-surface-container px-2.5 py-1 border border-white/10 font-mono text-xs">
+              <span class="text-outline">CASE</span>
+              <span id="caseIndexDisplay" class="text-on-surface font-bold">1</span>
+              <span class="text-outline">OF</span>
+              <span id="caseTotalDisplay" class="text-secondary font-bold">1</span>
+              <div class="flex items-center gap-1 ml-2">
+                <button onclick="prevCase()" class="px-1.5 py-0.5 bg-surface-container-high hover:bg-white/10 text-on-surface transition-colors cursor-pointer" title="Previous Case" type="button">◀</button>
+                <button onclick="nextCase()" class="px-1.5 py-0.5 bg-surface-container-high hover:bg-white/10 text-on-surface transition-colors cursor-pointer" title="Next Case" type="button">▶</button>
+              </div>
+            </div>
+            <div class="hidden xl:flex items-center gap-2 font-mono text-[11px] text-outline">
+              <span class="w-1.5 h-1.5 bg-secondary"></span>
+              <span>AUDIT POLICY: STRICT DETERMINISM</span>
+            </div>
           </div>
         </div>
 
         <!-- Dynamic Remediation Container -->
-        <div id="remediation-container">
+        <div id="remediation-container" class="flex flex-col gap-6">
           <!-- Populated by JavaScript -->
         </div>
 
         <!-- Historical Resolved Audits Stream -->
-        <div class="w-full bg-surface-container-low flex flex-col border border-white/5">
-          <div class="p-space-3 bg-surface-container-high flex items-center justify-between border-b border-white/5">
-            <div class="flex items-center gap-space-2">
-              <span class="material-symbols-outlined text-tertiary text-[18px]">history</span>
-              <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Resolved Audits &amp; Disambiguation Trail</span>
+        <div class="w-full bg-surface-container-low flex flex-col border border-white/10 shadow-sm mt-2">
+          <div class="p-3.5 lg:p-4 bg-surface-container-high/60 flex items-center justify-between border-b border-white/10">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-tertiary text-[20px]">history</span>
+              <span class="font-headline text-sm lg:text-base text-on-surface font-semibold">Resolved Audits &amp; Disambiguation Trail</span>
             </div>
-            <span class="font-label-caps text-label-caps text-outline">AUTO-SYNC: REALTIME</span>
+            <span class="font-mono text-[10px] text-tertiary px-2 py-0.5 bg-tertiary/10 border border-tertiary/20 font-bold uppercase tracking-wider">AUTO-SYNC: REALTIME</span>
           </div>
+
           <!-- Table Stream -->
           <div class="w-full overflow-x-auto">
-            <div class="min-w-[800px] flex flex-col">
-              <div class="grid grid-cols-12 bg-surface-container px-space-4 py-space-2 font-label-caps text-label-caps text-outline uppercase tracking-wider">
+            <div class="min-w-[760px] flex flex-col">
+              <div class="grid grid-cols-12 bg-surface-container-lowest/90 px-5 py-2.5 font-mono text-[11px] text-outline uppercase tracking-wider border-b border-white/5">
                 <div class="col-span-2">Resolution Time</div>
-                <div class="col-span-4">Target Assertion / Document</div>
+                <div class="col-span-5">Target Assertion / Document</div>
                 <div class="col-span-3">Discrepancy Nature</div>
-                <div class="col-span-3 text-right">Verification State</div>
+                <div class="col-span-2 text-right">Verification State</div>
               </div>
               <div id="resolved-audit-rows" class="flex flex-col divide-y divide-white/5">
-                <div class="grid grid-cols-12 items-center px-space-4 py-space-3 bg-surface-container-lowest hover:bg-surface-container transition-colors">
-                  <div class="col-span-2 font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-2">
-                    <span class="w-1.5 h-1.5 bg-tertiary"></span>
+                <div class="grid grid-cols-12 items-center px-5 py-3.5 bg-surface-container-low hover:bg-surface-container transition-colors">
+                  <div class="col-span-2 font-mono text-xs text-on-surface-variant flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
                     <span>14:02:19 UTC</span>
                   </div>
-                  <div class="col-span-4 flex flex-col">
-                    <span class="font-body-md text-body-md text-on-surface font-medium truncate">Reconciled Adjusted vs Statutory EBITDA</span>
-                    <span class="font-code-inline text-[11px] text-outline">01-delhivery-prospectus vs 02-annual-report</span>
+                  <div class="col-span-5 flex flex-col pr-4">
+                    <span class="font-sans text-sm text-on-surface font-semibold truncate">Reconciled Adjusted vs Statutory EBITDA</span>
+                    <span class="font-mono text-[11px] text-outline mt-0.5">01-delhivery-prospectus vs 02-annual-report</span>
                   </div>
-                  <div class="col-span-3 font-body-sm text-body-sm text-secondary">
+                  <div class="col-span-3 font-sans text-xs text-secondary leading-snug">
                     Non-cash ESOP scope alignment (₹512 Mn)
                   </div>
-                  <div class="col-span-3 text-right">
-                    <span class="px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps font-bold">
-                      ■ VERIFIED AUDIT
+                  <div class="col-span-2 text-right">
+                    <span class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary font-mono text-[10px] font-bold inline-flex items-center gap-1">
+                      <span>■</span> <span>VERIFIED AUDIT</span>
                     </span>
                   </div>
                 </div>
@@ -368,13 +399,13 @@
 
           container.innerHTML = docs.map(doc => {
             return `
-              <div class="p-space-3 bg-surface-container relative cursor-pointer hover:bg-surface-container-high transition-colors">
-                <div class="flex items-start justify-between gap-space-2">
+              <div class="p-3 bg-surface-container/70 border border-white/5 hover:border-white/20 relative transition-colors">
+                <div class="flex items-start justify-between gap-2">
                   <div class="flex flex-col min-w-0">
-                    <span class="font-body-sm text-body-sm text-on-surface truncate">${escapeHtml(doc.filename)}</span>
-                    <span class="font-label-caps text-label-caps text-outline mt-space-1">${doc.page_count || 5} pages • ${doc.fact_count || 0} facts extracted</span>
+                    <span class="font-mono text-xs text-on-surface font-medium truncate" title="${escapeHtml(doc.filename)}">${escapeHtml(doc.filename)}</span>
+                    <span class="font-mono text-[10px] text-outline mt-1">${doc.page_count || 5} pages • ${doc.fact_count || 0} facts</span>
                   </div>
-                  <span class="px-space-2 py-space-1 bg-tertiary/10 text-tertiary font-label-caps text-label-caps shrink-0">
+                  <span class="px-2 py-0.5 bg-tertiary/10 border border-tertiary/20 text-tertiary font-mono text-[10px] shrink-0 font-bold">
                     ■ AUDITED
                   </span>
                 </div>
@@ -392,6 +423,7 @@
         const res = await fetch('/failures');
         if (res.ok) {
           currentFailures = await res.json();
+          activeFailureIndex = 0;
           renderActiveRemediation();
         }
       } catch (e) {
@@ -399,24 +431,49 @@
       }
     }
 
+    function nextCase() {
+      if (currentFailures.length > 0) {
+        activeFailureIndex = (activeFailureIndex + 1) % currentFailures.length;
+        renderActiveRemediation();
+      }
+    }
+
+    function prevCase() {
+      if (currentFailures.length > 0) {
+        activeFailureIndex = (activeFailureIndex - 1 + currentFailures.length) % currentFailures.length;
+        renderActiveRemediation();
+      }
+    }
+
     function renderActiveRemediation() {
       const container = document.getElementById('remediation-container');
+      const pager = document.getElementById('casePager');
 
       if (currentFailures.length === 0) {
+        if (pager) pager.classList.add('hidden');
         // Celebratory Clean State
         container.innerHTML = `
-          <div class="w-full bg-surface-container-low p-space-8 text-center flex flex-col items-center gap-space-4 border border-white/5">
-            <span class="material-symbols-outlined text-tertiary text-[48px]">check_circle</span>
-            <h3 class="font-headline-md text-headline-md text-on-surface font-bold">All Extractions Verified &amp; Grounded</h3>
-            <p class="font-body-md text-body-md text-on-surface-variant max-w-lg">
+          <div class="w-full bg-surface-container-low p-8 lg:p-12 text-center flex flex-col items-center gap-4 border border-white/10 shadow-lg">
+            <div class="w-14 h-14 bg-tertiary/10 border border-tertiary/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-[36px]">check_circle</span>
+            </div>
+            <h3 class="font-headline text-lg lg:text-xl text-on-surface font-bold m-0">All Extractions Verified &amp; Grounded</h3>
+            <p class="font-sans text-sm text-on-surface-variant max-w-lg leading-relaxed m-0">
               Every fact extracted from ingested filings met high confidence thresholds (>= 0.70) with verified entity provenance. Zero pending audit exceptions.
             </p>
-            <div class="p-space-3 bg-surface-container font-label-caps text-label-caps text-outline">
-              TRIGGER TEST EXCEPTION: To inspect Evaluation Case 4, seed the sample dataset or upload a file containing ambiguous entity scopes.
+            <div class="p-3 bg-surface-container-lowest border border-white/5 font-mono text-xs text-outline">
+              TRIGGER TEST EXCEPTION: To inspect Evaluation Case 4, click [SEED] or upload a document containing ambiguous entity scopes.
             </div>
           </div>
         `;
         return;
+      }
+
+      if (pager) {
+        pager.classList.remove('hidden');
+        pager.classList.add('flex');
+        document.getElementById('caseIndexDisplay').textContent = activeFailureIndex + 1;
+        document.getElementById('caseTotalDisplay').textContent = currentFailures.length;
       }
 
       const fail = currentFailures[activeFailureIndex] || currentFailures[0];
@@ -426,156 +483,174 @@
 
       container.innerHTML = `
         <!-- ACTIVE CASE REMEDIATION CARD: Case 4 -->
-        <div class="w-full bg-surface-container-low flex flex-col gap-gutter-default bg-surface-container-highest shadow-xl border border-error/30" id="activeRemediationCard">
+        <div class="w-full bg-surface-container-low border border-error/40 border-l-4 border-l-error shadow-2xl flex flex-col" id="activeRemediationCard">
           <!-- Case Alert Banner -->
-          <div class="p-space-3 bg-surface-container-low flex flex-wrap items-center justify-between gap-space-2 border-b border-error/20">
-            <div class="flex items-center gap-space-3">
-              <span class="px-space-2 py-space-1 bg-error/15 text-error font-label-caps text-label-caps flex items-center gap-space-1 font-bold">
+          <div class="p-4 lg:p-5 bg-surface-container-low/90 flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="px-2.5 py-1 bg-error/15 border border-error/30 text-error font-mono text-xs flex items-center gap-1.5 font-bold">
                 <span>▲</span>
                 <span>LOW CONFIDENCE / AMBIGUOUS ENTITY</span>
               </span>
-              <span class="px-space-2 py-space-1 bg-surface-container-highest text-secondary font-label-caps text-label-caps">
+              <span class="px-2.5 py-1 bg-surface-container-high border border-white/10 text-secondary font-mono text-xs font-semibold">
                 PAGE ${page}
               </span>
-              <span class="hidden md:inline text-outline font-label-caps text-label-caps">
-                TRIGGER: <span class="text-on-surface">${escapeHtml(reason)}</span>
+              <span class="hidden md:inline font-sans text-xs text-on-surface-variant">
+                TRIGGER: <span class="font-mono text-on-surface text-xs font-semibold">${escapeHtml(reason)}</span>
               </span>
             </div>
-            <div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline">
-              <span>CASE ID: #${fail.id.slice(0, 8)}</span>
-              <span class="text-error font-bold">• PENDING HITL ACTION</span>
+            <div class="flex items-center gap-3 font-mono text-xs">
+              <span class="text-outline">CASE ID: #${fail.id.slice(0, 8)}</span>
+              <span class="flex items-center gap-1.5 text-error font-bold px-2 py-0.5 bg-error/10 border border-error/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+                <span>PENDING HITL ACTION</span>
+              </span>
             </div>
           </div>
 
           <!-- Inspection Grid: Raw Evidence vs Issue Rationale -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-default bg-surface-container-highest">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 p-5 lg:p-6 bg-surface-container-low">
             <!-- Source Snippet Box (Col 1-7) -->
-            <div class="lg:col-span-7 bg-surface-container p-space-4 flex flex-col gap-space-3">
-              <div class="flex items-center justify-between">
-                <span class="font-label-caps text-label-caps text-outline flex items-center gap-space-1">
-                  <span class="material-symbols-outlined text-[14px]">description</span>
-                  <span>RAW SOURCE CONTEXT (PAGE ${page})</span>
-                </span>
-                <span class="font-label-caps text-label-caps text-secondary">
-                  EXTRACTED FROM INGESTION STREAM
-                </span>
-              </div>
-              <!-- OCR Extract Display -->
-              <div class="p-space-3 bg-surface-container-lowest font-body-md text-body-md text-on-surface relative border border-white/5">
-                <div class="text-outline-variant font-label-caps text-[10px] mb-space-1 select-none">DOCUMENT STREAM BUFFER:</div>
-                <p class="leading-relaxed font-code-inline text-code-inline text-secondary">
-                  "${escapeHtml(raw.evidence_text || raw.snippet || reason)}"
-                </p>
-              </div>
-              <!-- Stepped Confidence Meter -->
-              <div class="flex flex-col gap-space-1 pt-space-2">
-                <div class="flex justify-between font-label-caps text-label-caps">
-                  <span class="text-outline">SYNTHETIC INFERENCE CONFIDENCE SCORE</span>
-                  <span class="text-error font-bold">40% / 100% [GATED FOR REVIEW]</span>
+            <div class="lg:col-span-7 bg-surface-container-lowest/80 border border-white/10 p-4 lg:p-5 flex flex-col justify-between gap-4">
+              <div class="flex flex-col gap-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono text-xs text-outline flex items-center gap-1.5 font-semibold">
+                    <span class="material-symbols-outlined text-[15px] text-secondary">description</span>
+                    <span>RAW SOURCE CONTEXT (PAGE ${page})</span>
+                  </span>
+                  <span class="font-mono text-[10px] text-secondary uppercase tracking-wider px-2 py-0.5 bg-secondary/10 border border-secondary/20">
+                    EXTRACTED FROM INGESTION STREAM
+                  </span>
                 </div>
-                <div class="flex items-center gap-space-1">
-                  <span class="h-2 w-full bg-error"></span>
-                  <span class="h-2 w-full bg-error"></span>
-                  <span class="h-2 w-full bg-error"></span>
-                  <span class="h-2 w-full bg-error"></span>
-                  <span class="h-2 w-full bg-surface-container-highest"></span>
-                  <span class="h-2 w-full bg-surface-container-highest"></span>
-                  <span class="h-2 w-full bg-surface-container-highest"></span>
-                  <span class="h-2 w-full bg-surface-container-highest"></span>
-                  <span class="h-2 w-full bg-surface-container-highest"></span>
-                  <span class="h-2 w-full bg-surface-container-highest"></span>
+                <!-- OCR Extract Display -->
+                <div class="p-4 bg-surface-container-high/40 border-l-2 border-secondary border border-white/5 flex flex-col gap-1.5">
+                  <div class="text-outline font-mono text-[10px] uppercase tracking-wider select-none font-bold">DOCUMENT STREAM BUFFER:</div>
+                  <p class="font-mono text-sm leading-relaxed text-[#acedff] m-0 font-medium">
+                    "${escapeHtml(raw.evidence_text || raw.snippet || reason)}"
+                  </p>
+                </div>
+              </div>
+
+              <!-- Stepped Confidence Meter -->
+              <div class="flex flex-col gap-1.5 pt-2 border-t border-white/5">
+                <div class="flex justify-between items-center font-mono text-xs">
+                  <span class="text-outline text-[11px] uppercase tracking-wider">SYNTHETIC INFERENCE CONFIDENCE SCORE</span>
+                  <span class="text-error font-bold px-2 py-0.5 bg-error/10 border border-error/20 text-[11px]">40% / 100% [GATED FOR REVIEW]</span>
+                </div>
+                <div class="flex items-center gap-1 h-2.5 pt-1">
+                  <span class="h-full w-full bg-error"></span>
+                  <span class="h-full w-full bg-error"></span>
+                  <span class="h-full w-full bg-error"></span>
+                  <span class="h-full w-full bg-error"></span>
+                  <span class="h-full w-full bg-surface-container-high"></span>
+                  <span class="h-full w-full bg-surface-container-high"></span>
+                  <span class="h-full w-full bg-surface-container-high"></span>
+                  <span class="h-full w-full bg-surface-container-high"></span>
+                  <span class="h-full w-full bg-surface-container-high"></span>
+                  <span class="h-full w-full bg-surface-container-high"></span>
                 </div>
               </div>
             </div>
 
             <!-- Diagnostic Explainer Box (Col 8-12) -->
-            <div class="lg:col-span-5 bg-surface-container p-space-4 flex flex-col justify-between gap-space-3">
-              <div class="flex flex-col gap-space-2">
-                <div class="flex items-center gap-space-2 text-on-surface">
-                  <span class="material-symbols-outlined text-secondary text-[18px]">psychology</span>
-                  <span class="font-headline-sm text-headline-sm font-semibold">Model Audit Diagnostics</span>
+            <div class="lg:col-span-5 bg-surface-container-lowest/80 border border-white/10 p-4 lg:p-5 flex flex-col justify-between gap-4">
+              <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-2 text-on-surface pb-2 border-b border-white/5">
+                  <span class="material-symbols-outlined text-secondary text-[20px]">psychology</span>
+                  <span class="font-headline text-sm font-semibold">Model Audit Diagnostics</span>
                 </div>
-                <div class="p-space-3 bg-surface-container-lowest font-body-sm text-body-sm text-on-surface-variant flex flex-col gap-space-2 border border-white/5">
-                  <div class="flex items-start gap-space-2">
-                    <span class="text-error font-bold">1.</span>
-                    <span><strong>Entity Ambiguity:</strong> Subject not explicitly stated in isolated clause window.</span>
+                <div class="p-3.5 bg-surface-container-high/40 border border-white/5 flex flex-col gap-3">
+                  <div class="flex items-start gap-2.5">
+                    <span class="px-1.5 py-0.2 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">1</span>
+                    <div class="font-sans text-xs text-on-surface-variant leading-relaxed">
+                      <strong class="text-on-surface font-semibold">Entity Ambiguity:</strong> Subject not explicitly stated in isolated clause window.
+                    </div>
                   </div>
-                  <div class="flex items-start gap-space-2">
-                    <span class="text-error font-bold">2.</span>
-                    <span><strong>Gating Trigger:</strong> Gated by confidence filter (&lt; 0.70) to prevent ungrounded attribution.</span>
+                  <div class="flex items-start gap-2.5">
+                    <span class="px-1.5 py-0.2 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">2</span>
+                    <div class="font-sans text-xs text-on-surface-variant leading-relaxed">
+                      <strong class="text-on-surface font-semibold">Gating Trigger:</strong> Gated by confidence filter (&lt; 0.70) to prevent ungrounded attribution.
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="p-space-2 bg-surface-container-high flex items-center justify-between font-label-caps text-label-caps text-outline">
-                <span>EVALUATION STATUS:</span>
-                <span class="text-error font-bold">HITL MANDATE ENGAGED</span>
+              <div class="p-2.5 bg-error/10 border border-error/25 flex items-center justify-between font-mono text-xs">
+                <span class="text-outline">EVALUATION STATUS:</span>
+                <span class="text-error font-bold tracking-wider">HITL MANDATE ENGAGED</span>
               </div>
             </div>
           </div>
 
           <!-- Editable HITL Remediation Form -->
-          <div class="p-space-4 lg:p-space-6 bg-surface-container-low flex flex-col gap-space-4 border-t border-white/5">
-            <div class="flex items-center justify-between pb-space-2">
-              <div class="flex items-center gap-space-2">
-                <span class="material-symbols-outlined text-primary text-[18px]">edit_note</span>
-                <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Fact Disambiguation &amp; Override Console</span>
+          <div class="p-5 lg:p-6 bg-surface-container-low border-t border-white/10 flex flex-col gap-5">
+            <div class="flex items-center justify-between pb-2 border-b border-white/5 flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">edit_note</span>
+                <span class="font-headline text-base text-on-surface font-semibold">Fact Disambiguation &amp; Override Console</span>
               </div>
-              <span class="font-label-caps text-label-caps text-on-surface-variant">EDITABLE KNOWLEDGE PROVENANCE DRAFT</span>
+              <span class="font-mono text-[10px] text-on-surface-variant uppercase tracking-wider px-2 py-0.5 bg-surface-container border border-white/5">
+                EDITABLE KNOWLEDGE PROVENANCE DRAFT
+              </span>
             </div>
 
-            <!-- Form Fields Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-4">
+            <!-- Form Fields Grid (Spacious 2x2 Grid for Zero Cramping) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
               <!-- Subject Field -->
-              <div class="flex flex-col gap-space-1">
-                <label class="font-label-caps text-label-caps text-outline uppercase">Target Entity Scope</label>
-                <input class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md p-space-2 outline-none focus:bg-surface-container border border-white/10" id="fieldEntity" type="text" value="${escapeHtml(raw.subject || 'Delhivery Limited')}"/>
-                <span class="font-label-caps text-[10px] text-tertiary">■ Entity disambiguated</span>
+              <div class="flex flex-col gap-1.5">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Target Entity Scope</label>
+                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm p-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldEntity" type="text" value="${escapeHtml(raw.subject || 'Delhivery Limited')}"/>
+                <span class="font-mono text-[10px] text-tertiary flex items-center gap-1 font-semibold">
+                  <span>■</span> <span>Entity disambiguated</span>
+                </span>
               </div>
+
               <!-- Metric Field -->
-              <div class="flex flex-col gap-space-1">
-                <label class="font-label-caps text-label-caps text-outline uppercase">Reconciled Metric</label>
-                <input class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md p-space-2 outline-none focus:bg-surface-container border border-white/10" id="fieldMetric" type="text" value="${escapeHtml(raw.metric || 'EBITDA Profitability Status')}"/>
-                <span class="font-label-caps text-[10px] text-outline">Standard taxonomy key</span>
+              <div class="flex flex-col gap-1.5">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Reconciled Metric</label>
+                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm p-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldMetric" type="text" value="${escapeHtml(raw.metric || 'EBITDA Profitability Status')}"/>
+                <span class="font-mono text-[10px] text-outline">Standard taxonomy key</span>
               </div>
+
               <!-- Value Field -->
-              <div class="flex flex-col gap-space-1">
-                <label class="font-label-caps text-label-caps text-outline uppercase">Validated Value &amp; Denomination</label>
-                <div class="flex items-center">
-                  <input class="w-24 bg-surface-container-lowest text-on-surface font-body-md text-body-md p-space-2 outline-none focus:bg-surface-container text-right font-bold border border-white/10" id="fieldValue" type="text" value="${escapeHtml(raw.value || 'profitable')}"/>
-                  <select class="w-full bg-surface-container-high text-secondary font-body-md text-body-md p-space-2 outline-none cursor-pointer border border-white/10" id="fieldUnit">
+              <div class="flex flex-col gap-1.5">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Validated Value &amp; Denomination</label>
+                <div class="flex items-stretch border border-white/10 bg-surface-container-lowest focus-within:border-secondary/60 transition-colors">
+                  <input class="flex-1 min-w-0 bg-transparent text-secondary font-mono text-sm font-bold p-3 outline-none" id="fieldValue" type="text" value="${escapeHtml(raw.value || 'profitable')}"/>
+                  <div class="w-[1px] bg-white/10 my-1"></div>
+                  <select class="w-48 shrink-0 bg-surface-container-high/70 text-on-surface font-sans text-xs p-3 outline-none cursor-pointer" id="fieldUnit">
                     <option selected value="status">Status (Qualitative)</option>
                     <option value="cr">₹ Crores</option>
                     <option value="mn">₹ Millions</option>
                     <option value="pct">% Percentage</option>
                   </select>
                 </div>
+                <span class="font-mono text-[10px] text-outline">Denominated value &amp; scale</span>
               </div>
+
               <!-- Fiscal Period -->
-              <div class="flex flex-col gap-space-1">
-                <label class="font-label-caps text-label-caps text-outline uppercase">Fiscal Epoch Period</label>
-                <input class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md p-space-2 outline-none focus:bg-surface-container border border-white/10" id="fieldTimeframe" type="text" value="${escapeHtml(raw.time_scope || 'FY24 Full Year')}"/>
-                <span class="font-label-caps text-[10px] text-outline">Explicit fiscal scope</span>
+              <div class="flex flex-col gap-1.5">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Fiscal Epoch Period</label>
+                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm p-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldTimeframe" type="text" value="${escapeHtml(raw.time_scope || 'FY24 Full Year')}"/>
+                <span class="font-mono text-[10px] text-outline">Explicit fiscal scope</span>
               </div>
             </div>
 
             <!-- Auditor Notes -->
-            <div class="flex flex-col gap-space-1">
-              <label class="font-label-caps text-label-caps text-outline uppercase flex items-center justify-between">
+            <div class="flex flex-col gap-1.5">
+              <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold flex items-center justify-between">
                 <span>Auditor Reconciliation Rationale (Immutable Audit Trail)</span>
-                <span class="text-on-surface-variant font-code-inline text-[11px]">AUDITOR_SIG: ID_8829_LEAD</span>
+                <span class="text-on-surface-variant font-mono text-[10px] text-outline px-2 py-0.5 bg-surface-container border border-white/5">AUDITOR_SIG: ID_8829_LEAD</span>
               </label>
-              <textarea class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md p-space-3 outline-none focus:bg-surface-container resize-none border border-white/10" id="auditorNotes" rows="2">Confirmed from Page ${page} that statement reflects Delhivery Limited's consolidated positive EBITDA performance in FY24.</textarea>
+              <textarea class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm p-3.5 outline-none focus:border-primary/60 border border-white/10 leading-relaxed resize-none transition-colors" id="auditorNotes" rows="2">Confirmed from Page ${page} that statement reflects Delhivery Limited's consolidated positive EBITDA performance in FY24.</textarea>
             </div>
 
             <!-- Action Trigger Matrix -->
-            <div class="flex flex-wrap items-center justify-between gap-space-3 pt-space-2">
-              <div class="flex items-center gap-space-2">
-                <button onclick="approveAndInject('${fail.id}')" class="px-space-4 py-space-2 bg-tertiary-container hover:bg-tertiary text-on-tertiary-container hover:text-on-tertiary font-headline-sm text-headline-sm font-bold flex items-center gap-space-2 transition-all shadow-md" type="button">
-                  <span class="material-symbols-outlined text-[20px]">task_alt</span>
-                  <span>[APPROVE FACT &amp; INJECT TO GRAPH]</span>
-                </button>
-              </div>
-              <button onclick="discardCase('${fail.id}')" class="px-space-3 py-space-2 bg-surface-container hover:bg-error-container text-error hover:text-on-error font-body-sm text-body-sm flex items-center gap-space-2 transition-colors" type="button">
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+              <button onclick="approveAndInject('${fail.id}')" class="px-6 py-3 bg-gradient-to-r from-tertiary-container to-tertiary text-on-tertiary-container hover:text-on-tertiary font-sans font-bold text-sm tracking-wide flex items-center gap-2.5 border border-tertiary/40 shadow-lg shadow-tertiary/10 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer" type="button">
+                <span class="material-symbols-outlined text-[20px]">task_alt</span>
+                <span>[APPROVE FACT &amp; INJECT TO GRAPH]</span>
+              </button>
+
+              <button onclick="discardCase('${fail.id}')" class="px-4 py-2.5 bg-surface-container hover:bg-error/15 border border-error/30 text-error hover:border-error font-mono text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer" type="button">
                 <span class="material-symbols-outlined text-[18px]">delete_sweep</span>
                 <span>[DISCARD / DISMISS]</span>
               </button>
