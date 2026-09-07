@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 import uuid
 
-from fastapi import Depends, FastAPI, File, HTTPException, Query, UploadFile, status
+from fastapi import BackgroundTasks, Depends, FastAPI, File, HTTPException, Query, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -535,25 +535,35 @@ def clear_database(db: Session = Depends(get_db)):
     return {"status": "cleared", "message": "All workspace data reset successfully."}
 
 
-@app.post("/admin/seed-demo", tags=["Admin"])
-def seed_demo_api(db: Session = Depends(get_db)):
-    """Triggers ingestion of the starter dataset excerpts."""
+def run_seed_background():
+    """Ingests starter documents incrementally in a background worker."""
     try:
         from scripts.seed_demo import DEFAULT_DATASETS_DIR, ORDERED_STARTER_FILES, ingest_file
-        seeded_docs = []
-        if DEFAULT_DATASETS_DIR.exists():
-            for folder_name, filename in ORDERED_STARTER_FILES:
-                pdf_path = DEFAULT_DATASETS_DIR / folder_name / filename
-                if pdf_path.exists():
-                    doc_id = ingest_file(pdf_path, db, max_pages=8)
-                    seeded_docs.append(filename)
+        from app.db import SessionLocal
+        with SessionLocal() as db:
+            if DEFAULT_DATASETS_DIR.exists():
+                for folder_name, filename in ORDERED_STARTER_FILES:
+                    pdf_path = DEFAULT_DATASETS_DIR / folder_name / filename
+                    if pdf_path.exists():
+                        try:
+                            ingest_file(pdf_path, db, max_pages=6)
+                        except Exception as e:
+                            logger.warning("Error seeding %s: %s", filename, e)
+    except Exception as exc:
+        logger.exception("Background seeding encountered an error: %s", exc)
+
+
+@app.post("/admin/seed-demo", tags=["Admin"])
+def seed_demo_api(background_tasks: BackgroundTasks):
+    """Triggers background ingestion of the starter dataset excerpts."""
+    try:
+        background_tasks.add_task(run_seed_background)
         return {
-            "status": "seeded",
-            "seeded_documents": seeded_docs,
-            "message": f"Seeded {len(seeded_docs)} starter documents."
+            "status": "seeding",
+            "message": "Demo seeding initiated in the background! Documents and relationships will populate automatically as they complete."
         }
     except Exception as exc:
-        logger.exception("Failed to seed demo: %s", exc)
+        logger.exception("Failed to trigger seed: %s", exc)
         raise HTTPException(status_code=500, detail=f"Seeding failed: {exc}")
 
 

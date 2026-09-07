@@ -221,7 +221,7 @@
             <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
           <div id="dev-tools-menu" class="hidden absolute right-0 mt-1 w-44 bg-[#121620] border border-white/15 shadow-2xl z-50 py-1 flex flex-col">
-            <button onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
+            <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
               <span>[SEED DEMO]</span>
             </button>
@@ -878,20 +878,26 @@
 
     async function handleSeedDemo() {
       const btn = document.getElementById('btn-seed-demo');
-      btn.textContent = '[SEEDING...]';
-      btn.disabled = true;
+      if (btn) { btn.textContent = '[SEEDING...]'; btn.disabled = true; }
       try {
         const res = await fetch('/admin/seed-demo', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Demo seeded successfully!');
+        alert(data.message || 'Demo seeding initiated in the background!');
         await loadDocumentsList();
         await loadFailures();
         await syncTelemetry();
+        let pollCount = 0;
+        const poller = setInterval(async () => {
+          pollCount++;
+          await loadDocumentsList();
+          await loadFailures();
+          await syncTelemetry();
+          if (pollCount >= 20) clearInterval(poller);
+        }, 3000);
       } catch (e) {
         alert('Seeding error: ' + e);
       } finally {
-        btn.textContent = '[SEED DEMO]';
-        btn.disabled = false;
+        if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
       }
     }
 

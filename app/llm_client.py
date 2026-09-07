@@ -45,22 +45,37 @@ def get_local_embedder():
     if _local_embedder is None:
         from sentence_transformers import SentenceTransformer
         logger.info("Loading local embedding model: %s", LOCAL_EMBEDDING_MODEL)
-        _local_embedder = SentenceTransformer(LOCAL_EMBEDDING_MODEL)
+        try:
+            _local_embedder = SentenceTransformer(LOCAL_EMBEDDING_MODEL, local_files_only=True)
+        except Exception:
+            _local_embedder = SentenceTransformer(LOCAL_EMBEDDING_MODEL)
     return _local_embedder
 
 
 def clean_json_text(text: str) -> str:
-    """Strips markdown code fences and whitespace from LLM response text."""
+    """Strips markdown code fences, comments, and isolates the outermost JSON payload."""
     text = text.strip()
     if text.startswith("```"):
         lines = text.splitlines()
-        # Remove opening fence (e.g. ```json or ```)
         if lines and lines[0].startswith("```"):
             lines = lines[1:]
-        # Remove closing fence
         if lines and lines[-1].strip().startswith("```"):
             lines = lines[:-1]
         text = "\n".join(lines).strip()
+
+    # Isolate the outermost array or object if surrounded by preamble or trailing commentary
+    start_arr = text.find("[")
+    start_obj = text.find("{")
+
+    if start_arr != -1 and (start_obj == -1 or start_arr < start_obj):
+        end_arr = text.rfind("]")
+        if end_arr != -1 and end_arr > start_arr:
+            return text[start_arr:end_arr + 1].strip()
+    elif start_obj != -1:
+        end_obj = text.rfind("}")
+        if end_obj != -1 and end_obj > start_obj:
+            return text[start_obj:end_obj + 1].strip()
+
     return text
 
 
@@ -191,15 +206,20 @@ def extract_facts(chunk_text: str, page: int) -> List[Dict[str, Any]]:
     try:
         data = json.loads(cleaned)
     except json.JSONDecodeError as jde:
-        logger.warning("JSON decode failed on page %s (%s). Attempting clean-up retry...", page, jde)
-        # One-shot retry asking specifically for valid JSON
-        fix_prompt = f"Format the following into valid JSON matching the extraction schema:\n\n{cleaned[:3000]}"
+        # Fallback 1: try raw_decode in case there is trailing extra data
         try:
-            retry_text = _call_gemini(system_prompt, fix_prompt, retry_on_error=False)
-            data = json.loads(clean_json_text(retry_text))
-        except Exception as retry_exc:
-            logger.error("Extraction retry failed on page %s: %s", page, retry_exc)
-            return []
+            decoder = json.JSONDecoder()
+            data, _ = decoder.raw_decode(cleaned)
+        except Exception:
+            logger.warning("JSON decode failed on page %s (%s). Attempting clean-up retry...", page, jde)
+            # One-shot retry asking specifically for valid JSON
+            fix_prompt = f"Format the following into valid JSON matching the extraction schema:\n\n{cleaned[:3000]}"
+            try:
+                retry_text = _call_gemini(system_prompt, fix_prompt, max_retries=1)
+                data = json.loads(clean_json_text(retry_text))
+            except Exception as retry_exc:
+                logger.error("Extraction retry failed on page %s: %s", page, retry_exc)
+                return []
 
     if not isinstance(data, list):
         if isinstance(data, dict):
@@ -267,18 +287,22 @@ def compare_facts(fact_a: Dict[str, Any], fact_b: Dict[str, Any]) -> Dict[str, A
     try:
         result = json.loads(cleaned)
     except json.JSONDecodeError:
-        logger.warning("Failed to parse relationship JSON: %s. Retrying...", cleaned[:200])
         try:
-            fix_prompt = f"Convert the following into the valid relationship JSON object:\n\n{cleaned}"
-            retry_text = _call_gemini(system_prompt, fix_prompt, retry_on_error=False)
-            result = json.loads(clean_json_text(retry_text))
+            decoder = json.JSONDecoder()
+            result, _ = decoder.raw_decode(cleaned)
         except Exception:
-            return {
-                "relation_type": "unrelated",
-                "reasoning": "Failed to parse relationship classification response.",
-                "reconciliation_note": None,
-                "confidence": 0.0
-            }
+            logger.warning("Failed to parse relationship JSON: %s. Retrying...", cleaned[:200])
+            try:
+                fix_prompt = f"Convert the following into the valid relationship JSON object:\n\n{cleaned}"
+                retry_text = _call_gemini(system_prompt, fix_prompt, max_retries=1)
+                result = json.loads(clean_json_text(retry_text))
+            except Exception:
+                return {
+                    "relation_type": "unrelated",
+                    "reasoning": "Failed to parse relationship classification response.",
+                    "reconciliation_note": None,
+                    "confidence": 0.0
+                }
 
     # Normalize relation_type
     rel_type = str(result.get("relation_type", "unrelated")).strip().lower()
