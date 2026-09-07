@@ -101,9 +101,8 @@
             "panel-padding-standard": "1.5rem"
           },
           fontFamily: {
-            sans: ["Inter", "sans-serif"],
-            mono: ["JetBrains Mono", "monospace"],
-            headline: ["Space Grotesk", "sans-serif"],
+            "sans": ["Inter", "Space Grotesk", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"],
             "headline-md": ["Space Grotesk", "sans-serif"],
             "headline-sm": ["Space Grotesk", "sans-serif"],
             "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
@@ -122,55 +121,55 @@
     };
   </script>
 </head>
-<body class="bg-background font-sans text-on-background min-h-screen antialiased flex flex-col">
+<body class="bg-background font-body-md text-on-background min-h-screen flex flex-col">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
   <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
-    <div class="h-16 w-full px-4 lg:px-6 flex items-center justify-between gap-3">
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
-          <span class="font-headline text-xl lg:text-2xl tracking-tight text-on-surface font-bold group-hover:text-primary transition-colors">Verity</span>
-          <span class="hidden sm:inline-block px-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase tracking-wider">
+    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
+      <div class="flex items-center gap-space-3 shrink-0">
+        <a href="/" class="flex items-center gap-space-2 text-decoration-none">
+          <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
+          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden 2xl:flex items-center gap-3 px-3 py-1 bg-surface-container-low border border-white/10 font-mono text-xs text-on-surface-variant">
-          <span class="flex items-center gap-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
         </div>
       </div>
-      <nav class="hidden md:flex items-center h-full gap-1">
-        <a href="/" class="px-3.5 h-16 flex items-center font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+      <nav class="hidden md:flex items-center h-full gap-space-1">
+        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
-        <a href="/workspace" class="px-3.5 h-16 flex items-center font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
-        <a href="/explorer" class="px-3.5 h-16 flex items-center font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
-        <a href="/review" class="px-3.5 h-16 flex items-center font-mono text-xs whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors font-semibold">
+        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Review Queue
         </a>
       </nav>
-      <div class="flex items-center gap-2 shrink-0">
-        <div class="flex items-center gap-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-2.5 py-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-mono text-[11px] transition-colors cursor-pointer" type="button" title="Seed Demo Database">
+      <div class="flex items-center gap-space-2 shrink-0">
+        <div class="flex items-center gap-space-1.5">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
             [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-2.5 py-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-mono text-[11px] transition-colors cursor-pointer" type="button" title="Clear All Data">
+          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
             [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface font-mono text-[11px] hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
           </a>
         </div>
-        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low cursor-pointer" type="button" aria-label="Toggle Navigation">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
         <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
@@ -179,136 +178,160 @@
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
-    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-4 py-3 flex flex-col gap-2">
-      <a href="/" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface">Overview</a>
-      <a href="/workspace" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface">Workspace</a>
-      <a href="/explorer" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface">Explorer</a>
-      <a href="/review" class="px-3 py-2 font-mono text-xs text-on-surface bg-surface-container-high">Review Queue</a>
-      <a href="/docs" target="_blank" class="px-3 py-2 font-mono text-xs text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
+    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
+      <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
+      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
+      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
+      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Review Queue</a>
+      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
     </div>
   </header>
 
   <!-- MAIN WORKSPACE -->
-  <main class="w-full pt-16 bg-background flex-1 flex flex-col">
-    <!-- Streamlined Macro Telemetry & Execution Header -->
-    <div class="w-full bg-surface-container-lowest px-4 lg:px-6 py-3 flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 bg-error/15 border border-error/30 flex items-center justify-center shrink-0">
-          <span class="material-symbols-outlined text-error text-[18px]">warning</span>
-        </div>
-        <div class="flex items-center gap-2.5 flex-wrap">
-          <h1 class="font-headline text-base lg:text-lg tracking-tight text-on-surface font-semibold m-0">
-            Human Review &amp; Exception Queue
-          </h1>
-          <span class="px-2 py-0.5 bg-error/10 border border-error/20 text-error font-mono text-[10px] uppercase tracking-wider font-semibold">
-            EVALUATION CASE 4: HITL RECONCILIATION
-          </span>
-        </div>
+  <main class="w-full pt-16 bg-background min-h-screen flex flex-col">
+    <!-- Macro Telemetry & Execution Header Ribbon -->
+    <div class="w-full bg-surface-container-lowest border-b border-white/10 px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+        </span>
+        <span class="font-mono text-xs font-bold text-on-surface tracking-tight uppercase">
+          HUMAN REVIEW <span class="text-outline">//</span> EXCEPTION QUEUE
+        </span>
+        <span class="hidden sm:inline-block px-2 py-0.5 bg-error/10 border border-error/30 text-error font-mono text-[10px] uppercase tracking-wider font-semibold">
+          EVALUATION CASE 4: HITL RECONCILIATION
+        </span>
       </div>
 
       <!-- Telemetry Status Badges -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <div class="px-3 py-1 bg-surface-container-low border border-error/20 flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
-          <span class="font-mono text-[11px] text-outline">UNRESOLVED:</span>
-          <span id="stat-unresolved" class="font-mono text-xs text-error font-bold">0</span>
+      <div class="flex items-center gap-2 font-mono text-[11px] flex-wrap">
+        <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-error/30 text-on-surface-variant">
+          <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+          <span class="text-outline">UNRESOLVED:</span>
+          <span id="stat-unresolved" class="text-error font-bold">0</span>
         </div>
-        <div class="px-3 py-1 bg-surface-container-low border border-white/5 flex items-center gap-2">
+        <div class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="material-symbols-outlined text-tertiary text-[14px]">verified</span>
-          <span class="font-mono text-[11px] text-outline">RESOLVED:</span>
-          <span id="stat-resolved" class="font-mono text-xs text-tertiary font-bold">14</span>
+          <span class="text-outline">RESOLVED:</span>
+          <span id="stat-resolved" class="text-tertiary font-bold">14</span>
         </div>
-        <div class="hidden sm:flex px-3 py-1 bg-surface-container-low border border-white/5 items-center gap-2">
-          <span class="font-mono text-[11px] text-outline">ACCURACY:</span>
-          <span class="font-mono text-xs text-secondary font-bold">99.2%</span>
+        <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+          <span class="text-outline">ACCURACY:</span>
+          <span class="text-secondary font-bold">99.2%</span>
         </div>
-        <div class="hidden md:flex px-3 py-1 bg-surface-container-low border border-white/5 items-center gap-2">
-          <span class="font-mono text-[11px] text-outline">AUTO-FLAG GATE:</span>
-          <span class="font-mono text-xs text-primary font-bold">&lt; 70% CONF</span>
+        <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+          <span class="text-outline">AUTO-FLAG GATE:</span>
+          <span class="text-primary font-bold">&lt; 70% CONF</span>
+        </div>
+        <div class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
+          <span class="text-outline">POLICY:</span>
+          <span class="text-secondary font-bold">STRICT DETERMINISM</span>
         </div>
       </div>
     </div>
 
     <!-- Primary Layout Structure (Sidebar + Roomy Console) -->
-    <div class="w-full flex-1 flex flex-col xl:flex-row min-h-0">
+    <div class="w-full flex-1 flex flex-col xl:flex-row bg-surface-container-lowest">
       <!-- Left Ingested Documents Sub-Drawer (Fixed width for generous main view) -->
-      <aside class="w-full xl:w-[320px] 2xl:w-[340px] shrink-0 bg-surface-container-low border-b xl:border-b-0 xl:border-r border-white/10 p-4 lg:p-5 flex flex-col gap-4">
-        <div class="flex items-center justify-between pb-2 border-b border-white/10">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-outline text-[18px]">folder_open</span>
-            <span class="font-headline text-sm text-on-surface font-semibold">Documents Ingested</span>
-          </div>
-          <span id="doc-active-badge" class="font-mono text-[10px] text-primary px-2 py-0.5 bg-primary/10 border border-primary/20 font-bold">3 ACTIVE</span>
-        </div>
-
-        <div class="p-3.5 bg-surface-container-lowest flex flex-col gap-2 border border-white/5">
+      <aside class="w-full xl:w-[320px] 2xl:w-[350px] shrink-0 flex flex-col bg-surface-container-lowest border-r border-white/10">
+        <!-- Ingestion / Auditor Gate Card -->
+        <div class="p-4 border-b border-white/10 flex flex-col gap-3 bg-surface-container-low/30">
           <div class="flex items-center justify-between">
-            <span class="font-mono text-[11px] text-on-surface-variant uppercase font-bold tracking-wider">PIPELINE AUDITOR</span>
-            <span class="font-mono text-[10px] text-secondary font-bold px-1.5 py-0.5 bg-secondary/10 border border-secondary/20">ACTIVE GATEWAY</span>
+            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // AUDIT PIPELINE GATEWAY</span>
+            <span class="px-1.5 py-0.5 bg-surface-container-high border border-error/30 text-error font-mono text-[10px] font-bold">HITL ENGAGED</span>
           </div>
-          <p class="font-sans text-xs text-outline leading-relaxed m-0">
-            Facts extracted with confidence &lt; 0.70 or missing critical entity attribution are quarantined here for auditor sign-off.
-          </p>
+          <div class="p-3 bg-surface-container-low border border-white/5 flex flex-col gap-1.5">
+            <div class="flex items-center gap-2 text-on-surface">
+              <span class="material-symbols-outlined text-secondary text-[18px]">security</span>
+              <span class="font-sans text-sm font-bold">Quarantine Enforcement</span>
+            </div>
+            <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
+              Facts with confidence &lt; 0.70 or ungrounded entity attributions are quarantined here for auditor review.
+            </p>
+          </div>
         </div>
 
         <!-- Ingested Files Stream -->
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center justify-between text-[11px] font-mono text-outline uppercase tracking-wider px-1">
-            <span>INGESTED ARTIFACTS</span>
-            <span class="text-tertiary">AUDITED STATUS</span>
+        <div class="p-4 flex-1 flex flex-col gap-3 min-h-[320px]">
+          <div class="flex items-center justify-between pb-2 border-b border-white/5">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-outline text-[16px]">folder_open</span>
+              <span class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">
+                INGESTED ARTIFACTS (<span id="doc-active-badge" class="text-on-surface font-bold">0</span>)
+              </span>
+            </div>
+            <button onclick="loadDocumentsList()" class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors" type="button">
+              <span class="material-symbols-outlined text-[13px]">refresh</span>
+              REFRESH
+            </button>
           </div>
-          <div id="review-doc-list" class="flex flex-col gap-2 overflow-y-auto max-h-[380px] pr-1">
-            <div class="p-3 text-outline font-mono text-xs">
+          <div id="review-doc-list" class="flex flex-col gap-2 overflow-y-auto max-h-[380px] xl:max-h-[460px] pr-1">
+            <div class="p-3 text-outline font-mono text-xs text-center bg-surface-container-low border border-white/5">
               Loading document status...
             </div>
           </div>
         </div>
 
         <!-- Provenance Guarantee Badge -->
-        <div class="mt-auto p-4 bg-surface-container-lowest flex flex-col gap-2 border border-white/5">
+        <div class="mt-auto p-4 border-t border-white/10 bg-surface-container-low/30 flex flex-col gap-1.5">
           <div class="flex items-center gap-2 text-secondary">
             <span class="material-symbols-outlined text-[18px]">verified_user</span>
-            <span class="font-mono text-xs tracking-wider uppercase font-bold">Provenance Ledger</span>
+            <span class="font-mono text-xs font-bold uppercase tracking-wider">Provenance Ledger</span>
           </div>
-          <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
-            Every approved assertion is stamped into the knowledge graph with auditor digital verification.
+          <p class="font-sans text-xs text-outline leading-relaxed m-0">
+            Every approved assertion is stamped into the knowledge graph with immutable auditor digital verification.
           </p>
         </div>
       </aside>
 
-      <!-- Main Workspace / HITL Remediation Deck (75% Screen Width for Maximum Legibility) -->
-      <section class="flex-1 min-w-0 bg-surface p-4 lg:p-6 2xl:p-8 flex flex-col gap-6 overflow-y-auto">
-        <!-- Filter Bar with Segment Counters & Interactive Case Pager -->
-        <div class="w-full flex flex-wrap items-center justify-between gap-3 bg-surface-container-low p-2.5 border border-white/5">
-          <div class="flex flex-wrap items-center gap-1.5" id="filterTabs">
-            <button class="px-3 py-1.5 bg-surface-container-highest text-on-surface font-mono text-xs flex items-center gap-2 border border-error/30 font-bold" type="button">
-              <span class="w-1.5 h-1.5 bg-error"></span>
-              <span>NEEDS REVIEW</span>
-              <span id="tab-review-count" class="px-1.5 py-0.2 bg-error text-surface font-bold text-[10px]">0</span>
-            </button>
-            <button class="px-3 py-1.5 bg-transparent hover:bg-surface-container text-on-surface-variant font-mono text-xs flex items-center gap-2 border border-transparent hover:border-white/5 transition-colors" type="button">
-              <span class="w-1.5 h-1.5 bg-tertiary"></span>
-              <span>RESOLVED / APPROVED</span>
-              <span class="text-outline">(14)</span>
-            </button>
-            <button class="px-3 py-1.5 bg-transparent hover:bg-surface-container text-on-surface-variant font-mono text-xs flex items-center gap-2 border border-transparent hover:border-white/5 transition-colors" type="button">
-              <span class="w-1.5 h-1.5 bg-outline"></span>
-              <span>DISCARDED</span>
-              <span class="text-outline">(0)</span>
-            </button>
+      <!-- Main Workspace / HITL Remediation Deck (Consistent Spacing & Legibility) -->
+      <section class="flex-1 min-w-0 bg-surface-container-lowest flex flex-col p-4 md:p-6 xl:p-8 gap-6 overflow-y-auto">
+        <!-- Top Header & Multi-Tab Filter Switcher Card -->
+        <div class="bg-surface-container/60 border border-white/10 p-5 flex flex-col gap-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <span class="px-2 py-0.5 bg-error/20 border border-error/40 text-error font-mono text-[10px] uppercase font-bold tracking-wider">
+                  MODULE 04
+                </span>
+                <h2 class="font-sans text-lg lg:text-xl text-on-surface font-bold tracking-tight m-0">
+                  Human Review &amp; Exception Queue
+                </h2>
+              </div>
+              <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
+                Forensic disambiguation of low-confidence extractions, missing entity scopes, and cross-filing semantic contradictions.
+              </p>
+            </div>
+
+            <!-- Active Case Pager Stepper -->
+            <div id="casePager" class="flex items-center gap-3 bg-surface-container-low px-3 py-1.5 border border-white/10 font-mono text-xs shrink-0">
+              <span class="text-outline">CASE</span>
+              <span id="caseIndexDisplay" class="text-on-surface font-bold text-sm">1</span>
+              <span class="text-outline">OF</span>
+              <span id="caseTotalDisplay" class="text-secondary font-bold text-sm">1</span>
+              <div class="flex items-center gap-1.5 ml-2">
+                <button onclick="prevCase()" class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10" title="Previous Case" type="button">◀ PREV</button>
+                <button onclick="nextCase()" class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10" title="Next Case" type="button">NEXT ▶</button>
+              </div>
+            </div>
           </div>
 
-          <!-- Active Case Pager and Audit Policy -->
-          <div class="flex items-center gap-4 flex-wrap">
-            <div id="casePager" class="hidden items-center gap-2 bg-surface-container px-2.5 py-1 border border-white/10 font-mono text-xs">
-              <span class="text-outline">CASE</span>
-              <span id="caseIndexDisplay" class="text-on-surface font-bold">1</span>
-              <span class="text-outline">OF</span>
-              <span id="caseTotalDisplay" class="text-secondary font-bold">1</span>
-              <div class="flex items-center gap-1 ml-2">
-                <button onclick="prevCase()" class="px-1.5 py-0.5 bg-surface-container-high hover:bg-white/10 text-on-surface transition-colors cursor-pointer" title="Previous Case" type="button">◀</button>
-                <button onclick="nextCase()" class="px-1.5 py-0.5 bg-surface-container-high hover:bg-white/10 text-on-surface transition-colors cursor-pointer" title="Next Case" type="button">▶</button>
-              </div>
+          <!-- Filter Tabs Switcher -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/5">
+            <div class="flex flex-wrap items-center gap-2" id="filterTabs">
+              <button class="px-3.5 py-1.5 bg-error text-surface font-mono text-xs font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer" type="button">
+                <span>▲ NEEDS REVIEW</span>
+                <span id="tab-review-count" class="px-1.5 py-0.2 bg-black/30 text-white font-bold text-[11px]">0</span>
+              </button>
+              <button class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer" type="button">
+                <span class="w-1.5 h-1.5 bg-tertiary"></span>
+                <span>RESOLVED / APPROVED (14)</span>
+              </button>
+              <button class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer" type="button">
+                <span class="w-1.5 h-1.5 bg-outline"></span>
+                <span>DISCARDED (0)</span>
+              </button>
             </div>
             <div class="hidden xl:flex items-center gap-2 font-mono text-[11px] text-outline">
               <span class="w-1.5 h-1.5 bg-secondary"></span>
@@ -323,19 +346,19 @@
         </div>
 
         <!-- Historical Resolved Audits Stream -->
-        <div class="w-full bg-surface-container-low flex flex-col border border-white/10 shadow-sm mt-2">
-          <div class="p-3.5 lg:p-4 bg-surface-container-high/60 flex items-center justify-between border-b border-white/10">
+        <div class="w-full bg-[#141822] flex flex-col border border-white/10 shadow-xl mt-2">
+          <div class="p-4 bg-surface-container-high/70 flex items-center justify-between border-b border-white/10">
             <div class="flex items-center gap-2.5">
               <span class="material-symbols-outlined text-tertiary text-[20px]">history</span>
-              <span class="font-headline text-sm lg:text-base text-on-surface font-semibold">Resolved Audits &amp; Disambiguation Trail</span>
+              <span class="font-sans text-base text-on-surface font-bold">Resolved Audits &amp; Disambiguation Trail</span>
             </div>
-            <span class="font-mono text-[10px] text-tertiary px-2 py-0.5 bg-tertiary/10 border border-tertiary/20 font-bold uppercase tracking-wider">AUTO-SYNC: REALTIME</span>
+            <span class="font-mono text-xs text-tertiary px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 font-bold uppercase tracking-wider">AUTO-SYNC: REALTIME</span>
           </div>
 
           <!-- Table Stream -->
           <div class="w-full overflow-x-auto">
             <div class="min-w-[760px] flex flex-col">
-              <div class="grid grid-cols-12 bg-surface-container-lowest/90 px-5 py-2.5 font-mono text-[11px] text-outline uppercase tracking-wider border-b border-white/5">
+              <div class="grid grid-cols-12 bg-surface-container-lowest px-5 py-3 font-mono text-xs text-outline uppercase tracking-wider border-b border-white/10">
                 <div class="col-span-2">Resolution Time</div>
                 <div class="col-span-5">Target Assertion / Document</div>
                 <div class="col-span-3">Discrepancy Nature</div>
@@ -349,13 +372,13 @@
                   </div>
                   <div class="col-span-5 flex flex-col pr-4">
                     <span class="font-sans text-sm text-on-surface font-semibold truncate">Reconciled Adjusted vs Statutory EBITDA</span>
-                    <span class="font-mono text-[11px] text-outline mt-0.5">01-delhivery-prospectus vs 02-annual-report</span>
+                    <span class="font-mono text-xs text-outline mt-0.5">01-delhivery-prospectus vs 02-annual-report</span>
                   </div>
-                  <div class="col-span-3 font-sans text-xs text-secondary leading-snug">
+                  <div class="col-span-3 font-sans text-sm text-secondary leading-snug">
                     Non-cash ESOP scope alignment (₹512 Mn)
                   </div>
                   <div class="col-span-2 text-right">
-                    <span class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary font-mono text-[10px] font-bold inline-flex items-center gap-1">
+                    <span class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary font-mono text-xs font-bold inline-flex items-center gap-1">
                       <span>■</span> <span>VERIFIED AUDIT</span>
                     </span>
                   </div>
