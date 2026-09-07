@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-highest":"#31353f","on-tertiary":"#003824","tertiary":"#4edea3","secondary":"#4cd7f6","secondary-container":"#03b5d3","primary-fixed":"#e9ddff","primary-fixed-dim":"#d0bcff","on-secondary":"#003640","tertiary-fixed-dim":"#4edea3","on-primary":"#3c0091","on-secondary-container":"#00424e","on-primary-fixed-variant":"#5516be","outline-variant":"#494454","on-tertiary-container":"#00311f","on-tertiary-fixed":"#002113","on-secondary-fixed":"#001f26","on-primary-fixed":"#23005c","inverse-primary":"#6d3bd7","tertiary-container":"#00a572","inverse-surface":"#dfe2ef","on-error-container":"#ffdad6","surface":"#0f131c","inverse-on-surface":"#2c303a","surface-container-high":"#262a34","primary-container":"#a078ff","surface-dim":"#0f131c","on-primary-container":"#340080","secondary-fixed":"#acedff","on-surface":"#dfe2ef","on-surface-variant":"#cbc3d7","surface-container":"#1c1f29","outline":"#958ea0","background":"#0f131c","surface-tint":"#d0bcff","on-background":"#dfe2ef","error":"#ffb4ab","tertiary-fixed":"#6ffbbe","on-secondary-fixed-variant":"#004e5c","secondary-fixed-dim":"#4cd7f6","surface-container-lowest":"#0a0e17","on-tertiary-fixed-variant":"#005236","surface-container-low":"#181b25","primary":"#d0bcff","surface-bright":"#353943","on-error":"#690005","error-container":"#93000a","surface-variant":"#31353f"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-6":"1.5rem","panel-padding-standard":"1.5rem","space-1":"0.25rem","space-10":"2.5rem","space-12":"3rem","panel-padding-dense":"1rem","space-0":"0px","space-2":"0.5rem","space-4":"1rem","panel-padding-tight":"0.75rem","space-8":"2rem","space-3":"0.75rem","gutter-default":"1px","space-5":"1.25rem","space-16":"4rem"},fontFamily:{"headline-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"body-sm":["JetBrains Mono"],"body-lg":["JetBrains Mono"],"display-xl-mobile":["Space Grotesk"],"display-xl":["Space Grotesk"],"headline-lg":["Space Grotesk"],"data-metric":["JetBrains Mono"],"label-caps":["JetBrains Mono"],"body-md":["JetBrains Mono"],"code-inline":["JetBrains Mono"]},fontSize:{"headline-md":["1.375rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-sm":["1.125rem",{"lineHeight":"1.4","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["1.5rem",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.45","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["1rem",{"lineHeight":"1.6","letterSpacing":"-0.01em","fontWeight":"400"}],"display-xl-mobile":["2rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"display-xl":["3rem",{"lineHeight":"1.1","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["2rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"600"}],"data-metric":["1.75rem",{"lineHeight":"1.1","letterSpacing":"-0.04em","fontWeight":"700"}],"label-caps":["0.6875rem",{"lineHeight":"1.2","letterSpacing":"0.08em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.5","letterSpacing":"-0.005em","fontWeight":"400"}],"code-inline":["0.8125rem",{"lineHeight":"1.3","letterSpacing":"0em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-background min-h-screen"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10"><div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-4"><div class="flex items-center gap-space-4 shrink-0"><div class="flex items-center gap-space-2"><span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span><span class="px-space-2 py-space-1 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-label-caps uppercase tracking-wider">FACT KNOWLEDGE LAYER v2.4</span></div><div class="hidden xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant"><span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span class="text-on-surface font-bold">3</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span class="text-secondary font-bold">161</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span class="text-tertiary font-bold">8</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span class="text-error font-bold">1 Flagged</span></span></div></div><nav class="hidden lg:flex items-center h-full gap-space-1" data-active-classes="bg-surface-container-high text-on-surface border-b-2 border-primary"><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="landing-overview" href="#">Landing Overview</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="workspace-and-relationships" href="#">Workspace &amp; Relationships</a><a aria-current="page" class="px-space-3 h-16 flex items-center font-body-sm transition-colors whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary" data-path="document-facts-explorer" href="#">Document Facts Explorer</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="failures-and-review-queue" href="#">Failures &amp; Review Queue</a></nav><div class="flex items-center gap-space-3 shrink-0"><div class="flex items-center gap-space-2"><button class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button">[SEED DEMO]</button><button class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button">[CLEAR DB]</button><a class="hidden sm:flex items-center gap-space-2 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span><span>/docs</span><span class="text-outline text-body-sm">99.9%</span></a></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Document Sub-Header / Workspace Status Bar -->
+<div class="w-full bg-surface-container-lowest px-space-4 py-space-3 flex flex-wrap items-center justify-between gap-space-4">
+<div class="flex items-center gap-space-3 min-w-0">
+<div class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.6)]"></div>
+<div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline uppercase tracking-wider">
+<span class="text-on-surface font-bold">SESSION ID:</span>
+<span class="text-secondary font-mono">VK-8921-DELHIVERY</span>
+<span class="text-outline-variant">/</span>
+<span>INDEXED ENGINE: CHROMADB+TITAN_V2</span>
+</div>
+</div>
+<div class="flex items-center gap-space-2">
+<span class="inline-flex items-center gap-space-1 px-space-2 py-space-1 bg-surface-container-high text-on-surface font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px] text-tertiary">check_circle</span>
+<span>ENGINE READY (0 FAILURES)</span>
+</span>
+<button class="px-space-2 py-space-1 bg-surface-container-low hover:bg-surface-container-high text-outline hover:text-on-surface transition-colors font-label-caps text-label-caps flex items-center gap-space-1" type="button">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+<span>INSPECTION PRESETS</span>
+</button>
+</div>
+</div>
+<!-- Primary Multi-Pane Workbench Layout (1px separation grid via container background) -->
+<div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-[1px] bg-white/10 min-h-[calc(100vh-8rem)]">
+<!-- Left Sidebar: Ingested Documents & Corpus Operations (lg:col-span-3) -->
+<aside class="lg:col-span-3 bg-surface-container-lowest flex flex-col justify-between">
+<div class="flex flex-col">
+<!-- Section Header -->
+<div class="p-space-4 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">folder_data</span>
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase">Corpus Index</span>
+</div>
+<span class="px-space-2 py-0.5 bg-surface-container-highest text-secondary font-label-caps text-label-caps">3 LOADED</span>
+</div>
+<!-- Ingestion Document List -->
+<div class="p-space-3 space-y-space-2">
+<!-- Active Target Document: 01 Delhivery Prospectus -->
+<div class="group relative p-space-3 bg-surface-container-high cursor-pointer transition-all duration-150 ring-1 ring-primary/60 shadow-[0_0_12px_rgba(208,188,255,0.08)]">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-start justify-between gap-space-2">
+<div class="flex items-center gap-space-2 min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">picture_as_pdf</span>
+<span class="font-body-md text-body-md font-bold text-on-surface truncate">01-delhivery-prospectus-2022-excerpt.pdf</span>
+</div>
+<span class="px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps shrink-0">■ DONE</span>
+</div>
+<div class="mt-space-3 grid grid-cols-3 gap-space-2 pt-space-2 font-body-sm text-body-sm text-outline">
+<div>
+<span class="block text-outline-variant font-label-caps text-[0.625rem]">FACTS</span>
+<span class="text-secondary font-bold font-data-metric text-[1rem]">117</span>
+</div>
+<div>
+<span class="block text-outline-variant font-label-caps text-[0.625rem]">PAGES</span>
+<span class="text-on-surface font-bold">5 pgs</span>
+</div>
+<div>
+<span class="block text-outline-variant font-label-caps text-[0.625rem]">PARSE P95</span>
+<span class="text-on-surface font-mono">14.2s</span>
+</div>
+</div>
+<!-- Hash Fingerprint -->
+<div class="mt-space-2 flex items-center justify-between text-[0.6875rem] font-code-inline text-outline-variant">
+<span>SHA256: 9e0b8...f31a</span>
+<span class="text-tertiary">100% RECONCILED</span>
+</div>
+</div>
+<!-- Inactive Document 2 -->
+<div class="p-space-3 bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors opacity-80 hover:opacity-100">
+<div class="flex items-start justify-between gap-space-2">
+<div class="flex items-center gap-space-2 min-w-0">
+<span class="material-symbols-outlined text-outline text-[20px] shrink-0">description</span>
+<span class="font-body-md text-body-md text-on-surface truncate">02-delhivery-annual-report-fy24-excerpt.pdf</span>
+</div>
+<span class="px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps shrink-0">■ DONE</span>
+</div>
+<div class="mt-space-2 flex items-center justify-between font-body-sm text-body-sm text-outline">
+<span>29 facts • 5 pgs</span>
+<span class="font-label-caps text-label-caps text-outline-variant">PARSE 8.1s</span>
+</div>
+</div>
+<!-- Inactive Document 3 -->
+<div class="p-space-3 bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors opacity-80 hover:opacity-100">
+<div class="flex items-start justify-between gap-space-2">
+<div class="flex items-center gap-space-2 min-w-0">
+<span class="material-symbols-outlined text-outline text-[20px] shrink-0">analytics</span>
+<span class="font-body-md text-body-md text-on-surface truncate">03-delhivery-q4-fy24-earnings-presentation.pdf</span>
+</div>
+<span class="px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps shrink-0">■ DONE</span>
+</div>
+<div class="mt-space-2 flex items-center justify-between font-body-sm text-body-sm text-outline">
+<span>15 facts • 5 pgs</span>
+<span class="font-label-caps text-label-caps text-outline-variant">PARSE 4.7s</span>
+</div>
+</div>
+</div>
+<!-- Extraction Diagnostics Sparkline Card -->
+<div class="m-space-3 p-space-3 bg-surface-container-low">
+<div class="flex items-center justify-between text-outline font-label-caps text-label-caps mb-space-2">
+<span>EXTRACTION CONFIDENCE DISTRIBUTION</span>
+<span class="text-tertiary">AVG 96.8%</span>
+</div>
+<!-- Micro Inline SVG Density Chart -->
+<div class="h-10 w-full flex items-end gap-[2px] pt-2">
+<div class="w-1/12 h-[30%] bg-tertiary/40"></div>
+<div class="w-1/12 h-[45%] bg-tertiary/50"></div>
+<div class="w-1/12 h-[20%] bg-tertiary/30"></div>
+<div class="w-1/12 h-[60%] bg-tertiary/60"></div>
+<div class="w-1/12 h-[75%] bg-tertiary/70"></div>
+<div class="w-1/12 h-[90%] bg-tertiary/90"></div>
+<div class="w-1/12 h-[100%] bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.5)]"></div>
+<div class="w-1/12 h-[85%] bg-tertiary/80"></div>
+<div class="w-1/12 h-[95%] bg-tertiary/90"></div>
+<div class="w-1/12 h-[40%] bg-secondary/60"></div>
+<div class="w-1/12 h-[25%] bg-outline-variant"></div>
+<div class="w-1/12 h-[10%] bg-outline-variant"></div>
+</div>
+<div class="mt-space-2 flex justify-between font-code-inline text-[0.625rem] text-outline">
+<span>70% CONF</span>
+<span>85% CONF</span>
+<span>100% CONF</span>
+</div>
+</div>
+</div>
+<!-- Left Sidebar Action Triggers -->
+<div class="p-space-3 bg-surface-container-low space-y-space-2">
+<button class="w-full py-space-2 px-space-3 bg-primary text-on-primary font-body-sm text-body-sm font-bold flex items-center justify-center gap-space-2 hover:bg-primary-fixed-dim transition-all shadow-[0_0_12px_rgba(208,188,255,0.25)]" type="button">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+<span>[RE-EXTRACT DOCUMENT]</span>
+</button>
+<div class="grid grid-cols-2 gap-space-2">
+<button class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors" type="button">
+            [EXPORT JSON]
+          </button>
+<button class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors" type="button">
+            [PROVENANCE GRAPH]
+          </button>
+</div>
+</div>
+</aside>
+<!-- Center Viewport: Mined Facts Explorer & Multi-Dimensional Grid (lg:col-span-6) -->
+<main class="lg:col-span-6 bg-surface flex flex-col">
+<!-- File Header Banner & Fact Metric Bar -->
+<div class="p-space-4 bg-surface-container-lowest flex flex-col md:flex-row items-start md:items-center justify-between gap-space-3">
+<div class="min-w-0">
+<div class="flex items-center gap-space-2">
+<span class="px-space-2 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps">ACTIVE TARGET</span>
+<span class="font-label-caps text-label-caps text-outline">DOC_REF #4812</span>
+</div>
+<h1 class="mt-space-1 font-headline-md text-headline-md text-on-surface font-bold tracking-tight truncate">
+            01-delhivery-prospectus-2022-excerpt.pdf
+          </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Extracted Entity: <span class="text-secondary font-semibold">Delhivery Limited</span> • Source Registration Filing
+          </p>
+</div>
+<div class="flex items-center gap-space-3 self-end md:self-auto">
+<div class="text-right">
+<div class="font-data-metric text-data-metric text-tertiary">117</div>
+<div class="font-label-caps text-label-caps text-outline">FACTS MINED</div>
+</div>
+<div class="h-8 w-px bg-surface-container-highest"></div>
+<button class="p-space-2 bg-surface-container-high hover:bg-surface-container-highest text-secondary transition-colors" title="Audit Log" type="button">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+</button>
+</div>
+</div>
+<!-- Live Filter & Precision Search Toolbar -->
+<div class="p-space-3 bg-surface-container-low flex flex-col gap-space-2">
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-2">
+<!-- Main Search Box -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-space-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full bg-surface-container-lowest pl-space-10 pr-space-8 py-space-2 text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:bg-surface-container-high transition-all" id="fact-search-input" placeholder="Filter by metric name, value, fiscal year, or page..." type="text" value=""/>
+<span class="absolute right-space-3 top-1/2 -translate-y-1/2 text-secondary font-mono animate-pulse">█</span>
+</div>
+<!-- Scope Selector Dropdown Simulation -->
+<div class="flex items-center gap-space-1">
+<select class="bg-surface-container-lowest text-on-surface font-body-sm text-body-sm px-space-3 py-space-2 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>All Scopes</option>
+<option selected="">Consolidated</option>
+<option>Standalone</option>
+<option>Segmented</option>
+</select>
+<select class="bg-surface-container-lowest text-on-surface font-body-sm text-body-sm px-space-3 py-space-2 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Sort: Page Number</option>
+<option selected="">Sort: Confidence</option>
+<option>Sort: Raw Value</option>
+</select>
+</div>
+</div>
+<!-- Metric Category Filter Pills -->
+<div class="flex flex-wrap items-center gap-space-1 font-label-caps text-label-caps pt-space-1">
+<span class="text-outline mr-space-1">METRIC TYPE:</span>
+<button class="px-space-2 py-0.5 bg-primary text-on-primary font-bold" type="button">[ALL 117]</button>
+<button class="px-space-2 py-0.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" type="button">EBITDA (14)</button>
+<button class="px-space-2 py-0.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" type="button">REVENUE (28)</button>
+<button class="px-space-2 py-0.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" type="button">DEBT &amp; CAPEX (9)</button>
+<button class="px-space-2 py-0.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" type="button">HEADCOUNT (6)</button>
+<button class="px-space-2 py-0.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" type="button">MARGINS (18)</button>
+<button class="px-space-2 py-0.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface" type="button">INFRASTRUCTURE (42)</button>
+</div>
+</div>
+<!-- Precision Data Table / Stream Header -->
+<div class="grid grid-cols-12 px-space-4 py-space-2 bg-surface-container-high font-label-caps text-label-caps text-outline tracking-wider uppercase">
+<div class="col-span-4">SUBJECT &amp; METRIC</div>
+<div class="col-span-3">EXTRACTED VALUE</div>
+<div class="col-span-3">PROVENANCE / SCOPE</div>
+<div class="col-span-2 text-right">CONFIDENCE</div>
+</div>
+<!-- Precision Data Table / Live Facts Rows -->
+<div class="flex-1 overflow-y-auto divide-y divide-white/5 font-body-sm text-body-sm">
+<!-- ROW 1: EBITDA (Active Selected Row) -->
+<article class="fact-row p-space-4 bg-surface-container-high/60 relative cursor-pointer group hover:bg-surface-container-high transition-colors" data-fact-id="f-01">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary shadow-[0_0_8px_rgba(76,215,246,0.8)]"></div>
+<div class="grid grid-cols-12 gap-space-2 items-center">
+<div class="col-span-4 pr-space-2">
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">EBITDA</div>
+<div class="font-code-inline text-[0.6875rem] text-outline truncate">Delhivery Limited</div>
+</div>
+<div class="col-span-3">
+<div class="font-data-metric text-data-metric text-secondary font-bold tracking-tight">₹1,266 Mn</div>
+<div class="font-label-caps text-label-caps text-outline-variant">INR • MILLIONS</div>
+</div>
+<div class="col-span-3">
+<div class="flex items-center gap-space-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">my_location</span>
+<span class="font-bold">Page 4, Para 2</span>
+</div>
+<div class="font-code-inline text-[0.6875rem] text-outline">FY24 • Consolidated</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="inline-flex items-center gap-space-1 px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps">
+<span>■ 98%</span>
+</span>
+<div class="text-[0.625rem] text-outline-variant mt-0.5">HIGH FIDELITY</div>
+</div>
+</div>
+<!-- Verbatim Snippet & Inspector Trigger -->
+<div class="mt-space-3 pt-space-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-2 bg-surface-container-lowest/60 p-space-2">
+<div class="font-code-inline text-on-surface-variant text-[0.75rem] flex items-center gap-space-2">
+<span class="text-secondary font-bold">&gt;&gt;</span>
+<span class="italic">"₹1,266Mn EBITDA for FY24"</span>
+</div>
+<button class="text-primary hover:text-primary-fixed text-label-caps font-label-caps flex items-center gap-space-1 shrink-0" type="button">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+<span>INSPECT PDF BOUNDS</span>
+</button>
+</div>
+</article>
+<!-- ROW 2: Adjusted EBITDA -->
+<article class="fact-row p-space-4 bg-surface hover:bg-surface-container-low transition-colors relative cursor-pointer group" data-fact-id="f-02">
+<div class="grid grid-cols-12 gap-space-2 items-center">
+<div class="col-span-4 pr-space-2">
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Adjusted EBITDA</div>
+<div class="font-code-inline text-[0.6875rem] text-outline truncate">Delhivery Limited</div>
+</div>
+<div class="col-span-3">
+<div class="font-data-metric text-data-metric text-secondary font-bold tracking-tight">758 ₹Mn</div>
+<div class="font-label-caps text-label-caps text-outline-variant">ADJUSTED NORM</div>
+</div>
+<div class="col-span-3">
+<div class="flex items-center gap-space-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">table_chart</span>
+<span class="font-bold">Page 4, Table 1.2</span>
+</div>
+<div class="font-code-inline text-[0.6875rem] text-outline">FY24 • Standalone</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="inline-flex items-center gap-space-1 px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps">
+<span>■ 96%</span>
+</span>
+<div class="text-[0.625rem] text-outline-variant mt-0.5">HIGH FIDELITY</div>
+</div>
+</div>
+<div class="mt-space-2 flex items-center justify-between text-on-surface-variant font-code-inline text-[0.75rem] px-space-2">
+<span class="truncate italic">"₹758Mn Adjusted EBITDA generated during trailing twelve months..."</span>
+<span class="text-outline font-label-caps text-label-caps shrink-0">ANCHOR #309</span>
+</div>
+</article>
+<!-- ROW 3: Annual Report Period -->
+<article class="fact-row p-space-4 bg-surface hover:bg-surface-container-low transition-colors relative cursor-pointer group" data-fact-id="f-03">
+<div class="grid grid-cols-12 gap-space-2 items-center">
+<div class="col-span-4 pr-space-2">
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Annual Report Period</div>
+<div class="font-code-inline text-[0.6875rem] text-outline truncate">Delhivery Limited</div>
+</div>
+<div class="col-span-3">
+<div class="font-data-metric text-data-metric text-on-surface font-bold tracking-tight">2023-24</div>
+<div class="font-label-caps text-label-caps text-outline-variant">TEMPORAL METRIC</div>
+</div>
+<div class="col-span-3">
+<div class="flex items-center gap-space-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">title</span>
+<span class="font-bold">Page 1, Header</span>
+</div>
+<div class="font-code-inline text-[0.6875rem] text-outline">FY2023-24</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="inline-flex items-center gap-space-1 px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps">
+<span>■ 99%</span>
+</span>
+<div class="text-[0.625rem] text-outline-variant mt-0.5">EXACT PROVENANCE</div>
+</div>
+</div>
+<div class="mt-space-2 flex items-center justify-between text-on-surface-variant font-code-inline text-[0.75rem] px-space-2">
+<span class="truncate italic">"Delhivery Limited Annual Report 2023-24"</span>
+<span class="text-outline font-label-caps text-label-caps shrink-0">ANCHOR #004</span>
+</div>
+</article>
+<!-- ROW 4: Express Parcel Volume -->
+<article class="fact-row p-space-4 bg-surface hover:bg-surface-container-low transition-colors relative cursor-pointer group" data-fact-id="f-04">
+<div class="grid grid-cols-12 gap-space-2 items-center">
+<div class="col-span-4 pr-space-2">
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Express Parcel Volume</div>
+<div class="font-code-inline text-[0.6875rem] text-outline truncate">Delhivery Limited</div>
+</div>
+<div class="col-span-3">
+<div class="font-data-metric text-data-metric text-tertiary font-bold tracking-tight">740M pkgs</div>
+<div class="font-label-caps text-label-caps text-outline-variant">OPERATIONAL UNITS</div>
+</div>
+<div class="col-span-3">
+<div class="flex items-center gap-space-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">format_align_left</span>
+<span class="font-bold">Page 8, Para 4</span>
+</div>
+<div class="font-code-inline text-[0.6875rem] text-outline">FY24 Logistical</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="inline-flex items-center gap-space-1 px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps">
+<span>■ 94%</span>
+</span>
+<div class="text-[0.625rem] text-outline-variant mt-0.5">VERIFIED EXTRACT</div>
+</div>
+</div>
+<div class="mt-space-2 flex items-center justify-between text-on-surface-variant font-code-inline text-[0.75rem] px-space-2">
+<span class="truncate italic">"Handled over 740 Million express parcel packages across 18,500+ pin codes..."</span>
+<span class="text-outline font-label-caps text-label-caps shrink-0">ANCHOR #712</span>
+</div>
+</article>
+<!-- ROW 5: Network Pincode Reach -->
+<article class="fact-row p-space-4 bg-surface hover:bg-surface-container-low transition-colors relative cursor-pointer group" data-fact-id="f-05">
+<div class="grid grid-cols-12 gap-space-2 items-center">
+<div class="col-span-4 pr-space-2">
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Network Pincode Reach</div>
+<div class="font-code-inline text-[0.6875rem] text-outline truncate">Delhivery Limited</div>
+</div>
+<div class="col-span-3">
+<div class="font-data-metric text-data-metric text-secondary font-bold tracking-tight">18,792</div>
+<div class="font-label-caps text-label-caps text-outline-variant">ACTIVE PINCODES</div>
+</div>
+<div class="col-span-3">
+<div class="flex items-center gap-space-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-outline">pin_drop</span>
+<span class="font-bold">Page 9, Infographic</span>
+</div>
+<div class="font-code-inline text-[0.6875rem] text-outline">FY24 Active</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="inline-flex items-center gap-space-1 px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps">
+<span>■ 97%</span>
+</span>
+<div class="text-[0.625rem] text-outline-variant mt-0.5">GEO TELEMETRY</div>
+</div>
+</div>
+<div class="mt-space-2 flex items-center justify-between text-on-surface-variant font-code-inline text-[0.75rem] px-space-2">
+<span class="truncate italic">"Covering 18,792 active pin codes across India with pan-country hub automation"</span>
+<span class="text-outline font-label-caps text-label-caps shrink-0">ANCHOR #891</span>
+</div>
+</article>
+</div>
+<!-- Explorer Status Footer with Stepped Segment Confidence Gauge -->
+<div class="p-space-3 bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-space-3">
+<div class="flex items-center gap-space-3 font-code-inline text-[0.6875rem] text-outline">
+<span>PAGE 1 OF 6</span>
+<span>•</span>
+<span>DISPLAYING 5 OF 117 EXTRACTED NODES</span>
+</div>
+<div class="flex items-center gap-space-3">
+<div class="flex items-center gap-space-1 font-label-caps text-label-caps text-outline">
+<span>CONFIDENCE PROFILE:</span>
+<!-- 10-step rectangular segment gauge -->
+<div class="flex items-center gap-[2px] ml-space-1">
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-tertiary"></div>
+<div class="w-1.5 h-3 bg-surface-container-highest"></div>
+</div>
+<span class="text-tertiary font-bold ml-1">98.2%</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 bg-surface-container-high hover:bg-surface-container-highest text-on-surface transition-colors disabled:opacity-30" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="p-1 bg-surface-container-high hover:bg-surface-container-highest text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Right Context Drawer: Visual PDF Page Preview & Coordinate Inspector (lg:col-span-3) -->
+<aside class="lg:col-span-3 bg-surface-container-lowest flex flex-col justify-between">
+<div class="flex flex-col">
+<!-- Inspector Pane Header -->
+<div class="p-space-4 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-2">
+<span class="material-symbols-outlined text-primary text-[18px]">biotech</span>
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase">Provenance Inspector</span>
+</div>
+<span class="px-space-2 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps">PAGE 4 / 5</span>
+</div>
+<!-- Physical PDF Page Simulator Canvas -->
+<div class="p-space-4 flex flex-col gap-space-3">
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span class="flex items-center gap-space-1">
+<span class="w-2 h-2 bg-secondary rounded-none"></span>
+<span>SYNCHRONIZED VIEWPORT</span>
+</span>
+<span>ZOOM: 100%</span>
+</div>
+<!-- Simulated High-Fidelity PDF Document Sheet -->
+<div class="relative bg-surface-container-lowest p-space-4 shadow-xl overflow-hidden min-h-[380px] flex flex-col justify-between font-body-sm text-[0.6875rem] leading-relaxed text-outline-variant select-none">
+<!-- Background faint PDF scan texture / watermark -->
+<div class="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center font-bold text-[5rem] tracking-widest text-white rotate-45 select-none">
+              DELHIVERY
+            </div>
+<!-- PDF Simulated Content -->
+<div class="space-y-space-2 relative z-10">
+<div class="flex justify-between border-b border-white/5 pb-1 text-[0.625rem] text-outline font-mono">
+<span>SECTION 4: CONSOLIDATED FINANCIAL POSITION</span>
+<span>PROSPECTUS 2022</span>
+</div>
+<p class="text-outline">
+                The Company's growth metrics reflect expansive operational scaling within express parcel solutions, cross-border freight forwarding, and integrated supply chain management services throughout FY24.
+              </p>
+<!-- Neon Glowing Laser Bounding Box surrounding the exact assertion -->
+<div class="relative p-space-2 bg-secondary/10 shadow-[0_0_15px_rgba(76,215,246,0.3)] ring-1 ring-secondary">
+<span class="absolute -top-2.5 left-2 px-1 bg-secondary text-surface text-[0.5625rem] font-bold font-mono tracking-tighter">
+                  BOUNDING BOX [X:142 Y:388 W:220 H:24]
+                </span>
+<p class="font-bold text-on-surface text-[0.75rem] font-headline-sm tracking-normal">
+                  "₹1,266Mn EBITDA for FY24"
+                </p>
+<div class="text-[0.625rem] text-secondary font-mono mt-0.5">
+                  Extracted via Vision-OCR Core • Exact match index: char 1,248
+                </div>
+</div>
+<p class="text-outline mt-2">
+                Operational efficiencies across middle-mile automated gateways led to expanded margins, while our unit economics witnessed positive trajectory as load factor climbed across priority transit lanes.
+              </p>
+<!-- Simulated Financial Snippet Table in PDF -->
+<div class="mt-space-3 p-space-2 bg-surface-container-low/80 space-y-1 font-mono text-[0.625rem]">
+<div class="flex justify-between text-outline font-bold border-b border-white/5 pb-0.5">
+<span>METRIC DESCRIPTOR</span>
+<span>FY23 (INR)</span>
+<span>FY24 (INR)</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>Revenues from Operations</span>
+<span>68,885 Mn</span>
+<span>81,420 Mn</span>
+</div>
+<div class="flex justify-between text-secondary font-bold bg-secondary/5 px-1 py-0.5">
+<span>Consolidated EBITDA</span>
+<span>(1,102 Mn)</span>
+<span>1,266 Mn</span>
+</div>
+<div class="flex justify-between text-on-surface">
+<span>Adjusted EBITDA</span>
+<span>(140 Mn)</span>
+<span>758 Mn</span>
+</div>
+</div>
+</div>
+<!-- PDF Simulated Sheet Footer -->
+<div class="relative z-10 pt-2 border-t border-white/5 flex justify-between items-center text-[0.5625rem] font-mono text-outline">
+<span>REGISTRATION NO. U63090DL2011PTC221234</span>
+<span>PAGE 4 OF 284</span>
+</div>
+</div>
+<!-- Bounding Box Telemetry Matrix -->
+<div class="p-space-3 bg-surface-container-low font-code-inline text-[0.6875rem] space-y-space-1">
+<div class="flex justify-between text-outline">
+<span>PHYSICAL COORD:</span>
+<span class="text-on-surface font-bold">X: 142.4 | Y: 388.1</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>BOUNDS DIMENSIONS:</span>
+<span class="text-on-surface font-bold">W: 220.0px | H: 24.5px</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>DOCUMENT DIGEST:</span>
+<span class="text-secondary font-mono">0x4812..e77c</span>
+</div>
+<div class="flex justify-between text-outline">
+<span>EMBEDDING VECTOR:</span>
+<span class="text-tertiary">1536-dim (L2 0.992)</span>
+</div>
+</div>
+</div>
+<!-- Raw JSON Schema Inspector Collapsible -->
+<div class="mx-space-4 mb-space-4 p-space-3 bg-surface-container-low font-code-inline text-[0.6875rem]">
+<div class="flex items-center justify-between text-primary font-bold mb-space-2">
+<span class="flex items-center gap-space-1">
+<span class="material-symbols-outlined text-[14px]">data_object</span>
+<span>VERITY GRAPH SCHEMA</span>
+</span>
+<span class="text-[0.625rem] text-outline font-normal">JSON-LD</span>
+</div>
+<pre class="text-outline overflow-x-auto leading-tight text-[0.625rem]"><code>{
+  "entity": "Delhivery Limited",
+  "metric": "EBITDA",
+  "val": 1266000000,
+  "unit": "INR",
+  "period": "FY24",
+  "scope": "consolidated",
+  "confidence": 0.9814,
+  "verified_status": true
+}</code></pre>
+</div>
+</div>
+<!-- Action Panel for Right Drawer -->
+<div class="p-space-3 bg-surface-container-low flex items-center justify-between gap-space-2">
+<button class="flex-1 py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">download</span>
+<span>PDF SNAPSHOT</span>
+</button>
+<button class="flex-1 py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">share</span>
+<span>COPY NODE URI</span>
+</button>
+</div>
+</aside>
+</div>
+</div>
+<script>
+  // Dynamic search and row selection micro-interaction
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('fact-search-input');
+    const rows = document.querySelectorAll('.fact-row');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        rows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          if (text.includes(query)) {
+            row.style.display = 'block';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Row selection toggle
+    rows.forEach(row => {
+      row.addEventListener('click', () => {
+        rows.forEach(r => {
+          r.classList.remove('bg-surface-container-high/60', 'ring-1', 'ring-secondary');
+          const leftBar = r.querySelector('.shadow-\\[0_0_8px_rgba\\(76\\,215\\,246\\,0\\.8\\)\\]');
+          if (leftBar) leftBar.remove();
+        });
+        row.classList.add('bg-surface-container-high/60');
+      });
+    });
+  });
+</script></main><footer class="w-full bg-surface-container-lowest border-t border-white/10 py-space-6"><div class="w-full px-space-4 flex flex-col md:flex-row items-center justify-between gap-space-4 font-body-sm text-body-sm text-outline"><div><span>VERITY FACT ENGINE // HIGH INTEGRITY INTELLIGENCE</span></div><div class="flex items-center gap-space-6"><span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY: 14MS (P95)</span><span class="font-label-caps text-label-caps text-on-surface-variant">INTEGRITY: AUDITED</span><span>© 2025 Verity Systems Inc.</span></div></div></footer></body></html>

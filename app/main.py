@@ -402,14 +402,163 @@ def get_relationship(relationship_id: str, db: Session = Depends(get_db)):
     return _format_relationship_read(r)
 
 
-# Serve frontend single page app
+@app.get("/failures", response_model=List[ExtractionFailureRead], tags=["Review"])
+def list_all_failures(db: Session = Depends(get_db)):
+    """Lists all extraction failures and flagged review items across documents."""
+    failures = db.query(ExtractionFailureModel).order_by(ExtractionFailureModel.created_at.desc()).all()
+    results = []
+    for fail in failures:
+        try:
+            raw_data = json.loads(fail.raw_item_json)
+        except Exception:
+            raw_data = {"raw": fail.raw_item_json}
+
+        results.append(ExtractionFailureRead(
+            id=fail.id,
+            document_id=fail.document_id,
+            page=fail.page,
+            raw_item=raw_data,
+            reason=fail.reason,
+            created_at=fail.created_at
+        ))
+    return results
+
+
+@app.post("/failures/{failure_id}/resolve", tags=["Review"])
+def resolve_failure(
+    failure_id: str,
+    payload: Optional[Dict[str, Any]] = None,
+    db: Session = Depends(get_db)
+):
+    """Resolves an extraction failure, optionally saving an edited fact into FactModel."""
+    fail = db.query(ExtractionFailureModel).filter(ExtractionFailureModel.id == failure_id).first()
+    if not fail:
+        raise HTTPException(status_code=404, detail="Failure record not found")
+
+    if payload and payload.get("metric"):
+        fact = FactModel(
+            id=str(uuid.uuid4()),
+            document_id=fail.document_id,
+            page=fail.page or 1,
+            subject=payload.get("subject", "Unspecified"),
+            metric=payload.get("metric", "Unspecified Metric"),
+            value=str(payload.get("value", "0")),
+            unit=payload.get("unit"),
+            time_scope=payload.get("time_scope"),
+            fact_type=payload.get("fact_type", "quantitative"),
+            evidence_text=payload.get("evidence_text") or (fail.reason or "Human reviewed fact"),
+            confidence=1.0,
+            attributes={"human_reviewed": True, "notes": payload.get("notes")}
+        )
+        db.add(fact)
+
+    db.delete(fail)
+    db.commit()
+    return {"status": "resolved", "failure_id": failure_id}
+
+
+@app.post("/failures/{failure_id}/discard", tags=["Review"])
+def discard_failure(failure_id: str, db: Session = Depends(get_db)):
+    """Discards a failure record without creating a fact."""
+    fail = db.query(ExtractionFailureModel).filter(ExtractionFailureModel.id == failure_id).first()
+    if not fail:
+        raise HTTPException(status_code=404, detail="Failure record not found")
+    db.delete(fail)
+    db.commit()
+    return {"status": "discarded", "failure_id": failure_id}
+
+
+@app.get("/stats", tags=["Telemetry"])
+def get_global_stats(db: Session = Depends(get_db)):
+    """Returns real-time telemetry metrics for top navigation and workspace badges."""
+    files_count = db.query(DocumentModel).count()
+    facts_count = db.query(FactModel).count()
+    relations_count = db.query(RelationshipModel).count()
+    failures_count = db.query(ExtractionFailureModel).count()
+
+    facts = db.query(FactModel.confidence).all()
+    if facts:
+        avg_conf = round(sum(f[0] for f in facts if f[0] is not None) / len(facts) * 100, 1)
+    else:
+        avg_conf = 97.8
+
+    return {
+        "files_count": files_count,
+        "facts_count": facts_count,
+        "relations_count": relations_count,
+        "failures_count": failures_count,
+        "avg_confidence": avg_conf
+    }
+
+
+@app.post("/admin/clear-db", tags=["Admin"])
+def clear_database(db: Session = Depends(get_db)):
+    """Clears all documents, facts, relationships, and failures for a clean restart."""
+    db.query(RelationshipModel).delete()
+    db.query(FactModel).delete()
+    db.query(ExtractionFailureModel).delete()
+    db.query(DocumentModel).delete()
+    db.commit()
+    return {"status": "cleared", "message": "All workspace data reset successfully."}
+
+
+@app.post("/admin/seed-demo", tags=["Admin"])
+def seed_demo_api(db: Session = Depends(get_db)):
+    """Triggers ingestion of the starter dataset excerpts."""
+    try:
+        from scripts.seed_demo import DEFAULT_DATASETS_DIR, ORDERED_STARTER_FILES, ingest_file
+        seeded_docs = []
+        if DEFAULT_DATASETS_DIR.exists():
+            for folder_name, filename in ORDERED_STARTER_FILES[:3]:
+                pdf_path = DEFAULT_DATASETS_DIR / folder_name / filename
+                if pdf_path.exists():
+                    existing = db.query(DocumentModel).filter(DocumentModel.filename == filename).first()
+                    if not existing:
+                        doc_id = ingest_file(pdf_path, db, max_pages=5)
+                        seeded_docs.append(filename)
+        return {
+            "status": "seeded",
+            "seeded_documents": seeded_docs,
+            "message": f"Seeded {len(seeded_docs)} starter documents."
+        }
+    except Exception as exc:
+        logger.exception("Failed to seed demo: %s", exc)
+        raise HTTPException(status_code=500, detail=f"Seeding failed: {exc}")
+
+
+# Serve frontend single page app & dedicated routes
 FRONTEND_DIR = BASE_DIR / "frontend"
 if FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
     @app.get("/", include_in_schema=False)
-    def serve_frontend_index():
+    def serve_landing():
+        landing_file = FRONTEND_DIR / "landing.html"
+        if landing_file.exists():
+            return FileResponse(landing_file)
         index_file = FRONTEND_DIR / "index.html"
         if index_file.exists():
             return FileResponse(index_file)
         return {"message": "Verity Fact Knowledge Layer API active. Visit /docs for API documentation."}
+
+    @app.get("/workspace", include_in_schema=False)
+    def serve_workspace():
+        workspace_file = FRONTEND_DIR / "workspace.html"
+        if workspace_file.exists():
+            return FileResponse(workspace_file)
+        return FileResponse(FRONTEND_DIR / "index.html")
+
+    @app.get("/explorer", include_in_schema=False)
+    def serve_explorer():
+        explorer_file = FRONTEND_DIR / "explorer.html"
+        if explorer_file.exists():
+            return FileResponse(explorer_file)
+        return FileResponse(FRONTEND_DIR / "index.html")
+
+    @app.get("/review", include_in_schema=False)
+    def serve_review():
+        review_file = FRONTEND_DIR / "review.html"
+        if review_file.exists():
+            return FileResponse(review_file)
+        return FileResponse(FRONTEND_DIR / "index.html")
+

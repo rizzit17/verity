@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-highest":"#31353f","on-tertiary":"#003824","tertiary":"#4edea3","secondary":"#4cd7f6","secondary-container":"#03b5d3","primary-fixed":"#e9ddff","primary-fixed-dim":"#d0bcff","on-secondary":"#003640","tertiary-fixed-dim":"#4edea3","on-primary":"#3c0091","on-secondary-container":"#00424e","on-primary-fixed-variant":"#5516be","outline-variant":"#494454","on-tertiary-container":"#00311f","on-tertiary-fixed":"#002113","on-secondary-fixed":"#001f26","on-primary-fixed":"#23005c","inverse-primary":"#6d3bd7","tertiary-container":"#00a572","inverse-surface":"#dfe2ef","on-error-container":"#ffdad6","surface":"#0f131c","inverse-on-surface":"#2c303a","surface-container-high":"#262a34","primary-container":"#a078ff","surface-dim":"#0f131c","on-primary-container":"#340080","secondary-fixed":"#acedff","on-surface":"#dfe2ef","on-surface-variant":"#cbc3d7","surface-container":"#1c1f29","outline":"#958ea0","background":"#0f131c","surface-tint":"#d0bcff","on-background":"#dfe2ef","error":"#ffb4ab","tertiary-fixed":"#6ffbbe","on-secondary-fixed-variant":"#004e5c","secondary-fixed-dim":"#4cd7f6","surface-container-lowest":"#0a0e17","on-tertiary-fixed-variant":"#005236","surface-container-low":"#181b25","primary":"#d0bcff","surface-bright":"#353943","on-error":"#690005","error-container":"#93000a","surface-variant":"#31353f"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-6":"1.5rem","panel-padding-standard":"1.5rem","space-1":"0.25rem","space-10":"2.5rem","space-12":"3rem","panel-padding-dense":"1rem","space-0":"0px","space-2":"0.5rem","space-4":"1rem","panel-padding-tight":"0.75rem","space-8":"2rem","space-3":"0.75rem","gutter-default":"1px","space-5":"1.25rem","space-16":"4rem"},fontFamily:{"headline-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"body-sm":["JetBrains Mono"],"body-lg":["JetBrains Mono"],"display-xl-mobile":["Space Grotesk"],"display-xl":["Space Grotesk"],"headline-lg":["Space Grotesk"],"data-metric":["JetBrains Mono"],"label-caps":["JetBrains Mono"],"body-md":["JetBrains Mono"],"code-inline":["JetBrains Mono"]},fontSize:{"headline-md":["1.375rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-sm":["1.125rem",{"lineHeight":"1.4","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["1.5rem",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.45","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["1rem",{"lineHeight":"1.6","letterSpacing":"-0.01em","fontWeight":"400"}],"display-xl-mobile":["2rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"display-xl":["3rem",{"lineHeight":"1.1","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["2rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"600"}],"data-metric":["1.75rem",{"lineHeight":"1.1","letterSpacing":"-0.04em","fontWeight":"700"}],"label-caps":["0.6875rem",{"lineHeight":"1.2","letterSpacing":"0.08em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.5","letterSpacing":"-0.005em","fontWeight":"400"}],"code-inline":["0.8125rem",{"lineHeight":"1.3","letterSpacing":"0em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-background min-h-screen"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10"><div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-4"><div class="flex items-center gap-space-4 shrink-0"><div class="flex items-center gap-space-2"><span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span><span class="px-space-2 py-space-1 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-label-caps uppercase tracking-wider">FACT KNOWLEDGE LAYER v2.4</span></div><div class="hidden xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant"><span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span class="text-on-surface font-bold">3</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span class="text-secondary font-bold">161</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span class="text-tertiary font-bold">8</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span class="text-error font-bold">1 Flagged</span></span></div></div><nav class="hidden lg:flex items-center h-full gap-space-1" data-active-classes="bg-surface-container-high text-on-surface border-b-2 border-primary"><a aria-current="page" class="px-space-3 h-16 flex items-center font-body-sm transition-colors whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary" data-path="landing-overview" href="#">Landing Overview</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="workspace-and-relationships" href="#">Workspace &amp; Relationships</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="document-facts-explorer" href="#">Document Facts Explorer</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="failures-and-review-queue" href="#">Failures &amp; Review Queue</a></nav><div class="flex items-center gap-space-3 shrink-0"><div class="flex items-center gap-space-2"><button class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button">[SEED DEMO]</button><button class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button">[CLEAR DB]</button><a class="hidden sm:flex items-center gap-space-2 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span><span>/docs</span><span class="text-outline text-body-sm">99.9%</span></a></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- HERO SECTION -->
+<section class="relative w-full overflow-hidden bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
+<!-- Ambient Tech Glows -->
+<div class="absolute -top-40 left-1/4 w-96 h-96 bg-primary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/3 -right-32 w-80 h-80 bg-secondary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
+<!-- Terminal Badge -->
+<div class="inline-flex items-center gap-space-2 px-space-3 py-space-1 bg-surface-container-low shadow-sm mb-space-6 border-0">
+<span class="w-2 h-2 rounded-none bg-tertiary animate-pulse"></span>
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface-variant uppercase">
+          NEXT-GEN AUDITABLE FACT ENGINE • POWERED BY GEMINI &amp; HYBRID MULTI-VECTOR RETRIEVAL
+        </span>
+</div>
+<!-- Headline -->
+<h1 class="font-display-xl text-display-xl tracking-tight text-on-surface max-w-5xl mb-space-4">
+        Transform Unstructured Corporate Filings into <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed via-secondary to-tertiary">Proven, Auditable Truth.</span>
+</h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mb-space-8">
+        Ingest complex financial PDFs, auto-extract structured facts with physical page provenance, and resolve cross-document contradictions with deterministic multi-step LLM reasoning.
+      </p>
+<!-- CTAs -->
+<div class="flex flex-wrap items-center justify-center gap-space-4 mb-space-16">
+<button class="px-space-6 py-space-3 bg-primary text-on-primary font-body-md text-body-md font-semibold tracking-tight shadow-md hover:bg-primary-container transition-all flex items-center gap-space-2">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+          Launch Interactive Workspace
+        </button>
+<button class="px-space-6 py-space-3 bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high transition-all flex items-center gap-space-2">
+<span class="material-symbols-outlined text-[18px]">dataset</span>
+          Explore Live Demo Dataset
+        </button>
+<a class="px-space-4 py-space-3 bg-surface-container-low text-secondary font-label-caps text-label-caps hover:bg-surface-container transition-all flex items-center gap-space-1" href="#">
+<span>[VIEW ARCHITECTURE // /docs]</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+<!-- DUAL-DOCUMENT PIPELINE HERO VISUAL -->
+<div class="w-full max-w-6xl bg-surface-container p-space-4 lg:p-space-6 shadow-xl relative text-left">
+<!-- Top Telemetry Strip -->
+<div class="flex flex-wrap items-center justify-between pb-space-3 mb-space-4 bg-surface-container-high px-space-3 py-space-2">
+<div class="flex items-center gap-space-3">
+<span class="font-label-caps text-label-caps text-tertiary">■ LIVE PIPELINE: SYNCHRONIZED</span>
+<span class="font-body-sm text-body-sm text-outline">SESSION ID: #048-DELHIVERY-RECON</span>
+</div>
+<div class="flex items-center gap-space-4 font-body-sm text-body-sm text-outline">
+<span>CHROMA: <strong class="text-on-surface">INDEXED</strong></span>
+<span>GEMINI 1.5 PRO: <strong class="text-secondary">ACTIVE</strong></span>
+<span>PAGE RES: <strong class="text-on-surface">300 DPI</strong></span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-4 items-stretch">
+<!-- Document 1 Source (Left Column) -->
+<div class="lg:col-span-3 bg-surface-container-lowest p-space-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2">
+<span class="font-label-caps text-label-caps text-primary uppercase">INGEST // DOC A</span>
+<span class="px-space-2 py-0.5 bg-surface-container text-tertiary font-label-caps text-label-caps">PAGE 4</span>
+</div>
+<p class="font-body-md text-body-md font-bold text-on-surface mb-space-1 truncate">01-delhivery-prospectus-2022.pdf</p>
+<p class="font-body-sm text-body-sm text-outline mb-space-4">Hash: 8a4c...18f3 | PyMuPDF Vectorized</p>
+<div class="bg-surface-container-low p-space-3 mb-space-3">
+<p class="font-label-caps text-label-caps text-outline mb-space-1">RAW EXTRACTED SNIPPET</p>
+<p class="font-body-sm text-body-sm text-on-surface italic">
+                  "...Adjusted EBITDA of <span class="bg-secondary-container/30 text-secondary px-1 font-bold">₹758 Mn</span> for the fiscal year ended March 31, 2024, demonstrating core margin expansion across express logistics..."
+                </p>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-2">
+<span class="font-label-caps text-label-caps text-secondary font-bold">NORMALIZED PARSING:</span>
+<p class="font-data-metric text-data-metric text-secondary">₹758.00M</p>
+<span class="font-body-sm text-body-sm text-outline">Metric: Adjusted EBITDA (FY24)</span>
+</div>
+</div>
+<!-- Neural Engine Synthesis Core (Middle Column) -->
+<div class="lg:col-span-6 bg-surface-container-low p-space-5 flex flex-col justify-between">
+<div>
+<!-- Synthesis Header -->
+<div class="flex items-center justify-between pb-space-3 mb-space-3 bg-surface-container-lowest p-space-2">
+<div class="flex items-center gap-space-2">
+<span class="px-space-2 py-0.5 bg-primary-container/20 text-primary font-label-caps text-label-caps font-bold">◆ CONTEXTUAL RECONCILIATION</span>
+<span class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">STABLE EQUIVALENCE</span>
+</div>
+<div class="flex items-center gap-space-2">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE:</span>
+<span class="font-data-metric text-headline-sm text-tertiary font-bold">95.4%</span>
+</div>
+</div>
+<!-- LLM Reasoning Chain -->
+<div class="bg-surface-container-highest p-space-4 mb-space-3">
+<div class="flex items-center gap-space-2 mb-space-2">
+<span class="material-symbols-outlined text-primary text-[18px]">psychology</span>
+<span class="font-label-caps text-label-caps text-primary tracking-wider uppercase font-bold">LLM Multi-Step Proof Chain</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed mb-space-3">
+<strong class="text-secondary">Fact A</strong> reports specific metric 'Adjusted EBITDA' at <span class="text-secondary">₹758 Mn</span> (75.80 Rs. Cr) for FY24. <strong class="text-tertiary">Fact B</strong> states EBITDA turned profitable with statutory EBITDA reported at <span class="text-tertiary">₹127 Cr</span> (1,270 Mn). The discrepancy reflects non-cash ESOP charges and lease amortization adjustments explicitly delineated in Note 28.3.
+                </p>
+<!-- Mathematical Breakdown -->
+<div class="bg-surface-container-lowest p-space-3 font-code-inline text-code-inline text-on-surface-variant">
+<div class="flex justify-between py-0.5">
+<span>Base Adjusted EBITDA (Doc A):</span>
+<span class="text-secondary font-bold">₹758.00 Mn (₹75.8 Cr)</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span>Statutory Reported EBITDA (Doc B):</span>
+<span class="text-tertiary font-bold">₹127.00 Cr (₹1,270.0 Mn)</span>
+</div>
+<div class="flex justify-between py-0.5 text-tertiary">
+<span>Variance Attribution:</span>
+<span class="font-bold">Reconciled via Note 28.3 (Non-Cash Adjustments)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Synchronized Confidence Progress -->
+<div class="bg-surface-container-lowest p-space-3 flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-outline">STEPPED CONFIDENCE AUDIT GAUGE:</span>
+<div class="flex items-center gap-1">
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-tertiary"></span>
+<span class="w-3 h-4 bg-surface-container-highest"></span>
+</div>
+</div>
+</div>
+<!-- Document 2 Source (Right Column) -->
+<div class="lg:col-span-3 bg-surface-container-lowest p-space-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-2">
+<span class="font-label-caps text-label-caps text-tertiary uppercase">INGEST // DOC B</span>
+<span class="px-space-2 py-0.5 bg-surface-container text-tertiary font-label-caps text-label-caps">PAGE 18</span>
+</div>
+<p class="font-body-md text-body-md font-bold text-on-surface mb-space-1 truncate">02-annual-report-fy24.pdf</p>
+<p class="font-body-sm text-body-sm text-outline mb-space-4">Hash: 43fd...99b2 | Full OCR Reconciled</p>
+<div class="bg-surface-container-low p-space-3 mb-space-3">
+<p class="font-label-caps text-label-caps text-outline mb-space-1">RAW EXTRACTED SNIPPET</p>
+<p class="font-body-sm text-body-sm text-on-surface italic">
+                  "...Turnaround into sustained operating profitability reflected by statutory EBITDA of <span class="bg-tertiary-container/30 text-tertiary px-1 font-bold">₹127 Cr</span> compared to negative margins in FY23..."
+                </p>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-2">
+<span class="font-label-caps text-label-caps text-tertiary font-bold">NORMALIZED PARSING:</span>
+<p class="font-data-metric text-data-metric text-tertiary">₹127.00 Cr</p>
+<span class="font-body-sm text-body-sm text-outline">Metric: Statutory EBITDA (FY24)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- LIVE INTERACTIVE MINI-DEMO WIDGET -->
+<section class="w-full bg-surface-container-low px-space-4 lg:px-space-8 py-space-12">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-6 gap-space-4">
+<div>
+<div class="font-label-caps text-label-caps text-secondary mb-space-1 uppercase">INTERACTIVE RECONCILIATION SANDBOX</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold">Cross-Document Verification Scenarios</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Switch scenarios to inspect how Verity handles semantic convergence, contradictory figures, unit changes, and OCR noise.</p>
+</div>
+<div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline bg-surface-container-highest px-space-3 py-space-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+<span>EVALUATOR MODEL: GEMINI-1.5-PRO-ENTERPRISE</span>
+</div>
+</div>
+<!-- Tab Selectors -->
+<div class="flex flex-wrap gap-space-2 mb-space-6" id="case-tabs">
+<button class="case-btn px-space-4 py-space-2 bg-surface-container-highest text-tertiary font-label-caps text-label-caps flex items-center gap-space-2" id="tab-corrob" onclick="switchCase('case-corrob')">
+<span>■</span> CASE 1: CORROBORATION
+        </button>
+<button class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high" id="tab-contradict" onclick="switchCase('case-contradict')">
+<span>▲</span> CASE 2: CONTRADICTION
+        </button>
+<button class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high" id="tab-reconcile" onclick="switchCase('case-reconcile')">
+<span>◆</span> CASE 3: CONTEXTUAL RECONCILIATION
+        </button>
+<button class="case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high" id="tab-review" onclick="switchCase('case-review')">
+<span>!</span> CASE 4: OCR FAILURE &amp; REVIEW
+        </button>
+</div>
+<!-- Dynamic Case Display Surface -->
+<div class="bg-surface-container p-space-6 shadow-md" id="demo-card-container">
+<!-- Content will be swapped by JS, default is Case 1 -->
+<div class="flex flex-col gap-space-4" id="case-content">
+<div class="flex flex-wrap items-center justify-between gap-space-2 pb-space-3 bg-surface-container-low px-space-4 py-space-2">
+<div class="flex items-center gap-space-3">
+<span class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">■ CORROBORATES</span>
+<span class="font-body-sm text-body-sm text-outline">Target Metric: Consolidated Net Revenue (FY24)</span>
+</div>
+<div class="flex items-center gap-space-3">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE SCORE:</span>
+<span class="font-data-metric text-data-metric text-tertiary">99.8%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-4">
+<span class="font-label-caps text-label-caps text-primary uppercase mb-space-1 block font-bold">LLM Deterministic Proof</span>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Fact A (Audited Financial Statement, Page 88) lists Total Revenue of ₹7,226.32 Cr. Fact B (Q4 Shareholder Presentation, Slide 12) cites Net Consolidated Operating Revenue of ₹7,226 Cr. Fact B rounds down slightly to whole crores; values match within 0.004% precision tolerance. Corroborated with complete consistency.
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-4">
+<div class="bg-surface-container-low p-space-4">
+<div class="flex items-center justify-between mb-space-2">
+<span class="font-label-caps text-label-caps text-outline">PRIMARY SOURCE (ANNUAL REPORT FY24)</span>
+<span class="font-label-caps text-label-caps text-secondary">PDF: PG 88</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-1">₹7,226.32 Cr</p>
+<p class="font-body-sm text-body-sm text-outline italic">"Revenue from operations for the year ended March 31, 2024 stood at ₹7,226.32 Crores..."</p>
+</div>
+<div class="bg-surface-container-low p-space-4">
+<div class="flex items-center justify-between mb-space-2">
+<span class="font-label-caps text-label-caps text-outline">SECONDARY SOURCE (EARNINGS DECK)</span>
+<span class="font-label-caps text-label-caps text-tertiary">SLIDE 12</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-1">₹7,226 Cr</p>
+<p class="font-body-sm text-body-sm text-outline italic">"FY24 Full Year Revenue: ₹7,226 Cr, marking robust growth across B2B freight corridors..."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CAPABILITY GRID (BENTO BOX ARCHITECTURE) -->
+<section class="w-full bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
+<div class="max-w-7xl mx-auto">
+<div class="text-left mb-space-10">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">MISSION CRITICAL ARCHITECTURE</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold mt-space-1">Forensic Precision Across Every Dimension</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Traditional RAG hallucinates or overlooks fiscal nuance. Verity treats corporate filings as verifiable computational assertions.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-space-4">
+<!-- Card 1: Physical Page-Anchored Citations (Large Span 7) -->
+<div class="lg:col-span-7 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
+<div>
+<div class="flex items-center justify-between mb-space-4">
+<span class="px-space-2 py-1 bg-surface-container-high text-secondary font-label-caps text-label-caps uppercase">PROVENANCE LAYER</span>
+<span class="font-label-caps text-label-caps text-tertiary">ZERO HALLUCINATION SCORE: 100%</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Physical Page-Anchored Citations</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-6">Every extracted fact carries pixel-exact bounding-box coordinates on the original PDF. Reviewers can click any extracted statement to instantly jump to the exact paragraph and verify highlighted lines.</p>
+<!-- Visual PDF Mockup Snippet -->
+<div class="bg-surface-container-lowest p-space-4 mb-space-4 relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-2 mb-space-3 bg-surface-container-low px-space-2 py-1">
+<span class="font-code-inline text-code-inline text-outline">RENDER: DELHI_PROSPECTUS_P4.PNG</span>
+<span class="font-label-caps text-label-caps text-primary">BOUNDING BOX: [x: 48.2, y: 194.5, w: 320, h: 22]</span>
+</div>
+<div class="space-y-2 opacity-60">
+<div class="h-2 w-5/6 bg-surface-container-highest"></div>
+<div class="h-2 w-full bg-surface-container-highest"></div>
+<div class="h-4 w-11/12 bg-secondary/30 p-1 flex items-center">
+<span class="text-secondary font-code-inline text-[11px] font-bold">Adjusted EBITDA of ₹758 Mn for FY24</span>
+</div>
+<div class="h-2 w-4/6 bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+<div class="font-body-sm text-body-sm text-outline flex items-center gap-space-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+<span>PyMuPDF bounding box coordinate cache paired with high-fidelity canvas highlight overlay.</span>
+</div>
+</div>
+<!-- Card 2: Multi-Vector Candidate Clustering (Span 5) -->
+<div class="lg:col-span-5 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
+<div>
+<div class="flex items-center justify-between mb-space-4">
+<span class="px-space-2 py-1 bg-surface-container-high text-primary font-label-caps text-label-caps uppercase">VECTOR RETRIEVAL</span>
+<span class="font-label-caps text-label-caps text-outline">QDRANT / CHROMA</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Multi-Vector Candidate Clustering</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-4">Combines dense embeddings (MiniLM-L6) with BM25 keyword matching to identify candidate statements across thousands of pages within milliseconds.</p>
+<!-- Clustering Chart Visualization -->
+<div class="bg-surface-container-lowest p-space-4 mb-space-4 flex flex-col items-center justify-center">
+<svg class="w-full h-32 text-primary" fill="none" viewbox="0 0 300 120">
+<!-- Cluster A Nodes -->
+<circle class="fill-secondary" cx="50" cy="40" r="6"></circle>
+<circle class="fill-secondary/60" cx="75" cy="30" r="4"></circle>
+<circle class="fill-secondary/80" cx="60" cy="65" r="5"></circle>
+<!-- Cluster B Nodes -->
+<circle class="fill-primary" cx="230" cy="80" r="7"></circle>
+<circle class="fill-primary/60" cx="260" cy="70" r="4"></circle>
+<circle class="fill-primary/80" cx="210" cy="100" r="5"></circle>
+<!-- Connecting Vector Lines -->
+<line opacity="0.4" stroke="currentColor" stroke-dasharray="3 3" x1="50" x2="140" y1="40" y2="60"></line>
+<line opacity="0.4" stroke="currentColor" stroke-dasharray="3 3" x1="230" x2="140" y1="80" y2="60"></line>
+<!-- Central Centroid -->
+<rect class="fill-tertiary" height="10" width="10" x="135" y="55"></rect>
+<text fill="#dfe2ef" font-family="JetBrains Mono" font-size="10" x="110" y="85">Cosine: 0.942</text>
+</svg>
+<span class="font-label-caps text-label-caps text-outline">CLUSTERING DENSITY: 1,420 EMBEDDING DIMS</span>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Semantic spatial clustering maps identical factual assertions across unrelated disclosures.</span>
+</div>
+<!-- Card 3: Automated Unit & Fiscal Reconciliation (Span 6) -->
+<div class="lg:col-span-6 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
+<div>
+<div class="flex items-center justify-between mb-space-4">
+<span class="px-space-2 py-1 bg-surface-container-high text-tertiary font-label-caps text-label-caps uppercase">NORMALIZATION ENGINE</span>
+<span class="font-label-caps text-label-caps text-tertiary">AUTOMATED PARSING</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Automated Unit &amp; Fiscal Reconciliation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-4">Translates across Lakhs, Crores, Millions, and Billions, while aligning disparate corporate reporting cycles (FY23 vs FY24 vs TTM).</p>
+<div class="bg-surface-container-lowest p-space-4 space-y-2 font-code-inline text-code-inline mb-space-4">
+<div class="flex items-center justify-between py-1 bg-surface-container-low px-space-2">
+<span class="text-on-surface-variant">INPUT METRIC: "₹758 Mn"</span>
+<span class="text-secondary font-bold">→ 758,000,000 INR</span>
+</div>
+<div class="flex items-center justify-between py-1 bg-surface-container-low px-space-2">
+<span class="text-on-surface-variant">INPUT METRIC: "₹75.80 Cr"</span>
+<span class="text-secondary font-bold">→ 758,000,000 INR</span>
+</div>
+<div class="flex items-center justify-between py-1 bg-tertiary-container/20 px-space-2 text-tertiary">
+<span class="font-bold">STATUS: EXACT NORMALIZATION DELTA</span>
+<span class="font-bold">0.0000 Δ</span>
+</div>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Handles multi-currency conversions and complex Indian/Western accounting notations.</span>
+</div>
+<!-- Card 4: Human-in-the-Loop Audit Queue (Span 6) -->
+<div class="lg:col-span-6 bg-surface-container p-space-6 flex flex-col justify-between shadow-md">
+<div>
+<div class="flex items-center justify-between mb-space-4">
+<span class="px-space-2 py-1 bg-surface-container-high text-error font-label-caps text-label-caps uppercase">GOVERNANCE &amp; REVIEW</span>
+<span class="font-label-caps text-label-caps text-error">FLAGGED: 1 ITEM</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-space-2">Human-in-the-Loop Audit Queue</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-4">When model confidence drops below 85% or an unresolvable factual contradiction occurs, Verity isolates the record into an audited compliance queue with full human override controls.</p>
+<div class="bg-surface-container-lowest p-space-3 mb-space-4 flex items-center justify-between">
+<div class="flex items-center gap-space-3">
+<span class="w-3 h-3 bg-error animate-ping"></span>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-bold">Delhivery Q4 Earnings vs AR FY24</p>
+<p class="font-label-caps text-label-caps text-outline">Discrepancy: Active Express Volume Count (±14%)</p>
+</div>
+</div>
+<div class="flex gap-space-2">
+<button class="px-space-2 py-1 bg-tertiary text-on-tertiary font-label-caps text-label-caps">[APPROVE]</button>
+<button class="px-space-2 py-1 bg-surface-container-highest text-error font-label-caps text-label-caps">[FLAG]</button>
+</div>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Audit records remain immutable and exportable for statutory SEC/SEBI compliance filings.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ARCHITECTURE & TECH STACK STRIP -->
+<section class="w-full bg-surface-container px-space-4 lg:px-space-8 py-space-10">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-space-6">
+<div>
+<span class="font-label-caps text-label-caps text-outline uppercase">ENTERPRISE PIPELINE FOUNDATION</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Built with Industry-Grade Sovereign Tooling</h4>
+</div>
+<!-- Tech Pill Badges -->
+<div class="flex flex-wrap items-center gap-space-3">
+<div class="bg-surface-container-low px-space-3 py-space-2 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">picture_as_pdf</span>
+<span class="font-label-caps text-label-caps text-on-surface">PyMuPDF (fitz)</span>
+</div>
+<div class="bg-surface-container-low px-space-3 py-space-2 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-primary text-[18px]">neurology</span>
+<span class="font-label-caps text-label-caps text-on-surface">Gemini 1.5 Pro</span>
+</div>
+<div class="bg-surface-container-low px-space-3 py-space-2 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">hub</span>
+<span class="font-label-caps text-label-caps text-on-surface">Qdrant Vector DB</span>
+</div>
+<div class="bg-surface-container-low px-space-3 py-space-2 flex items-center gap-space-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">api</span>
+<span class="font-label-caps text-label-caps text-on-surface">FastAPI v0.110</span>
+</div>
+</div>
+</div>
+</section>
+<!-- BOTTOM CALL TO ACTION -->
+<section class="w-full bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-16 text-center">
+<div class="max-w-4xl mx-auto flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-secondary mb-space-2 tracking-widest">GET STARTED IMMEDIATELY</span>
+<h2 class="font-display-xl text-headline-lg lg:text-display-xl text-on-surface font-bold mb-space-4">Eliminate Uncertainty in Corporate Intelligence</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mb-space-8">
+        Run live multi-PDF reconciliations right now. Explore audited corporate disclosures or upload your own 10-K, prospectus, or balance sheet filings.
+      </p>
+<div class="flex flex-wrap items-center justify-center gap-space-4">
+<button class="px-space-8 py-space-4 bg-primary text-on-primary font-body-md text-body-md font-bold hover:bg-primary-container transition-all">
+          Launch Verity Workspace Now
+        </button>
+<button class="px-space-6 py-space-4 bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high transition-all">
+          Read Whitepaper &amp; Benchmark Metrics
+        </button>
+</div>
+</div>
+</section>
+</div>
+<script>
+  // Dynamic Mock Cases Data
+  const casesData = {
+    'case-corrob': {
+      status: '■ CORROBORATES',
+      statusClass: 'bg-tertiary-container/30 text-tertiary',
+      metricTitle: 'Consolidated Net Revenue (FY24)',
+      score: '99.8%',
+      scoreColor: 'text-tertiary',
+      proof: "Fact A (Audited Financial Statement, Page 88) lists Total Revenue of ₹7,226.32 Cr. Fact B (Q4 Shareholder Presentation, Slide 12) cites Net Consolidated Operating Revenue of ₹7,226 Cr. Fact B rounds down slightly to whole crores; values match within 0.004% precision tolerance. Corroborated with complete consistency.",
+      sourceA: { title: 'PRIMARY SOURCE (ANNUAL REPORT FY24)', page: 'PDF: PG 88', value: '₹7,226.32 Cr', text: '"Revenue from operations for the year ended March 31, 2024 stood at ₹7,226.32 Crores..."' },
+      sourceB: { title: 'SECONDARY SOURCE (EARNINGS DECK)', page: 'SLIDE 12', value: '₹7,226 Cr', text: '"FY24 Full Year Revenue: ₹7,226 Cr, marking robust growth across B2B freight corridors..."' }
+    },
+    'case-contradict': {
+      status: '▲ CONTRADICTS',
+      statusClass: 'bg-error-container text-error',
+      metricTitle: 'Active Delivery Centers (Q4 FY24)',
+      score: '32.1%',
+      scoreColor: 'text-error',
+      proof: "Direct contradiction found. Source A reports 'Over 3,100 operational automated logistics hubs' as of March 31, 2024. However, the subsequent statutory compliance report filed with exchanges states the operational count at '2,842 active touchpoints'. Delta of 258 units cannot be resolved via lease timing exclusions.",
+      sourceA: { title: 'INVESTOR RELATIONS DECK', page: 'SLIDE 24', value: '3,100+ Hubs', text: '"Operating network expanded to over 3,100 automated logistics centers and touchpoints..."' },
+      sourceB: { title: 'EXCHANGE COMPLIANCE CERT.', page: 'PDF: PG 6', value: '2,842 Centers', text: '"Total physical facilities operational on closing date: 2,842 verified operational centers."' }
+    },
+    'case-reconcile': {
+      status: '◆ CONTEXTUAL RECONCILIATION',
+      statusClass: 'bg-primary-container/30 text-primary',
+      metricTitle: 'Operating EBITDA vs Adjusted EBITDA (FY24)',
+      score: '95.4%',
+      scoreColor: 'text-tertiary',
+      proof: "Fact A records ₹758 Mn (₹75.80 Cr) Adjusted EBITDA. Fact B records ₹127 Cr GAAP operating EBITDA. Cross-reference analysis demonstrates that Fact A excludes non-cash share-based payment expenses (₹441 Mn) and statutory lease adjustments (₹71 Mn). Values match mathematically once non-cash schedules are merged.",
+      sourceA: { title: 'PROSPECTUS EXCERPT', page: 'PDF: PG 4', value: '₹758 Mn', text: '"Adjusted EBITDA of ₹758 Mn reflecting operational efficiency gains..."' },
+      sourceB: { title: 'STATUTORY AUDIT FY24', page: 'PDF: PG 18', value: '₹127 Cr', text: '"Operating Profit (EBITDA) reached ₹127 Cr following non-recurring ESOP recognitions."' }
+    },
+    'case-review': {
+      status: '! EXTRACTION FAILURE & REVIEW',
+      statusClass: 'bg-surface-bright text-secondary',
+      metricTitle: 'Segmental Margin - Express Parcel (H2 FY24)',
+      score: '58.0%',
+      scoreColor: 'text-error',
+      proof: "OCR scan confidence degradation. Source document has table rotation (-90 deg) and obscured footer watermark on page 142. Segment percentage was extracted as '14.8%' but may represent '11.8%' due to dot-matrix ink bleed. Flagged for manual analyst verification.",
+      sourceA: { title: 'SCANNED ANNEXURE VII', page: 'PDF: PG 142', value: '14.8% [UNCERTAIN]', text: '"Segment margin after inter-divisional allocation: [BLURRED INK: 14.8%]..."' },
+      sourceB: { title: 'MANAGEMENT COMMENTARY', page: 'PDF: PG 12', value: 'Double-digit margins', text: '"Express parcel division sustained robust double-digit operational margin expansion."' }
+    }
+  };
+
+  function switchCase(caseKey) {
+    const data = casesData[caseKey];
+    if (!data) return;
+
+    // Update active tab styles
+    document.querySelectorAll('.case-btn').forEach(btn => {
+      btn.className = 'case-btn px-space-4 py-space-2 bg-surface-container text-on-surface-variant font-label-caps text-label-caps flex items-center gap-space-2 hover:bg-surface-container-high';
+    });
+    
+    let activeBtnId = 'tab-corrob';
+    if (caseKey === 'case-contradict') activeBtnId = 'tab-contradict';
+    if (caseKey === 'case-reconcile') activeBtnId = 'tab-reconcile';
+    if (caseKey === 'case-review') activeBtnId = 'tab-review';
+    
+    const activeBtn = document.getElementById(activeBtnId);
+    if (activeBtn) {
+      activeBtn.className = 'case-btn px-space-4 py-space-2 bg-surface-container-highest text-tertiary font-label-caps text-label-caps flex items-center gap-space-2';
+    }
+
+    // Render container
+    const container = document.getElementById('demo-card-container');
+    container.innerHTML = `
+      <div id="case-content" class="flex flex-col gap-space-4">
+        <div class="flex flex-wrap items-center justify-between gap-space-2 pb-space-3 bg-surface-container-low px-space-4 py-space-2">
+          <div class="flex items-center gap-space-3">
+            <span class="px-space-2 py-0.5 ${data.statusClass} font-label-caps text-label-caps">${data.status}</span>
+            <span class="font-body-sm text-body-sm text-outline">Target Metric: ${data.metricTitle}</span>
+          </div>
+          <div class="flex items-center gap-space-3">
+            <span class="font-label-caps text-label-caps text-outline">CONFIDENCE SCORE:</span>
+            <span class="font-data-metric text-data-metric ${data.scoreColor}">${data.score}</span>
+          </div>
+        </div>
+
+        <div class="bg-surface-container-lowest p-space-4">
+          <span class="font-label-caps text-label-caps text-primary uppercase mb-space-1 block font-bold">LLM Deterministic Proof</span>
+          <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            ${data.proof}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-space-4">
+          <div class="bg-surface-container-low p-space-4">
+            <div class="flex items-center justify-between mb-space-2">
+              <span class="font-label-caps text-label-caps text-outline">${data.sourceA.title}</span>
+              <span class="font-label-caps text-label-caps text-secondary">${data.sourceA.page}</span>
+            </div>
+            <p class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-1">${data.sourceA.value}</p>
+            <p class="font-body-sm text-body-sm text-outline italic">${data.sourceA.text}</p>
+          </div>
+          <div class="bg-surface-container-low p-space-4">
+            <div class="flex items-center justify-between mb-space-2">
+              <span class="font-label-caps text-label-caps text-outline">${data.sourceB.title}</span>
+              <span class="font-label-caps text-label-caps text-tertiary">${data.sourceB.page}</span>
+            </div>
+            <p class="font-headline-sm text-headline-sm text-on-surface font-bold mb-space-1">${data.sourceB.value}</p>
+            <p class="font-body-sm text-body-sm text-outline italic">${data.sourceB.text}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+</script></main><footer class="w-full bg-surface-container-lowest border-t border-white/10 py-space-6"><div class="w-full px-space-4 flex flex-col md:flex-row items-center justify-between gap-space-4 font-body-sm text-body-sm text-outline"><div><span>VERITY FACT ENGINE // HIGH INTEGRITY INTELLIGENCE</span></div><div class="flex items-center gap-space-6"><span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY: 14MS (P95)</span><span class="font-label-caps text-label-caps text-on-surface-variant">INTEGRITY: AUDITED</span><span>© 2025 Verity Systems Inc.</span></div></div></footer></body></html>

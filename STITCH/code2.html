@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-highest":"#31353f","on-tertiary":"#003824","tertiary":"#4edea3","secondary":"#4cd7f6","secondary-container":"#03b5d3","primary-fixed":"#e9ddff","primary-fixed-dim":"#d0bcff","on-secondary":"#003640","tertiary-fixed-dim":"#4edea3","on-primary":"#3c0091","on-secondary-container":"#00424e","on-primary-fixed-variant":"#5516be","outline-variant":"#494454","on-tertiary-container":"#00311f","on-tertiary-fixed":"#002113","on-secondary-fixed":"#001f26","on-primary-fixed":"#23005c","inverse-primary":"#6d3bd7","tertiary-container":"#00a572","inverse-surface":"#dfe2ef","on-error-container":"#ffdad6","surface":"#0f131c","inverse-on-surface":"#2c303a","surface-container-high":"#262a34","primary-container":"#a078ff","surface-dim":"#0f131c","on-primary-container":"#340080","secondary-fixed":"#acedff","on-surface":"#dfe2ef","on-surface-variant":"#cbc3d7","surface-container":"#1c1f29","outline":"#958ea0","background":"#0f131c","surface-tint":"#d0bcff","on-background":"#dfe2ef","error":"#ffb4ab","tertiary-fixed":"#6ffbbe","on-secondary-fixed-variant":"#004e5c","secondary-fixed-dim":"#4cd7f6","surface-container-lowest":"#0a0e17","on-tertiary-fixed-variant":"#005236","surface-container-low":"#181b25","primary":"#d0bcff","surface-bright":"#353943","on-error":"#690005","error-container":"#93000a","surface-variant":"#31353f"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-6":"1.5rem","panel-padding-standard":"1.5rem","space-1":"0.25rem","space-10":"2.5rem","space-12":"3rem","panel-padding-dense":"1rem","space-0":"0px","space-2":"0.5rem","space-4":"1rem","panel-padding-tight":"0.75rem","space-8":"2rem","space-3":"0.75rem","gutter-default":"1px","space-5":"1.25rem","space-16":"4rem"},fontFamily:{"headline-md":["Space Grotesk"],"headline-sm":["Space Grotesk"],"headline-lg-mobile":["Space Grotesk"],"body-sm":["JetBrains Mono"],"body-lg":["JetBrains Mono"],"display-xl-mobile":["Space Grotesk"],"display-xl":["Space Grotesk"],"headline-lg":["Space Grotesk"],"data-metric":["JetBrains Mono"],"label-caps":["JetBrains Mono"],"body-md":["JetBrains Mono"],"code-inline":["JetBrains Mono"]},fontSize:{"headline-md":["1.375rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-sm":["1.125rem",{"lineHeight":"1.4","letterSpacing":"0em","fontWeight":"500"}],"headline-lg-mobile":["1.5rem",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.45","letterSpacing":"0em","fontWeight":"400"}],"body-lg":["1rem",{"lineHeight":"1.6","letterSpacing":"-0.01em","fontWeight":"400"}],"display-xl-mobile":["2rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"display-xl":["3rem",{"lineHeight":"1.1","letterSpacing":"-0.03em","fontWeight":"700"}],"headline-lg":["2rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"600"}],"data-metric":["1.75rem",{"lineHeight":"1.1","letterSpacing":"-0.04em","fontWeight":"700"}],"label-caps":["0.6875rem",{"lineHeight":"1.2","letterSpacing":"0.08em","fontWeight":"600"}],"body-md":["0.875rem",{"lineHeight":"1.5","letterSpacing":"-0.005em","fontWeight":"400"}],"code-inline":["0.8125rem",{"lineHeight":"1.3","letterSpacing":"0em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-background min-h-screen"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10"><div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-4"><div class="flex items-center gap-space-4 shrink-0"><div class="flex items-center gap-space-2"><span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span><span class="px-space-2 py-space-1 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-label-caps uppercase tracking-wider">FACT KNOWLEDGE LAYER v2.4</span></div><div class="hidden xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant"><span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span class="text-on-surface font-bold">3</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span class="text-secondary font-bold">161</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span class="text-tertiary font-bold">8</span></span><span class="text-outline-variant">|</span><span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span class="text-error font-bold">1 Flagged</span></span></div></div><nav class="hidden lg:flex items-center h-full gap-space-1" data-active-classes="bg-surface-container-high text-on-surface border-b-2 border-primary"><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="landing-overview" href="#">Landing Overview</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="workspace-and-relationships" href="#">Workspace &amp; Relationships</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="document-facts-explorer" href="#">Document Facts Explorer</a><a class="px-space-3 h-16 flex items-center font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap" data-path="failures-and-review-queue" href="#">Failures &amp; Review Queue</a></nav><div class="flex items-center gap-space-3 shrink-0"><div class="flex items-center gap-space-2"><button class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button">[SEED DEMO]</button><button class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button">[CLEAR DB]</button><a class="hidden sm:flex items-center gap-space-2 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="#"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span><span>/docs</span><span class="text-outline text-body-sm">99.9%</span></a></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Command & Session Ribbon -->
+<div class="w-full bg-surface-container-low px-space-4 py-space-3 flex flex-wrap items-center justify-between gap-space-4">
+<div class="flex items-center gap-space-3">
+<span class="w-2.5 h-2.5 bg-tertiary animate-ping"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">KNOWLEDGE WORKBENCH // RECONCILIATION RUNNER</span>
+<span class="bg-surface-container-high px-space-2 py-space-1 font-label-caps text-label-caps text-primary border-l-2 border-primary">CLUSTER: DELHIVERY-FY24-MULTI-DOC</span>
+</div>
+<div class="flex items-center gap-space-2 font-body-sm text-body-sm">
+<div class="bg-surface-container px-space-3 py-space-1 flex items-center gap-space-2 text-on-surface-variant">
+<span class="text-outline">EMBEDDINGS:</span>
+<span class="text-secondary font-bold">bge-large-en-v1.5</span>
+</div>
+<div class="bg-surface-container px-space-3 py-space-1 flex items-center gap-space-2 text-on-surface-variant">
+<span class="text-outline">REASONER:</span>
+<span class="text-primary font-bold">Gemini 1.5 Pro</span>
+</div>
+<div class="bg-surface-container px-space-3 py-space-1 flex items-center gap-space-2 text-on-surface-variant">
+<span class="text-outline">SYNCHRONIZATION:</span>
+<span class="text-tertiary font-bold">ACTIVE (14ms)</span>
+</div>
+<button class="bg-primary hover:bg-primary-fixed text-on-primary px-space-3 py-space-1 font-label-caps text-label-caps font-bold transition-colors" type="button">
+        [TRIGGER FULL GRAPH RUN]
+      </button>
+</div>
+</div>
+<!-- Primary Workspace Split: Left Sidebar (360px fixed) + Right Content Hub -->
+<div class="w-full grid grid-cols-1 xl:grid-cols-12 gap-gutter-default bg-surface-container-lowest">
+<!-- LEFT COLUMN: Ingestion Hub & Pipeline Stepper & Ingested Document Tree (4 cols on xl) -->
+<div class="xl:col-span-4 2xl:col-span-3 flex flex-col gap-gutter-default bg-surface-container-lowest">
+<!-- Upload Dropzone Card -->
+<div class="bg-surface-container p-space-4 flex flex-col gap-space-3">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">01 // INGESTION GATEWAY</span>
+<span class="px-space-1.5 py-0.5 bg-surface-container-high text-secondary font-label-caps text-label-caps">MIME: PDF</span>
+</div>
+<div class="relative group bg-surface-container-low hover:bg-surface-container-high p-space-5 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200" id="drop-zone">
+<div class="w-12 h-12 bg-primary/10 flex items-center justify-center mb-space-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[26px]">upload_file</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface mb-space-1">Drop Financial Prospectus or 10-K</span>
+<span class="font-body-sm text-body-sm text-outline mb-space-3">Annual Reports, Earnings Transcripts, Form 8-K (Max 50MB)</span>
+<div class="w-full bg-surface-container-lowest p-space-2 flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant">
+<span class="flex items-center gap-space-1 text-tertiary">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+              OCR AUTO-ALIGN ON
+            </span>
+<span class="text-outline">SHA256 CHECKSUM VERIFIED</span>
+</div>
+<input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+</div>
+<!-- Active Multi-Stage Parsing Stepper -->
+<div class="bg-surface-container-low p-space-3 flex flex-col gap-space-2.5">
+<div class="flex items-center justify-between font-label-caps text-label-caps">
+<span class="text-on-surface font-bold">PIPELINE TELEMETRY: 02-delhivery-annual-report-fy24-excerpt.pdf</span>
+<span class="text-secondary font-mono">STEP 2 / 4</span>
+</div>
+<!-- Step 1: Chunking Complete -->
+<div class="flex items-center justify-between text-body-sm font-body-sm bg-surface-container p-space-2">
+<div class="flex items-center gap-space-2">
+<span class="w-4 h-4 bg-tertiary text-on-tertiary flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-on-surface">PyMuPDF Document Chunking</span>
+</div>
+<span class="font-label-caps text-label-caps text-tertiary">100 PAGES [480 CHUNKS]</span>
+</div>
+<!-- Step 2: Extraction Active -->
+<div class="flex flex-col gap-space-1.5 bg-surface-container-high p-space-2 shadow-sm">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-space-2">
+<span class="w-4 h-4 bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold animate-pulse">●</span>
+<span class="text-on-surface font-semibold">Gemini 1.5 Pro Fact Extraction</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary font-bold">PAGE 14/22 • 18S ELAPSED</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1.5 bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary via-secondary to-tertiary w-[68%] transition-all duration-300"></div>
+</div>
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline">
+<span>RATE: 2.3 PAGES/SEC</span>
+<span>EST. REMAINING: 8.2S</span>
+</div>
+</div>
+<!-- Step 3: Embeddings Pending -->
+<div class="flex items-center justify-between text-body-sm font-body-sm bg-surface-container/60 p-space-2 opacity-60">
+<div class="flex items-center gap-space-2">
+<span class="w-4 h-4 bg-surface-container-highest text-outline flex items-center justify-center text-[10px] font-bold">3</span>
+<span class="text-outline">Compute MiniLM Embeddings</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">PENDING</span>
+</div>
+<!-- Step 4: Cross-Doc Synthesis Pending -->
+<div class="flex items-center justify-between text-body-sm font-body-sm bg-surface-container/60 p-space-2 opacity-60">
+<div class="flex items-center gap-space-2">
+<span class="w-4 h-4 bg-surface-container-highest text-outline flex items-center justify-center text-[10px] font-bold">4</span>
+<span class="text-outline">Synthesize Cross-Document Graph</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">QUEUED</span>
+</div>
+</div>
+</div>
+<!-- Ingested Documents List -->
+<div class="bg-surface-container p-space-4 flex-1 flex flex-col gap-space-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-2">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">INGESTED ARTIFACTS (3)</span>
+</div>
+<button class="font-label-caps text-label-caps text-secondary hover:underline cursor-pointer">
+            RE-INDEX ALL
+          </button>
+</div>
+<!-- Document Item 1: Processing -->
+<div class="bg-surface-container-low hover:bg-surface-container-high p-space-3 flex flex-col gap-space-2 transition-colors">
+<div class="flex items-start justify-between gap-space-2">
+<div class="flex items-center gap-space-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0">hourglass_top</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold truncate">02-delhivery-annual-report-fy24-excerpt.pdf</span>
+</div>
+<span class="px-space-1.5 py-0.5 bg-secondary/10 text-secondary font-label-caps text-label-caps uppercase shrink-0 animate-pulse">
+              PROCESSING
+            </span>
+</div>
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline pl-7">
+<span>100 PAGES • 0 FACTS EXTRACTED</span>
+<span>INGEST: 14:02:18 UTC</span>
+</div>
+</div>
+<!-- Document Item 2: Active / Selected in Reconciliation View -->
+<div class="bg-surface-container-high p-space-3 flex flex-col gap-space-2 relative shadow-md">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-start justify-between gap-space-2 pl-2">
+<div class="flex items-center gap-space-2 min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">task_alt</span>
+<span class="font-body-md text-body-md text-on-surface font-bold truncate">01-delhivery-prospectus-2022-excerpt.pdf</span>
+</div>
+<span class="px-space-1.5 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps uppercase shrink-0">
+              ■ READY
+            </span>
+</div>
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline pl-9">
+<span class="text-on-surface-variant font-bold">5 PAGES • 117 AUDITED FACTS</span>
+<span class="text-tertiary">CONFIDENCE: 98.4%</span>
+</div>
+<!-- Sparkline representation of extracted fact confidence distribution -->
+<div class="pl-9 pt-space-1">
+<svg class="w-full h-4 text-tertiary" fill="none" viewbox="0 0 200 16">
+<path d="M0 12 L20 10 L40 14 L60 6 L80 8 L100 4 L120 7 L140 3 L160 5 L180 2 L200 4" stroke="currentColor" stroke-width="1.5"></path>
+<circle cx="200" cy="4" fill="currentColor" r="2"></circle>
+</svg>
+</div>
+</div>
+<!-- Document Item 3: Done -->
+<div class="bg-surface-container-low hover:bg-surface-container-high p-space-3 flex flex-col gap-space-2 transition-colors">
+<div class="flex items-start justify-between gap-space-2">
+<div class="flex items-center gap-space-2 min-w-0">
+<span class="material-symbols-outlined text-tertiary text-[20px] shrink-0">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold truncate">03-delhivery-q4-fy24-earnings-presentation.pdf</span>
+</div>
+<span class="px-space-1.5 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps uppercase shrink-0">
+              ■ READY
+            </span>
+</div>
+<div class="flex items-center justify-between font-label-caps text-label-caps text-outline pl-7">
+<span>5 PAGES • 15 AUDITED FACTS</span>
+<span class="text-outline">RECONCILED</span>
+</div>
+</div>
+<!-- Audit Summary Metric Tile -->
+<div class="mt-auto bg-surface-container-lowest p-space-3 flex flex-col gap-space-2">
+<span class="font-label-caps text-label-caps text-outline">WORKSPACE STATS MATRIX</span>
+<div class="grid grid-cols-2 gap-space-2">
+<div class="bg-surface-container-low p-space-2 flex flex-col">
+<span class="font-data-metric text-data-metric text-on-surface">161</span>
+<span class="font-label-caps text-label-caps text-outline">ISOLATED FACTS</span>
+</div>
+<div class="bg-surface-container-low p-space-2 flex flex-col">
+<span class="font-data-metric text-data-metric text-tertiary">97.8%</span>
+<span class="font-label-caps text-label-caps text-outline">AGGREGATE CERTAINTY</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT / MAIN AREA: Cross-Document Relationships Explorer (8 cols on xl) -->
+<div class="xl:col-span-8 2xl:col-span-9 bg-surface-container-lowest flex flex-col p-space-4 gap-space-4 overflow-y-auto">
+<!-- Top Explorer Sub-Header & Multi-Tab Filter Switcher -->
+<div class="bg-surface-container p-space-4 flex flex-col md:flex-row md:items-center justify-between gap-space-4">
+<div class="flex flex-col gap-space-1">
+<div class="flex items-center gap-space-2">
+<span class="px-space-2 py-0.5 bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase font-bold">MODULE 02</span>
+<span class="font-headline-md text-headline-md text-on-surface">Cross-Document Relationships Explorer</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+            Forensic cross-examination of assertions across independent prospectus, audit, and presentation files.
+          </span>
+</div>
+<div class="flex items-center gap-space-2">
+<div class="relative">
+<input class="bg-surface-container-low px-space-3 py-space-1.5 font-body-sm text-body-sm text-on-surface placeholder:text-outline w-64 focus:outline-none focus:bg-surface-container-highest" placeholder="FILTER KEYWORDS / METRICS..." type="text"/>
+<span class="material-symbols-outlined absolute right-2.5 top-2 text-outline text-[18px]">search</span>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-space-3 py-space-1.5 font-label-caps text-label-caps flex items-center gap-space-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+            [EXPORT CSV]
+          </button>
+</div>
+</div>
+<!-- Segmented Tab Filter Bar -->
+<div class="flex flex-wrap items-center gap-space-2 bg-surface-container p-space-2">
+<button class="px-space-3 py-space-1.5 font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-space-2" type="button">
+<span>ALL RELATIONSHIPS</span>
+<span class="px-space-1.5 py-0.5 bg-surface-container-highest text-on-surface font-bold">8</span>
+</button>
+<button class="px-space-3 py-space-1.5 font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-space-2" type="button">
+<span class="w-2 h-2 bg-tertiary"></span>
+<span>CORROBORATES</span>
+<span class="px-space-1.5 py-0.5 bg-tertiary/10 text-tertiary font-bold">3</span>
+</button>
+<button class="px-space-3 py-space-1.5 font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-space-2" type="button">
+<span class="w-2 h-2 bg-error"></span>
+<span>CONTRADICTS</span>
+<span class="px-space-1.5 py-0.5 bg-error/10 text-error font-bold">2</span>
+</button>
+<button class="px-space-3 py-space-1.5 font-label-caps text-label-caps bg-primary text-on-primary font-bold shadow-md flex items-center gap-space-2" type="button">
+<span class="w-2 h-2 bg-on-primary"></span>
+<span>CONTEXTUAL RECONCILIATION</span>
+<span class="px-space-1.5 py-0.5 bg-on-primary/20 text-on-primary font-bold">3</span>
+</button>
+<div class="ml-auto font-label-caps text-label-caps text-outline flex items-center gap-space-2 pr-space-2">
+<span>SORT BY:</span>
+<span class="text-secondary cursor-pointer hover:underline">CONFIDENCE DELTA ▼</span>
+</div>
+</div>
+<!-- RELATIONSHIP CARD 1: Contextual Reconciliation (EBITDA Unit & Scope Nuance) -->
+<div class="bg-surface-container flex flex-col shadow-lg">
+<!-- Card Header Ribbon -->
+<div class="bg-surface-container-high px-space-4 py-space-2.5 flex flex-wrap items-center justify-between gap-space-3">
+<div class="flex items-center gap-space-3">
+<span class="px-space-2 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps font-bold">
+              ◆ CONTEXTUAL RECONCILIATION
+            </span>
+<span class="font-code-inline text-code-inline text-outline">PAIR ID: #REL-8821</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SCOPE: EARNINGS &amp; PROFITABILITY</span>
+</div>
+<div class="flex items-center gap-space-4">
+<!-- Stepped Segment Confidence Indicator (10-seg) -->
+<div class="flex items-center gap-space-2">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE:</span>
+<span class="font-code-inline text-code-inline text-tertiary font-bold">95.0%</span>
+<div class="flex items-center gap-0.5">
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-surface-container-highest"></span>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface transition-colors" title="Pin Assertion">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+</div>
+</div>
+<div class="p-space-4 flex flex-col gap-space-4">
+<!-- LLM Reasoning Box -->
+<div class="bg-surface-container-low p-space-3.5 flex flex-col gap-space-1.5 border-l-4 border-primary">
+<div class="flex items-center gap-space-2 text-primary font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[16px]">neurology</span>
+<span>SYNTHESIS REASONING (GEMINI 1.5 PRO)</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Fact A reports an Adjusted EBITDA of <span class="text-secondary font-semibold font-code-inline">₹758 Mn</span> (approx <span class="text-secondary font-semibold font-code-inline">₹75.8 Cr</span>) for Delhivery Limited in FY24. Fact B reports an EBITDA increase of <span class="text-secondary font-semibold font-code-inline">₹578 Cr</span> (yielding a statutory EBITDA of <span class="text-secondary font-semibold font-code-inline">Rs. 127 Cr</span> compared to <span class="text-secondary font-semibold font-code-inline">Rs. (452 Cr)</span> in FY23). While these figures differ on first glance, they measure distinct metric definitions (Adjusted EBITDA removing non-cash share compensation vs statutory reported EBITDA), fully reconciling the financial reporting variance.
+            </p>
+</div>
+<!-- Reconciliation Context Callout -->
+<div class="bg-surface-container-highest/40 p-space-3 flex items-start gap-space-3">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">schema</span>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-caps text-label-caps text-secondary font-bold">RECONCILIATION CONTEXT: METRIC SCOPE DIFFERENTIATION</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+                Different Metric Scope: Fact A uses Adjusted EBITDA (<span class="font-code-inline text-on-surface">₹758Mn</span>) while Fact B uses statutory EBITDA (<span class="font-code-inline text-on-surface">Rs. 127 Cr</span> or <span class="font-code-inline text-on-surface">1,270Mn</span>). Difference correlates directly to Share-Based Payment expenses of ₹512Mn reported in Note 31.
+              </span>
+</div>
+</div>
+<!-- Dual Fact Evidence Panel (Side-by-Side 50/50 comparison) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-3">
+<!-- Fact A Box -->
+<div class="bg-surface-container-low p-space-4 flex flex-col justify-between gap-space-3">
+<div class="flex flex-col gap-space-2">
+<div class="flex items-center justify-between pb-space-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-space-2">
+<span class="px-space-1.5 py-0.5 bg-secondary/10 text-secondary font-label-caps text-label-caps font-bold">SOURCE FACT A</span>
+<span class="font-label-caps text-label-caps text-outline">PAGE 4 • LINE 18</span>
+</div>
+<span class="font-code-inline text-code-inline text-outline truncate max-w-[160px]">01-delhivery-prospectus-2022-excerpt.pdf</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-caps text-label-caps text-outline">METRIC IDENTIFIER</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Adjusted EBITDA</span>
+</div>
+<div class="flex items-baseline gap-space-2 bg-surface-container p-space-2.5">
+<span class="font-data-metric text-data-metric text-secondary font-bold">758 ₹Mn</span>
+<span class="font-label-caps text-label-caps text-outline">UNIT: MILLIONS INR</span>
+</div>
+<div class="flex items-center gap-space-2 font-body-sm text-body-sm text-on-surface-variant">
+<span class="text-outline">ENTITY SCOPE:</span>
+<span class="text-on-surface">Delhivery Limited • FY24 Full Year</span>
+</div>
+</div>
+<!-- Verbatim Citation Quote Box -->
+<div class="bg-surface-container-lowest p-space-3 font-code-inline text-code-inline text-on-surface-variant border-l-2 border-secondary">
+<span class="text-outline block mb-1 font-label-caps text-label-caps">VERBATIM DOCUMENT CITATION:</span>
+                "The Company generated ₹758Mn Adjusted EBITDA for the twelve months ended March 31, 2024, demonstrating continuous operating leverage across express parcel lanes."
+              </div>
+</div>
+<!-- Fact B Box -->
+<div class="bg-surface-container-low p-space-4 flex flex-col justify-between gap-space-3">
+<div class="flex flex-col gap-space-2">
+<div class="flex items-center justify-between pb-space-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-space-2">
+<span class="px-space-1.5 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps font-bold">SOURCE FACT B</span>
+<span class="font-label-caps text-label-caps text-outline">PAGE 5 • LINE 8</span>
+</div>
+<span class="font-code-inline text-code-inline text-outline truncate max-w-[160px]">02-delhivery-annual-report-fy24-excerpt.pdf</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-caps text-label-caps text-outline">METRIC IDENTIFIER</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">EBITDA Increase &amp; Position</span>
+</div>
+<div class="flex items-baseline gap-space-2 bg-surface-container p-space-2.5">
+<span class="font-data-metric text-data-metric text-primary font-bold">578 Cr Rs. Cr</span>
+<span class="font-label-caps text-label-caps text-outline">UNIT: CRORES INR (DELTA)</span>
+</div>
+<div class="flex items-center gap-space-2 font-body-sm text-body-sm text-on-surface-variant">
+<span class="text-outline">ENTITY SCOPE:</span>
+<span class="text-on-surface">FY24 EBITDA • FY23 Comparative</span>
+</div>
+</div>
+<!-- Verbatim Citation Quote Box -->
+<div class="bg-surface-container-lowest p-space-3 font-code-inline text-code-inline text-on-surface-variant border-l-2 border-primary">
+<span class="text-outline block mb-1 font-label-caps text-label-caps">VERBATIM DOCUMENT CITATION:</span>
+                "FY24 EBITDA increased by Rs. 578 Cr to Rs. 127 Cr from Rs. (452 Cr) in FY23, driven by volume growth, improved pricing and freight efficiencies."
+              </div>
+</div>
+</div>
+<!-- Bottom Action Ribbon -->
+<div class="flex flex-wrap items-center justify-between gap-space-3 pt-space-2 border-t border-surface-container-high">
+<div class="flex items-center gap-space-2">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-space-3 py-space-1.5 font-label-caps text-label-caps flex items-center gap-space-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">visibility</span>
+                [INSPECT IN DUAL PDF VIEWER]
+              </button>
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-space-3 py-space-1.5 font-label-caps text-label-caps flex items-center gap-space-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                [COPY CITATION MARKDOWN]
+              </button>
+</div>
+<div class="flex items-center gap-space-2">
+<button class="bg-error/10 hover:bg-error/20 text-error px-space-3 py-space-1.5 font-label-caps text-label-caps flex items-center gap-space-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+                [FLAG AS DISCREPANCY]
+              </button>
+<button class="bg-tertiary-container hover:bg-tertiary text-on-tertiary-container hover:text-on-tertiary px-space-4 py-space-1.5 font-label-caps text-label-caps font-bold flex items-center gap-space-1 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                [MARK RECONCILED &amp; VERIFIED]
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- RELATIONSHIP CARD 2: Direct Contradiction (Revenue / Growth Discrepancy) -->
+<div class="bg-surface-container flex flex-col shadow-lg border-l-4 border-error">
+<!-- Card Header Ribbon -->
+<div class="bg-surface-container-high px-space-4 py-space-2.5 flex flex-wrap items-center justify-between gap-space-3">
+<div class="flex items-center gap-space-3">
+<span class="px-space-2 py-0.5 bg-error/20 text-error font-label-caps text-label-caps font-bold flex items-center gap-1">
+<span>▲</span> CONTRADICTION DETECTED
+            </span>
+<span class="font-code-inline text-code-inline text-outline">PAIR ID: #REL-8819</span>
+<span class="font-label-caps text-label-caps text-error">CRITICAL ARITHMETIC MISMATCH</span>
+</div>
+<div class="flex items-center gap-space-4">
+<div class="flex items-center gap-space-2">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE:</span>
+<span class="font-code-inline text-code-inline text-error font-bold">92.0%</span>
+<div class="flex items-center gap-0.5">
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-error"></span>
+<span class="w-1 h-3 bg-surface-container-highest"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-space-4 flex flex-col gap-space-4">
+<!-- LLM Reasoning Box -->
+<div class="bg-surface-container-low p-space-3.5 flex flex-col gap-space-1.5">
+<div class="flex items-center gap-space-2 text-error font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[16px]">error_outline</span>
+<span>AUDIT CONTRADICTION SUMMARY</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Fact A states that Revenue from Operations for FY24 grew by <span class="text-error font-semibold font-code-inline">12.8%</span> to <span class="text-error font-semibold font-code-inline">₹8,142 Cr</span>, whereas Fact B in the earnings presentation states FY24 Revenue was <span class="text-error font-semibold font-code-inline">₹8,064 Cr</span> (an implicit <span class="text-error font-semibold font-code-inline">11.7%</span> growth). This represents an unresolved quantitative delta of <span class="text-error font-bold font-code-inline">₹78 Cr ($9.4M USD)</span> between the statutory audited ledger and investor relations disclosure.
+            </p>
+</div>
+<!-- Dual Fact Evidence Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-3">
+<!-- Fact A Box -->
+<div class="bg-surface-container-low p-space-4 flex flex-col justify-between gap-space-3">
+<div class="flex flex-col gap-space-2">
+<div class="flex items-center justify-between pb-space-2 border-b border-surface-container-highest">
+<span class="px-space-1.5 py-0.5 bg-error/10 text-error font-label-caps text-label-caps font-bold">SOURCE FACT A</span>
+<span class="font-label-caps text-label-caps text-outline">PAGE 18 • AUDITED 10-K</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-outline">REPORTED REVENUE (CONSOLIDATED)</span>
+<span class="font-data-metric text-data-metric text-on-surface">₹8,142 Cr</span>
+</div>
+<div class="bg-surface-container-lowest p-space-2.5 font-code-inline text-code-inline text-on-surface-variant">
+                  "Total revenue from operations reached ₹8,142 Crores for the year ended March 31, 2024."
+                </div>
+</div>
+</div>
+<!-- Fact B Box -->
+<div class="bg-surface-container-low p-space-4 flex flex-col justify-between gap-space-3">
+<div class="flex flex-col gap-space-2">
+<div class="flex items-center justify-between pb-space-2 border-b border-surface-container-highest">
+<span class="px-space-1.5 py-0.5 bg-error/10 text-error font-label-caps text-label-caps font-bold">SOURCE FACT B</span>
+<span class="font-label-caps text-label-caps text-outline">PAGE 3 • EARNINGS SLIDE 8</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-outline">INVESTOR PRESENTATION REVENUE</span>
+<span class="font-data-metric text-data-metric text-error font-bold">₹8,064 Cr</span>
+</div>
+<div class="bg-surface-container-lowest p-space-2.5 font-code-inline text-code-inline text-on-surface-variant">
+                  "FY24 Full Year Revenue: ₹8,064 Cr (+11.7% YoY growth across all logistics divisions)."
+                </div>
+</div>
+</div>
+</div>
+<!-- Bottom Action Ribbon -->
+<div class="flex items-center justify-between pt-space-2 border-t border-surface-container-high">
+<span class="font-label-caps text-label-caps text-error">STATUS: ESCALATED TO SENIOR AUDIT REVIEW QUEUE</span>
+<div class="flex items-center gap-space-2">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-space-3 py-space-1 font-label-caps text-label-caps" type="button">
+                [REQUEST AMENDMENT]
+              </button>
+<button class="bg-error hover:bg-on-error text-on-error hover:text-error px-space-3 py-space-1 font-label-caps text-label-caps font-bold" type="button">
+                [CONFIRM DISCREPANCY DISCLOSURE]
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- RELATIONSHIP CARD 3: Corroboration (High Certainty Match) -->
+<div class="bg-surface-container flex flex-col shadow-lg border-l-4 border-tertiary">
+<!-- Card Header Ribbon -->
+<div class="bg-surface-container-high px-space-4 py-space-2.5 flex flex-wrap items-center justify-between gap-space-3">
+<div class="flex items-center gap-space-3">
+<span class="px-space-2 py-0.5 bg-tertiary/20 text-tertiary font-label-caps text-label-caps font-bold flex items-center gap-1">
+<span>■</span> CORROBORATES
+            </span>
+<span class="font-code-inline text-code-inline text-outline">PAIR ID: #REL-8812</span>
+<span class="font-label-caps text-label-caps text-tertiary">UNANIMOUS CONFIRMATION</span>
+</div>
+<div class="flex items-center gap-space-4">
+<div class="flex items-center gap-space-2">
+<span class="font-label-caps text-label-caps text-outline">CONFIDENCE:</span>
+<span class="font-code-inline text-code-inline text-tertiary font-bold">99.4%</span>
+<div class="flex items-center gap-0.5">
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+<span class="w-1 h-3 bg-tertiary"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-space-4 flex flex-col gap-space-4">
+<!-- LLM Reasoning Box -->
+<div class="bg-surface-container-low p-space-3.5 flex flex-col gap-space-1.5">
+<div class="flex items-center gap-space-2 text-tertiary font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[16px]">task_alt</span>
+<span>INDEPENDENT VERIFICATION SYNC</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Express Parcel shipments volume of <span class="text-tertiary font-semibold font-code-inline">740 Million parcels</span> stated in the Statutory Board Report matches exactly with the Operational Metric footnote in the Presentation deck, certifying zero deviation across dissemination channels.
+            </p>
+</div>
+<!-- Dual Fact Evidence Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-3">
+<div class="bg-surface-container-low p-space-4 flex flex-col gap-space-2">
+<div class="flex items-center justify-between pb-space-2 border-b border-surface-container-highest">
+<span class="px-space-1.5 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps font-bold">SOURCE FACT A</span>
+<span class="font-label-caps text-label-caps text-outline">PAGE 12 • AR24</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">EXPRESS PARCEL VOLUME</span>
+<span class="font-data-metric text-data-metric text-tertiary">740 Mn Units</span>
+<div class="bg-surface-container-lowest p-space-2 font-code-inline text-code-inline text-on-surface-variant">
+                "Delhivery handled 740 million express parcels in FY24, representing an 11% increase over FY23."
+              </div>
+</div>
+<div class="bg-surface-container-low p-space-4 flex flex-col gap-space-2">
+<div class="flex items-center justify-between pb-space-2 border-b border-surface-container-highest">
+<span class="px-space-1.5 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps font-bold">SOURCE FACT B</span>
+<span class="font-label-caps text-label-caps text-outline">PAGE 6 • EARNINGS SLIDE</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">KPI PRESENTATION DECK</span>
+<span class="font-data-metric text-data-metric text-tertiary">740 Mn Units</span>
+<div class="bg-surface-container-lowest p-space-2 font-code-inline text-code-inline text-on-surface-variant">
+                "Parcel Volume: 740 Mn (+11% YoY) with 99.8% network service availability."
+              </div>
+</div>
+</div>
+<!-- Bottom Action Ribbon -->
+<div class="flex items-center justify-between pt-space-2 border-t border-surface-container-high">
+<span class="font-label-caps text-label-caps text-tertiary">STATUS: ZERO RESIDUAL RISK • AUTO-VERIFIED</span>
+<div class="flex items-center gap-space-2">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-space-3 py-space-1 font-label-caps text-label-caps" type="button">
+                [EXPORT AUDIT CERTIFICATE]
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro-interactions Script for interactive drag hover and simulation triggers -->
+<script>
+    (function() {
+      const dropZone = document.getElementById('drop-zone');
+      if (dropZone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add('bg-surface-container-highest');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.remove('bg-surface-container-highest');
+          }, false);
+        });
+      }
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-white/10 py-space-6"><div class="w-full px-space-4 flex flex-col md:flex-row items-center justify-between gap-space-4 font-body-sm text-body-sm text-outline"><div><span>VERITY FACT ENGINE // HIGH INTEGRITY INTELLIGENCE</span></div><div class="flex items-center gap-space-6"><span class="font-label-caps text-label-caps text-on-surface-variant">LATENCY: 14MS (P95)</span><span class="font-label-caps text-label-caps text-on-surface-variant">INTEGRITY: AUDITED</span><span>© 2025 Verity Systems Inc.</span></div></div></footer></body></html>

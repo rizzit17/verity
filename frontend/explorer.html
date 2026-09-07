@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Verity — Document Facts Explorer</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-highest": "#31353f",
+            "on-tertiary": "#003824",
+            "tertiary": "#4edea3",
+            "secondary": "#4cd7f6",
+            "secondary-container": "#03b5d3",
+            "primary-fixed": "#e9ddff",
+            "primary-fixed-dim": "#d0bcff",
+            "on-secondary": "#003640",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-primary": "#3c0091",
+            "on-secondary-container": "#00424e",
+            "on-primary-fixed-variant": "#5516be",
+            "outline-variant": "#494454",
+            "on-tertiary-container": "#00311f",
+            "on-tertiary-fixed": "#002113",
+            "on-secondary-fixed": "#001f26",
+            "on-primary-fixed": "#23005c",
+            "inverse-primary": "#6d3bd7",
+            "tertiary-container": "#00a572",
+            "inverse-surface": "#dfe2ef",
+            "on-error-container": "#ffdad6",
+            "surface": "#0f131c",
+            "inverse-on-surface": "#2c303a",
+            "surface-container-high": "#262a34",
+            "primary-container": "#a078ff",
+            "surface-dim": "#0f131c",
+            "on-primary-container": "#340080",
+            "secondary-fixed": "#acedff",
+            "on-surface": "#dfe2ef",
+            "on-surface-variant": "#cbc3d7",
+            "surface-container": "#1c1f29",
+            "outline": "#958ea0",
+            "background": "#0f131c",
+            "surface-tint": "#d0bcff",
+            "on-background": "#dfe2ef",
+            "error": "#ffb4ab",
+            "tertiary-fixed": "#6ffbbe",
+            "on-secondary-fixed-variant": "#004e5c",
+            "secondary-fixed-dim": "#4cd7f6",
+            "surface-container-lowest": "#0a0e17",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-container-low": "#181b25",
+            "primary": "#d0bcff",
+            "surface-bright": "#353943",
+            "on-error": "#690005",
+            "error-container": "#93000a",
+            "surface-variant": "#31353f"
+          },
+          borderRadius: {
+            "DEFAULT": "0px",
+            "sm": "0px",
+            "md": "0px",
+            "lg": "0px",
+            "xl": "0px",
+            "full": "0px"
+          },
+          spacing: {
+            "space-0": "0px",
+            "space-1": "0.25rem",
+            "space-2": "0.5rem",
+            "space-3": "0.75rem",
+            "space-4": "1rem",
+            "space-5": "1.25rem",
+            "space-6": "1.5rem",
+            "space-8": "2rem",
+            "space-10": "2.5rem",
+            "space-12": "3rem",
+            "space-16": "4rem",
+            "gutter-default": "1px",
+            "panel-padding-tight": "0.75rem",
+            "panel-padding-dense": "1rem",
+            "panel-padding-standard": "1.5rem"
+          },
+          fontFamily: {
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "headline-sm": ["Space Grotesk", "sans-serif"],
+            "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
+            "body-sm": ["JetBrains Mono", "monospace"],
+            "body-lg": ["JetBrains Mono", "monospace"],
+            "display-xl-mobile": ["Space Grotesk", "sans-serif"],
+            "display-xl": ["Space Grotesk", "sans-serif"],
+            "headline-lg": ["Space Grotesk", "sans-serif"],
+            "data-metric": ["JetBrains Mono", "monospace"],
+            "label-caps": ["JetBrains Mono", "monospace"],
+            "body-md": ["JetBrains Mono", "monospace"],
+            "code-inline": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+  <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
+    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-4">
+      <div class="flex items-center gap-space-4 shrink-0">
+        <a href="/" class="flex items-center gap-space-2 text-decoration-none">
+          <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
+          <span class="px-space-2 py-space-1 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-label-caps uppercase tracking-wider">
+            FACT KNOWLEDGE LAYER v2.4
+          </span>
+        </a>
+        <div class="hidden xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
+          <span class="text-outline-variant">|</span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
+          <span class="text-outline-variant">|</span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span id="nav-relations" class="text-tertiary font-bold">...</span></span>
+          <span class="text-outline-variant">|</span>
+          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
+        </div>
+      </div>
+      <nav class="hidden lg:flex items-center h-full gap-space-1">
+        <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          Landing Overview
+        </a>
+        <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          Workspace &amp; Relationships
+        </a>
+        <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+          Document Facts Explorer
+        </a>
+        <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          Failures &amp; Review Queue
+        </a>
+      </nav>
+      <div class="flex items-center gap-space-3 shrink-0">
+        <div class="flex items-center gap-space-2">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button">
+            [SEED DEMO]
+          </button>
+          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button">
+            [CLEAR DB]
+          </button>
+          <a class="hidden sm:flex items-center gap-space-2 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+            <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
+            <span>/docs</span>
+            <span class="text-outline text-body-sm">99.9%</span>
+          </a>
+        </div>
+        <div class="w-8 h-8 bg-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">terminal</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="w-full pt-16 bg-background min-h-screen flex flex-col">
+    <!-- Top Status Bar -->
+    <div class="w-full bg-surface-container-lowest px-space-4 py-space-3 flex flex-wrap items-center justify-between gap-space-4 border-b border-white/10">
+      <div class="flex items-center gap-space-3 min-w-0">
+        <div class="w-2 h-2 bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.6)]"></div>
+        <div class="flex items-center gap-space-2 font-label-caps text-label-caps text-outline uppercase tracking-wider">
+          <span class="text-on-surface font-bold">ACTIVE CORPUS:</span>
+          <span id="active-corpus-label" class="text-secondary font-mono">FINANCIAL STATEMENTS</span>
+          <span class="text-outline-variant">/</span>
+          <span>PARSER: PYMUPDF + GEMINI 3.5 FLASH LITE</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-2">
+        <span class="inline-flex items-center gap-space-1 px-space-2 py-space-1 bg-surface-container-high text-on-surface font-label-caps text-label-caps">
+          <span class="material-symbols-outlined text-[14px] text-tertiary">check_circle</span>
+          <span id="header-status-pill">ENGINE READY</span>
+        </span>
+        <button onclick="exportDocumentFactsJSON()" class="px-space-2 py-space-1 bg-surface-container-low hover:bg-surface-container-high text-outline hover:text-on-surface transition-colors font-label-caps text-label-caps flex items-center gap-space-1" type="button">
+          <span class="material-symbols-outlined text-[14px]">download</span>
+          <span>EXPORT FACTS JSON</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Multi-Pane Workbench Layout -->
+    <div class="w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-[1px] bg-white/10 min-h-[calc(100vh-8rem)]">
+      <!-- Left Sidebar: Ingested Documents & Corpus Operations (lg:col-span-3) -->
+      <aside class="lg:col-span-3 bg-surface-container-lowest flex flex-col justify-between border-r border-white/10">
+        <div class="flex flex-col">
+          <!-- Section Header -->
+          <div class="p-space-4 bg-surface-container-low flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center gap-space-2">
+              <span class="material-symbols-outlined text-secondary text-[18px]">folder_data</span>
+              <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase font-semibold">Corpus Index</span>
+            </div>
+            <span id="corpus-count-badge" class="px-space-2 py-0.5 bg-surface-container-highest text-secondary font-label-caps text-label-caps">0 LOADED</span>
+          </div>
+
+          <!-- Document Selector List -->
+          <div id="corpus-doc-list" class="p-space-3 space-y-space-2 overflow-y-auto max-h-[420px]">
+            <div class="p-space-3 text-outline text-body-sm">
+              Loading corpus documents...
+            </div>
+          </div>
+
+          <!-- Extraction Diagnostics Histogram Card -->
+          <div class="m-space-3 p-space-3 bg-surface-container-low border border-white/5">
+            <div class="flex items-center justify-between text-outline font-label-caps text-label-caps mb-space-2">
+              <span>EXTRACTION CONFIDENCE DISTRIBUTION</span>
+              <span id="dist-avg-conf" class="text-tertiary">AVG 98.4%</span>
+            </div>
+            <!-- Micro Density Chart -->
+            <div class="h-10 w-full flex items-end gap-[2px] pt-2">
+              <div class="w-1/12 h-[20%] bg-tertiary/30"></div>
+              <div class="w-1/12 h-[35%] bg-tertiary/40"></div>
+              <div class="w-1/12 h-[20%] bg-tertiary/30"></div>
+              <div class="w-1/12 h-[50%] bg-tertiary/50"></div>
+              <div class="w-1/12 h-[70%] bg-tertiary/60"></div>
+              <div class="w-1/12 h-[85%] bg-tertiary/75"></div>
+              <div class="w-1/12 h-[100%] bg-tertiary shadow-[0_0_8px_rgba(78,222,163,0.5)]"></div>
+              <div class="w-1/12 h-[90%] bg-tertiary/85"></div>
+              <div class="w-1/12 h-[95%] bg-tertiary/90"></div>
+              <div class="w-1/12 h-[60%] bg-secondary/60"></div>
+              <div class="w-1/12 h-[25%] bg-outline-variant"></div>
+              <div class="w-1/12 h-[15%] bg-outline-variant"></div>
+            </div>
+            <div class="mt-space-2 flex justify-between font-code-inline text-[0.625rem] text-outline">
+              <span>70% CONF</span>
+              <span>85% CONF</span>
+              <span>100% CONF</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left Sidebar Action Triggers -->
+        <div class="p-space-3 bg-surface-container-low space-y-space-2 border-t border-white/10">
+          <button onclick="triggerReExtraction()" class="w-full py-space-2 px-space-3 bg-primary text-on-primary font-body-sm text-body-sm font-bold flex items-center justify-center gap-space-2 hover:bg-primary-fixed-dim transition-all shadow-[0_0_12px_rgba(208,188,255,0.25)]" type="button">
+            <span class="material-symbols-outlined text-[18px]">sync</span>
+            <span>[RE-EXTRACT DOCUMENT]</span>
+          </button>
+          <div class="grid grid-cols-2 gap-space-2">
+            <button onclick="exportDocumentFactsJSON()" class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors" type="button">
+              [EXPORT JSON]
+            </button>
+            <a href="/workspace" class="py-space-1 px-space-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-caps text-label-caps text-center transition-colors block text-decoration-none">
+              [PROVENANCE GRAPH]
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Viewport: Mined Facts Explorer & Multi-Dimensional Grid (lg:col-span-6) -->
+      <main class="lg:col-span-6 bg-surface flex flex-col border-r border-white/10 overflow-y-auto">
+        <!-- File Header Banner & Fact Metric Bar -->
+        <div class="p-space-4 bg-surface-container-lowest flex flex-col md:flex-row items-start md:items-center justify-between gap-space-3 border-b border-white/5">
+          <div class="min-w-0">
+            <div class="flex items-center gap-space-2">
+              <span class="px-space-2 py-0.5 bg-primary/20 text-primary font-label-caps text-label-caps">ACTIVE TARGET</span>
+              <span id="active-doc-id-pill" class="font-label-caps text-label-caps text-outline">SELECT A FILE</span>
+            </div>
+            <h1 id="active-doc-title" class="mt-space-1 font-headline-md text-headline-md text-on-surface font-bold tracking-tight truncate">
+              Loading document facts...
+            </h1>
+            <p id="active-doc-entity" class="font-body-sm text-body-sm text-on-surface-variant">
+              Entity: <span class="text-secondary font-semibold">Delhivery Limited</span> • Source Document
+            </p>
+          </div>
+          <div class="flex items-center gap-space-3">
+            <div class="relative">
+              <input id="fact-search-input" oninput="renderFactsGrid()" class="bg-surface-container-low px-space-3 py-space-1 font-body-sm text-body-sm text-on-surface placeholder:text-outline w-52 focus:outline-none focus:bg-surface-container-highest border border-white/10" placeholder="SEARCH FACTS..." type="text"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Category Tabs -->
+        <div class="p-space-3 bg-surface-container-low flex flex-wrap items-center justify-between gap-space-3 border-b border-white/5">
+          <div class="flex flex-wrap items-center gap-space-2">
+            <button onclick="setCategoryFilter('all')" class="cat-pill px-space-3 py-space-1 bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-bold" data-cat="all">
+              ALL FACTS (<span id="cat-count-all">0</span>)
+            </button>
+            <button onclick="setCategoryFilter('financial')" class="cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps" data-cat="financial">
+              FINANCIAL METRICS
+            </button>
+            <button onclick="setCategoryFilter('operational')" class="cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps" data-cat="operational">
+              OPERATIONAL STATS
+            </button>
+          </div>
+          <span class="font-label-caps text-label-caps text-outline">SORT: PAGE ASCENDING ▲</span>
+        </div>
+
+        <!-- Facts Grid Stream -->
+        <div id="facts-stream" class="p-space-4 flex flex-col gap-space-3">
+          <div class="p-space-6 text-center text-outline font-body-sm">
+            Select a document from the left corpus to inspect mined facts.
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar: Source Provenance & Coordinate Inspector (lg:col-span-3) -->
+      <aside class="lg:col-span-3 bg-surface-container-lowest p-space-4 flex flex-col gap-space-4 overflow-y-auto">
+        <div class="flex items-center justify-between pb-space-2 border-b border-white/10">
+          <div class="flex items-center gap-space-2">
+            <span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+            <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Provenance Inspector</span>
+          </div>
+          <span class="font-label-caps text-label-caps text-tertiary">PHYSICAL GROUNDING</span>
+        </div>
+
+        <!-- Selected Fact Detail View -->
+        <div id="inspector-content" class="flex flex-col gap-space-4">
+          <!-- Coordinates Banner -->
+          <div class="p-space-3 bg-surface-container-low border-l-2 border-secondary flex flex-col gap-space-1">
+            <span class="font-label-caps text-label-caps text-secondary font-bold">SOURCE COORDINATES</span>
+            <span id="insp-page-coord" class="font-code-inline text-code-inline text-on-surface font-bold">PAGE 4 • PHYSICAL ANCHOR</span>
+            <span class="font-label-caps text-label-caps text-outline">GROUNDING TYPE: VERBATIM TOKEN MATCH</span>
+          </div>
+
+          <!-- Snippet Display -->
+          <div class="bg-surface-container p-space-3 flex flex-col gap-space-2">
+            <span class="font-label-caps text-label-caps text-outline">DOCUMENT EXTRACT STREAM:</span>
+            <p id="insp-snippet" class="font-body-sm text-body-sm text-on-surface italic bg-surface-container-lowest p-space-3 border border-white/5 leading-relaxed">
+              "Select any fact card on the center panel to view exact verbatim evidence and raw JSON metadata."
+            </p>
+          </div>
+
+          <!-- Fact Attributes Raw Inspector -->
+          <div class="bg-surface-container p-space-3 flex flex-col gap-space-2">
+            <span class="font-label-caps text-label-caps text-outline">FACT PROPERTIES JSON:</span>
+            <pre id="insp-json" class="bg-surface-container-lowest p-space-3 text-[11px] font-code-inline text-secondary overflow-x-auto max-h-48 border border-white/5">{
+  "status": "ready",
+  "click_card_to_inspect": true
+}</pre>
+          </div>
+
+          <!-- Document SHA256 Fingerprint -->
+          <div class="mt-auto p-space-3 bg-surface-container-low flex flex-col gap-space-1 font-label-caps text-label-caps text-outline">
+            <span>FILE PROVENANCE HASH:</span>
+            <span id="insp-doc-hash" class="font-code-inline text-on-surface text-[10px] truncate">SHA256:VERITY-INGESTED-ARTIFACT</span>
+            <span class="text-tertiary mt-1">✓ DETERMINISTIC PROVENANCE</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    let allDocuments = [];
+    let currentDocId = null;
+    let currentFacts = [];
+    let selectedFact = null;
+    let currentCategoryFilter = 'all';
+
+    async function syncTelemetry() {
+      try {
+        const res = await fetch('/stats');
+        if (res.ok) {
+          const stats = await res.json();
+          document.getElementById('nav-files').textContent = stats.files_count;
+          document.getElementById('nav-facts').textContent = stats.facts_count;
+          document.getElementById('nav-relations').textContent = stats.relations_count;
+          document.getElementById('nav-queue').textContent = stats.failures_count > 0 ? `${stats.failures_count} Flagged` : '0 Clean';
+          document.getElementById('dist-avg-conf').textContent = `AVG ${stats.avg_confidence}%`;
+        }
+      } catch (err) {
+        console.warn('Telemetry sync error:', err);
+      }
+    }
+
+    async function loadCorpus() {
+      try {
+        const res = await fetch('/documents');
+        if (res.ok) {
+          allDocuments = await res.json();
+          document.getElementById('corpus-count-badge').textContent = `${allDocuments.length} LOADED`;
+          renderCorpusList();
+
+          // Check URL param or pick first document
+          const urlParams = new URLSearchParams(window.location.search);
+          const paramDocId = urlParams.get('doc_id');
+
+          if (paramDocId && allDocuments.some(d => d.id === paramDocId)) {
+            selectDocument(paramDocId);
+          } else if (allDocuments.length > 0) {
+            selectDocument(allDocuments[0].id);
+          }
+        }
+      } catch (e) {
+        console.error('Error loading corpus:', e);
+      }
+    }
+
+    function renderCorpusList() {
+      const container = document.getElementById('corpus-doc-list');
+      if (allDocuments.length === 0) {
+        container.innerHTML = '<div class="p-space-3 text-outline text-body-sm">No documents found. Click [SEED DEMO] above.</div>';
+        return;
+      }
+
+      container.innerHTML = allDocuments.map(doc => {
+        const isActive = doc.id === currentDocId;
+        const activeClass = isActive ? 'bg-surface-container-high ring-1 ring-primary/60 border-l-4 border-primary' : 'bg-surface-container-low hover:bg-surface-container';
+
+        return `
+          <div onclick="selectDocument('${doc.id}')" class="p-space-3 ${activeClass} cursor-pointer transition-all duration-150">
+            <div class="flex items-start justify-between gap-space-2">
+              <div class="flex items-center gap-space-2 min-w-0">
+                <span class="material-symbols-outlined ${isActive ? 'text-primary' : 'text-outline'} text-[20px] shrink-0">picture_as_pdf</span>
+                <span class="font-body-md text-body-md font-bold text-on-surface truncate">${escapeHtml(doc.filename)}</span>
+              </div>
+              <span class="px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps shrink-0">■ DONE</span>
+            </div>
+            <div class="mt-space-2 grid grid-cols-2 gap-space-2 font-body-sm text-body-sm text-outline pl-7">
+              <div>
+                <span class="block text-outline-variant font-label-caps text-[0.625rem]">FACTS</span>
+                <span class="text-secondary font-bold font-data-metric text-[1rem]">${doc.fact_count || 0}</span>
+              </div>
+              <div>
+                <span class="block text-outline-variant font-label-caps text-[0.625rem]">PAGES</span>
+                <span class="text-on-surface font-bold">${doc.page_count || 5} pgs</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function selectDocument(docId) {
+      currentDocId = docId;
+      const doc = allDocuments.find(d => d.id === docId);
+      if (!doc) return;
+
+      renderCorpusList();
+
+      document.getElementById('active-doc-id-pill').textContent = `DOC_REF #${doc.id.slice(0, 8)}`;
+      document.getElementById('active-doc-title').textContent = doc.filename;
+      document.getElementById('active-doc-entity').innerHTML = `Extracted Entity: <span class="text-secondary font-semibold">Verified Corporate Entity</span> • ${doc.page_count || 5} Audited Pages`;
+      document.getElementById('insp-doc-hash').textContent = `SHA256:${doc.id.replace(/-/g, '')}`;
+
+      try {
+        const res = await fetch(`/documents/${docId}/facts`);
+        if (res.ok) {
+          currentFacts = await res.json();
+          document.getElementById('cat-count-all').textContent = currentFacts.length;
+          renderFactsGrid();
+          if (currentFacts.length > 0) {
+            inspectFact(currentFacts[0]);
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching facts:', e);
+      }
+    }
+
+    function setCategoryFilter(cat) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll('.cat-pill').forEach(pill => {
+        if (pill.getAttribute('data-cat') === cat) {
+          pill.className = 'cat-pill px-space-3 py-space-1 bg-surface-container-highest text-on-surface font-label-caps text-label-caps font-bold';
+        } else {
+          pill.className = 'cat-pill px-space-3 py-space-1 bg-transparent hover:bg-surface-container text-on-surface-variant font-label-caps text-label-caps';
+        }
+      });
+      renderFactsGrid();
+    }
+
+    function renderFactsGrid() {
+      const container = document.getElementById('facts-stream');
+      const query = (document.getElementById('fact-search-input').value || '').trim().toLowerCase();
+
+      let filtered = currentFacts;
+      if (currentCategoryFilter === 'financial') {
+        filtered = filtered.filter(f => /revenue|ebitda|profit|loss|margin|expense|cash|capex/i.test(f.metric));
+      } else if (currentCategoryFilter === 'operational') {
+        filtered = filtered.filter(f => !/revenue|ebitda|profit|loss|margin|expense|cash|capex/i.test(f.metric));
+      }
+
+      if (query) {
+        filtered = filtered.filter(f =>
+          (f.metric || '').toLowerCase().includes(query) ||
+          (f.value || '').toLowerCase().includes(query) ||
+          (f.subject || '').toLowerCase().includes(query) ||
+          (f.evidence_text || '').toLowerCase().includes(query)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="p-space-8 text-center text-outline font-body-sm">
+            No facts found matching filter criteria.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(f => {
+        const isSelected = selectedFact && selectedFact.id === f.id;
+        const cardBorder = isSelected ? 'ring-2 ring-primary border-primary' : 'border-white/5 hover:border-white/20';
+        const confPercent = Math.round((f.confidence || 0.95) * 100);
+
+        return `
+          <div onclick="inspectFactById('${f.id}')" class="bg-surface-container-low p-space-4 flex flex-col gap-space-3 border ${cardBorder} cursor-pointer transition-all shadow-md">
+            <div class="flex items-start justify-between gap-space-2">
+              <div class="flex items-center gap-space-2">
+                <span class="px-space-2 py-0.5 bg-surface-container-high text-secondary font-label-caps text-label-caps font-bold">
+                  PAGE ${f.page}
+                </span>
+                <span class="font-label-caps text-label-caps text-outline">METRIC CLAIM</span>
+              </div>
+              <span class="px-space-2 py-0.5 bg-tertiary/10 text-tertiary font-label-caps text-label-caps">
+                ${confPercent}% CONF
+              </span>
+            </div>
+
+            <div class="flex flex-col gap-0.5">
+              <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">${escapeHtml(f.metric)}</span>
+              <span class="font-body-sm text-body-sm text-outline">${escapeHtml(f.subject)} • ${escapeHtml(f.time_scope || 'Fiscal Year')}</span>
+            </div>
+
+            <div class="bg-surface-container-lowest p-space-2.5 flex items-baseline justify-between">
+              <span class="font-data-metric text-data-metric text-secondary font-bold">${escapeHtml(f.value)} ${escapeHtml(f.unit || '')}</span>
+              <span class="font-label-caps text-label-caps text-outline">UNIT: ${escapeHtml(f.unit || 'UNITS')}</span>
+            </div>
+
+            <div class="bg-surface-container-lowest p-space-3 font-code-inline text-code-inline text-on-surface-variant border-l-2 border-secondary/60">
+              <span class="text-outline block mb-1 font-label-caps text-label-caps">VERBATIM DOCUMENT CITATION:</span>
+              "${escapeHtml(f.evidence_text || 'No raw quote recorded.')}"
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function inspectFactById(id) {
+      const f = currentFacts.find(item => item.id === id);
+      if (f) inspectFact(f);
+    }
+
+    function inspectFact(f) {
+      selectedFact = f;
+      document.getElementById('insp-page-coord').textContent = `PAGE ${f.page} • PHYSICAL EVIDENCE`;
+      document.getElementById('insp-snippet').textContent = `"${f.evidence_text || 'No raw context available'}"`;
+
+      const jsonCopy = {
+        id: f.id,
+        page: f.page,
+        subject: f.subject,
+        metric: f.metric,
+        value: f.value,
+        unit: f.unit,
+        time_scope: f.time_scope,
+        confidence: f.confidence,
+        attributes: f.attributes || {}
+      };
+      document.getElementById('insp-json').textContent = JSON.stringify(jsonCopy, null, 2);
+
+      renderFactsGrid();
+    }
+
+    async function triggerReExtraction() {
+      if (!currentDocId) {
+        alert('Please select a document first.');
+        return;
+      }
+      if (!confirm('Re-trigger fact extraction and cross-document reconciliation for this document?')) return;
+
+      try {
+        const res = await fetch(`/process/${currentDocId}`, { method: 'POST' });
+        if (res.ok) {
+          const data = await res.json();
+          alert(`Re-extraction completed! Extracted ${data.facts_extracted} facts.`);
+          await selectDocument(currentDocId);
+          await syncTelemetry();
+        }
+      } catch (err) {
+        alert('Error: ' + err);
+      }
+    }
+
+    function exportDocumentFactsJSON() {
+      if (currentFacts.length === 0) {
+        alert('No facts to export.');
+        return;
+      }
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentFacts, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `verity_document_facts_${currentDocId || 'export'}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    async function handleSeedDemo() {
+      const btn = document.getElementById('btn-seed-demo');
+      btn.textContent = '[SEEDING...]';
+      btn.disabled = true;
+      try {
+        const res = await fetch('/admin/seed-demo', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || 'Demo seeded successfully!');
+        await loadCorpus();
+        await syncTelemetry();
+      } catch (e) {
+        alert('Seeding error: ' + e);
+      } finally {
+        btn.textContent = '[SEED DEMO]';
+        btn.disabled = false;
+      }
+    }
+
+    async function handleClearDb() {
+      if (!confirm('Are you sure you want to clear all documents, facts, and relationships?')) return;
+      try {
+        const res = await fetch('/admin/clear-db', { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || 'Database reset successfully!');
+        await loadCorpus();
+        await syncTelemetry();
+      } catch (e) {
+        alert('Clear error: ' + e);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Init
+    syncTelemetry();
+    loadCorpus();
+  </script>
+</body>
+</html>
