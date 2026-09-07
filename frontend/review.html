@@ -119,15 +119,15 @@
 <body class="bg-background font-body-md text-on-background min-h-screen">
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
   <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
-    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-4">
-      <div class="flex items-center gap-space-4 shrink-0">
+    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
+      <div class="flex items-center gap-space-3 shrink-0">
         <a href="/" class="flex items-center gap-space-2 text-decoration-none">
           <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
-          <span class="px-space-2 py-space-1 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-label-caps uppercase tracking-wider">
-            FACT KNOWLEDGE LAYER v2.4
+          <span class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+            FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
+        <div class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
           <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files" class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
           <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts" class="text-secondary font-bold">...</span></span>
@@ -137,38 +137,48 @@
           <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue" class="text-error font-bold">...</span></span>
         </div>
       </div>
-      <nav class="hidden lg:flex items-center h-full gap-space-1">
+      <nav class="hidden md:flex items-center h-full gap-space-1">
         <a href="/" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
-          Landing Overview
+          Overview
         </a>
         <a href="/workspace" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
-          Workspace &amp; Relationships
+          Workspace
         </a>
         <a href="/explorer" class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
-          Document Facts Explorer
+          Explorer
         </a>
         <a href="/review" class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
-          Failures &amp; Review Queue
+          Review Queue
         </a>
       </nav>
-      <div class="flex items-center gap-space-3 shrink-0">
-        <div class="flex items-center gap-space-2">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button">
-            [SEED DEMO]
+      <div class="flex items-center gap-space-2 shrink-0">
+        <div class="flex items-center gap-space-1.5">
+          <button id="btn-seed-demo" onclick="handleSeedDemo()" class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors" type="button" title="Seed Demo Database">
+            [SEED]
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button">
-            [CLEAR DB]
+          <button id="btn-clear-db" onclick="handleClearDb()" class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors" type="button" title="Clear All Data">
+            [CLEAR]
           </button>
-          <a class="hidden sm:flex items-center gap-space-2 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
+          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors" href="/docs" target="_blank">
             <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
             <span>/docs</span>
-            <span class="text-outline text-body-sm">99.9%</span>
           </a>
         </div>
-        <div class="w-8 h-8 bg-primary flex items-center justify-center">
+        <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low" type="button" aria-label="Toggle Navigation">
+          <span class="material-symbols-outlined text-[18px]">menu</span>
+        </button>
+        <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
           <span class="material-symbols-outlined text-on-primary text-[18px]">terminal</span>
         </div>
       </div>
+    </div>
+    <!-- MOBILE ACCORDION / DRAWER -->
+    <div id="mobile-nav-menu" class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
+      <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
+      <a href="/workspace" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
+      <a href="/explorer" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
+      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Review Queue</a>
+      <a href="/docs" target="_blank" class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs (API)</span></a>
     </div>
   </header>
 
