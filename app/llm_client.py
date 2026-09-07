@@ -65,30 +65,34 @@ def clean_json_text(text: str) -> str:
 
 
 import hashlib
+import threading
 import time
 
 CACHE_FILE = BASE_DIR / "data" / "llm_cache.json"
 _memory_cache: Dict[str, str] = {}
+_cache_lock = threading.Lock()
 
 
 def _get_cached_response(cache_key: str) -> Optional[str]:
     global _memory_cache
-    if not _memory_cache and CACHE_FILE.exists():
-        try:
-            _memory_cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
-        except Exception:
-            _memory_cache = {}
-    return _memory_cache.get(cache_key)
+    with _cache_lock:
+        if not _memory_cache and CACHE_FILE.exists():
+            try:
+                _memory_cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
+            except Exception:
+                _memory_cache = {}
+        return _memory_cache.get(cache_key)
 
 
 def _set_cached_response(cache_key: str, response_text: str):
     global _memory_cache
-    _memory_cache[cache_key] = response_text
-    try:
-        CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
-        CACHE_FILE.write_text(json.dumps(_memory_cache, indent=2), encoding="utf-8")
-    except Exception as e:
-        logger.warning("Failed to save LLM cache to disk: %s", e)
+    with _cache_lock:
+        _memory_cache[cache_key] = response_text
+        try:
+            CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+            CACHE_FILE.write_text(json.dumps(_memory_cache, indent=2), encoding="utf-8")
+        except Exception as e:
+            logger.warning("Failed to save LLM cache to disk: %s", e)
 
 
 def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> str:

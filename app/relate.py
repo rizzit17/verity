@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 import logging
 from typing import Dict, List, Optional, Set, Tuple
 import numpy as np
@@ -5,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.config import (
     EXCLUDE_SAME_DOCUMENT,
+    EXTRACTION_MAX_WORKERS,
     SIMILARITY_THRESHOLD,
     TOP_K_CANDIDATES,
 )
@@ -119,6 +121,7 @@ def relate_new_facts(
             seen_pairs.add(pair)
 
         created_relationships: List[RelationshipModel] = []
+        comparison_tasks = []
 
         for nf in new_facts:
             candidates = find_candidates(
@@ -134,11 +137,6 @@ def relate_new_facts(
                 if pair_key in seen_pairs:
                     continue
                 seen_pairs.add(pair_key)
-
-                logger.info(
-                    "Comparing candidates (sim=%.2f): Fact [%s] vs [%s]",
-                    score, nf.metric, cand_fact.metric
-                )
 
                 # Prepare dictionary representation for LLM prompt
                 fact_a_dict = {
@@ -161,24 +159,41 @@ def relate_new_facts(
                     "evidence_text": cand_fact.evidence_text,
                     "page": cand_fact.page
                 }
+                comparison_tasks.append((nf.id, cand_fact.id, score, fact_a_dict, fact_b_dict))
 
-                comparison = compare_facts(fact_a_dict, fact_b_dict)
-                rel_type = comparison.get("relation_type", "unrelated")
+        def _compare_single_pair(task_item):
+            f_a_id, f_b_id, score, a_dict, b_dict = task_item
+            logger.info("Comparing candidate pair: Fact [%s] vs [%s]", a_dict.get("metric"), b_dict.get("metric"))
+            comparison = compare_facts(a_dict, b_dict)
+            return f_a_id, f_b_id, score, comparison
 
-                # Discard unrelated pairs per system design
-                if rel_type == "unrelated":
-                    continue
+        num_rel_workers = min(EXTRACTION_MAX_WORKERS, len(comparison_tasks)) if comparison_tasks else 1
+        comparison_results = []
 
-                rel = RelationshipModel(
-                    fact_a_id=nf.id,
-                    fact_b_id=cand_fact.id,
-                    relation_type=rel_type,
-                    reasoning=comparison.get("reasoning", "No reasoning provided."),
-                    reconciliation_note=comparison.get("reconciliation_note"),
-                    confidence=float(comparison.get("confidence", score))
-                )
-                db.add(rel)
-                created_relationships.append(rel)
+        if num_rel_workers > 1:
+            logger.info("Comparing %d candidate pairs using %d parallel worker threads", len(comparison_tasks), num_rel_workers)
+            with ThreadPoolExecutor(max_workers=num_rel_workers) as executor:
+                comparison_results = list(executor.map(_compare_single_pair, comparison_tasks))
+        else:
+            comparison_results = [_compare_single_pair(t) for t in comparison_tasks]
+
+        for f_a_id, f_b_id, score, comparison in comparison_results:
+            rel_type = comparison.get("relation_type", "unrelated")
+
+            # Discard unrelated pairs per system design
+            if rel_type == "unrelated":
+                continue
+
+            rel = RelationshipModel(
+                fact_a_id=f_a_id,
+                fact_b_id=f_b_id,
+                relation_type=rel_type,
+                reasoning=comparison.get("reasoning", "No reasoning provided."),
+                reconciliation_note=comparison.get("reconciliation_note"),
+                confidence=float(comparison.get("confidence", score))
+            )
+            db.add(rel)
+            created_relationships.append(rel)
 
         db.commit()
         logger.info(

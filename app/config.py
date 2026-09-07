@@ -22,6 +22,9 @@ SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.72"))
 TOP_K_CANDIDATES = int(os.getenv("TOP_K_CANDIDATES", "5"))
 EXCLUDE_SAME_DOCUMENT = os.getenv("EXCLUDE_SAME_DOCUMENT", "true").lower() in ("true", "1", "yes")
 
+# Concurrency & Worker Batching
+EXTRACTION_MAX_WORKERS = int(os.getenv("EXTRACTION_MAX_WORKERS", "6"))
+
 # Storage paths
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'data' / 'facts.db'}")
 UPLOAD_DIR = BASE_DIR / "data" / "uploads"

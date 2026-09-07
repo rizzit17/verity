@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import logging
 from pathlib import Path
@@ -5,7 +6,7 @@ from typing import List, Optional, Set, Tuple
 
 from sqlalchemy.orm import Session
 
-from app.config import UPLOAD_DIR
+from app.config import EXTRACTION_MAX_WORKERS, UPLOAD_DIR
 from app.db import DocumentModel, ExtractionFailureModel, FactModel, SessionLocal
 from app.ingest import extract_pages, make_chunks
 from app.llm_client import embed, extract_facts
@@ -85,10 +86,37 @@ def process_document(
         extracted_facts: List[FactModel] = []
         seen_keys: Set[Tuple[int, str, str]] = set()
 
-        # Step 3: Extract facts per chunk
-        for chunk_idx, chunk in enumerate(chunks):
-            page_num = chunk["page"]
-            raw_facts = extract_facts(chunk["text"], page=page_num)
+        # Step 3: Extract facts per chunk in parallel with bounded worker pool
+        def _extract_chunk_worker(c_tuple):
+            idx, c_data = c_tuple
+            page_num = c_data["page"]
+            raw_items = extract_facts(c_data["text"], page=page_num)
+            return idx, page_num, raw_items
+
+        num_workers = min(EXTRACTION_MAX_WORKERS, len(chunks)) if chunks else 1
+        raw_results = [None] * len(chunks)
+
+        if num_workers > 1:
+            logger.info("Extracting %d chunks using %d parallel worker threads", len(chunks), num_workers)
+            with ThreadPoolExecutor(max_workers=num_workers) as executor:
+                futures = {executor.submit(_extract_chunk_worker, (i, chunk)): i for i, chunk in enumerate(chunks)}
+                for future in as_completed(futures):
+                    try:
+                        idx, page_num, raw_items = future.result()
+                        raw_results[idx] = (page_num, raw_items)
+                    except Exception as e:
+                        orig_idx = futures[future]
+                        logger.error("Error in worker extracting chunk %d: %s", orig_idx, e)
+                        raw_results[orig_idx] = (chunks[orig_idx]["page"], [])
+        else:
+            for i, chunk in enumerate(chunks):
+                raw_results[i] = (chunk["page"], extract_facts(chunk["text"], page=chunk["page"]))
+
+        # Step 4, 5, 6: Process and persist facts in original page order on main thread
+        for item in raw_results:
+            if not item:
+                continue
+            page_num, raw_facts = item
 
             for raw_item in raw_facts:
                 # Step 4: Validate required provenance fields
