@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verity — Fact Knowledge Layer</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-bright: #f0f6fc;
+      --text-muted: #8b949e;
+      --primary: #58a6ff;
+      --primary-hover: #1f6feb;
+      --green: #3fb950;
+      --red: #f85149;
+      --amber: #d29922;
+      --purple: #bc8cff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 { font-size: 1.5rem; color: var(--text-bright); display: flex; align-items: center; gap: 8px; }
+    .badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary { background: rgba(88, 166, 255, 0.2); color: var(--primary); }
+    .badge-corroborates { background: rgba(63, 185, 80, 0.2); color: var(--green); border: 1px solid var(--green); }
+    .badge-contradicts { background: rgba(248, 81, 73, 0.2); color: var(--red); border: 1px solid var(--red); }
+    .badge-contextual { background: rgba(210, 153, 34, 0.2); color: var(--amber); border: 1px solid var(--amber); }
+
+    .header-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-left: 16px;
+    }
+    .header-links a:hover { text-decoration: underline; }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    h2 { font-size: 1.1rem; color: var(--text-bright); margin-bottom: 14px; }
+
+    /* Upload Area */
+    .upload-box {
+      border: 2px dashed var(--border);
+      padding: 20px;
+      text-align: center;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .upload-box:hover { border-color: var(--primary); }
+    input[type="file"] { display: none; }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Document List */
+    .doc-item {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.01);
+      transition: all 0.2s;
+    }
+    .doc-item:hover, .doc-item.active {
+      border-color: var(--primary);
+      background: rgba(88, 166, 255, 0.06);
+    }
+    .doc-item .name { font-weight: 600; color: var(--text-bright); font-size: 0.92rem; word-break: break-all; }
+    .doc-item .meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+    }
+    .tab-btn.active {
+      color: var(--text-bright);
+      border-bottom-color: var(--primary);
+    }
+
+    /* Filter Pills */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 12px;
+      border-radius: 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .filter-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Fact Item Card */
+    .fact-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .fact-card .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .fact-card .metric { font-size: 0.95rem; font-weight: 600; color: var(--text-bright); }
+    .fact-card .val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 4px 0 8px 0;
+    }
+    .fact-card .meta-row {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .evidence-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 3px solid var(--primary);
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      border-radius: 0 4px 4px 0;
+      font-style: italic;
+      color: #e6edf3;
+    }
+
+    /* Relationship Row */
+    .rel-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .rel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .reasoning-box {
+      background: rgba(88, 166, 255, 0.06);
+      border: 1px solid rgba(88, 166, 255, 0.2);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.88rem;
+      color: var(--text-bright);
+      margin-bottom: 14px;
+    }
+    .reconciliation-alert {
+      background: rgba(210, 153, 34, 0.1);
+      border: 1px solid rgba(210, 153, 34, 0.3);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--amber);
+      margin-bottom: 14px;
+    }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .side-card {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .side-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Verity <span class="badge badge-primary">Fact Knowledge Layer</span></h1>
+    <div class="header-links">
+      <a href="/docs" target="_blank">Interactive API Docs (/docs)</a>
+    </div>
+  </header>
+
+  <div class="grid-container">
+    <!-- Left Column: Upload & Document Directory -->
+    <aside>
+      <div class="card">
+        <h2>Upload Document</h2>
+        <div class="upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <p id="fileLabel">Choose or drop a PDF here</p>
+          <input type="file" id="fileInput" accept=".pdf" onchange="handleFileSelected(event)" />
+        </div>
+        <button class="btn" id="uploadBtn" onclick="uploadPDF()" disabled>Upload & Extract</button>
+        <div id="uploadStatus" style="margin-top: 12px; font-size: 0.85rem; display: none;"></div>
+      </div>
+
+      <div class="card">
+        <h2>Documents Ingested</h2>
+        <div id="documentList">
+          <div class="empty-state">Loading documents...</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Column: Facts & Relationships Browser -->
+    <main>
+      <div class="card">
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tabRel" onclick="switchTab('relationships')">Cross-Document Relationships</button>
+          <button class="tab-btn" id="tabFacts" onclick="switchTab('facts')">Document Facts Explorer</button>
+          <button class="tab-btn" id="tabFailures" onclick="switchTab('failures')">Failures / Review Cases</button>
+        </div>
+
+        <!-- Panel 1: Relationships View -->
+        <div id="panelRelationships">
+          <div class="filter-bar">
+            <button class="filter-pill active" onclick="filterRelationships('all', this)">All</button>
+            <button class="filter-pill" onclick="filterRelationships('corroborates', this)">Corroborates</button>
+            <button class="filter-pill" onclick="filterRelationships('contradicts', this)">Contradicts</button>
+            <button class="filter-pill" onclick="filterRelationships('contextual_reconciliation', this)">Contextual Reconciliation</button>
+          </div>
+          <div id="relationshipsContainer">
+            <div class="empty-state">Loading relationships...</div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Facts View -->
+        <div id="panelFacts" style="display: none;">
+          <div id="factsHeader" style="margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem;">
+            Select a document from the left to inspect its extracted facts.
+          </div>
+          <div id="factsContainer">
+            <div class="empty-state">No document selected.</div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Failures View -->
+        <div id="panelFailures" style="display: none;">
+          <div id="failuresHeader" style="margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem;">
+            Extraction failures and items flagged with low confidence / needs_review (Required Case 4).
+          </div>
+          <div id="failuresContainer">
+            <div class="empty-state">No failures recorded.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let selectedFile = null;
+    let selectedDocId = null;
+    let allRelationships = [];
+    let activeRelFilter = 'all';
+
+    async function init() {
+      await loadDocuments();
+      await loadRelationships();
+    }
+
+    function handleFileSelected(event) {
+      const file = event.target.files[0];
+      if (file) {
+        selectedFile = file;
+        document.getElementById('fileLabel').textContent = file.name;
+        document.getElementById('uploadBtn').disabled = false;
+      }
+    }
+
+    async function uploadPDF() {
+      if (!selectedFile) return;
+      const btn = document.getElementById('uploadBtn');
+      const statusDiv = document.getElementById('uploadStatus');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Extracting & Reconciling...';
+      statusDiv.style.display = 'block';
+      statusDiv.innerHTML = '<span style="color: var(--primary);">Uploading PDF and running fact extraction... (this may take 15-30 seconds)</span>';
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      try {
+        const res = await fetch('/documents', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Upload failed');
+
+        statusDiv.innerHTML = `<span style="color: var(--green);">Extracted <strong>${data.facts_extracted}</strong> facts across ${data.page_count} pages! Found <strong>${data.relationships_found}</strong> cross-document relationships.</span>`;
+        selectedFile = null;
+        document.getElementById('fileInput').value = '';
+        document.getElementById('fileLabel').textContent = 'Choose or drop a PDF here';
+        await loadDocuments();
+        await loadRelationships();
+        selectDocument(data.document_id);
+      } catch (err) {
+        statusDiv.innerHTML = `<span style="color: var(--red);">Error: ${err.message}</span>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Upload & Extract';
+      }
+    }
+
+    async function loadDocuments() {
+      const listEl = document.getElementById('documentList');
+      try {
+        const res = await fetch('/documents');
+        const docs = await res.json();
+        if (!docs.length) {
+          listEl.innerHTML = '<div class="empty-state">No documents uploaded yet.</div>';
+          return;
+        }
+        listEl.innerHTML = docs.map(d => `
+          <div class="doc-item ${d.id === selectedDocId ? 'active' : ''}" onclick="selectDocument('${d.id}')">
+            <div class="name">${escapeHtml(d.filename)}</div>
+            <div class="meta">
+              <span>${d.page_count} pages • ${d.fact_count || 0} facts</span>
+              <span class="badge ${d.status === 'done' ? 'badge-corroborates' : 'badge-primary'}">${d.status}</span>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        listEl.innerHTML = `<div class="empty-state" style="color: var(--red);">Failed to load documents: ${err.message}</div>`;
+      }
+    }
+
+    async function selectDocument(docId) {
+      selectedDocId = docId;
+      document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
+      await loadDocuments();
+      await loadDocumentFacts(docId);
+      await loadDocumentFailures(docId);
+      switchTab('facts');
+    }
+
+    async function loadDocumentFacts(docId) {
+      const container = document.getElementById('factsContainer');
+      const header = document.getElementById('factsHeader');
+      container.innerHTML = '<div class="empty-state">Loading facts...</div>';
+
+      try {
+        const [docRes, factsRes] = await Promise.all([
+          fetch(`/documents/${docId}`),
+          fetch(`/documents/${docId}/facts`)
+        ]);
+        const doc = await docRes.json();
+        const facts = await factsRes.json();
+
+        header.innerHTML = `Showing <strong>${facts.length}</strong> facts extracted from <strong>${escapeHtml(doc.filename)}</strong>:`;
+
+        if (!facts.length) {
+          container.innerHTML = '<div class="empty-state">No facts extracted for this document.</div>';
+          return;
+        }
+
+        container.innerHTML = facts.map(f => `
+          <div class="fact-card">
+            <div class="header">
+              <span class="metric">${escapeHtml(f.metric)}</span>
+              <span class="badge badge-primary">Page ${f.page}</span>
+            </div>
+            <div class="val">${escapeHtml(f.value)} ${f.unit ? `<small style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(f.unit)}</small>` : ''}</div>
+            <div class="meta-row">
+              <span><strong>Subject:</strong> ${escapeHtml(f.subject)}</span>
+              ${f.time_scope ? `<span><strong>Scope:</strong> ${escapeHtml(f.time_scope)}</span>` : ''}
+              <span><strong>Confidence:</strong> ${(f.confidence * 100).toFixed(0)}%</span>
+            </div>
+            <div class="evidence-box">
+              "${escapeHtml(f.evidence_text)}"
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state" style="color: var(--red);">Failed to load facts: ${err.message}</div>`;
+      }
+    }
+
+    async function loadDocumentFailures(docId) {
+      const container = document.getElementById('failuresContainer');
+      try {
+        const res = await fetch(`/documents/${docId}/failures`);
+        const failures = await res.json();
+        if (!failures.length) {
+          container.innerHTML = '<div class="empty-state">No extraction failures or low-confidence flags for this document.</div>';
+          return;
+        }
+
+        container.innerHTML = failures.map(f => `
+          <div class="fact-card" style="border-left: 3px solid var(--amber);">
+            <div class="header">
+              <span class="metric" style="color: var(--amber);">${escapeHtml(f.reason)}</span>
+              ${f.page ? `<span class="badge badge-contextual">Page ${f.page}</span>` : ''}
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 6px;">
+              Raw Extraction Item:
+              <pre style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 4px; overflow-x: auto; margin-top: 4px; color: #e6edf3;">${escapeHtml(JSON.stringify(f.raw_item, null, 2))}</pre>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state">Could not load failures.</div>`;
+      }
+    }
+
+    async function loadRelationships() {
+      const container = document.getElementById('relationshipsContainer');
+      try {
+        const res = await fetch('/relationships');
+        allRelationships = await res.json();
+        renderRelationships();
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state" style="color: var(--red);">Failed to load relationships: ${err.message}</div>`;
+      }
+    }
+
+    function filterRelationships(type, btn) {
+      activeRelFilter = type;
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderRelationships();
+    }
+
+    function renderRelationships() {
+      const container = document.getElementById('relationshipsContainer');
+      let filtered = allRelationships;
+      if (activeRelFilter !== 'all') {
+        filtered = allRelationships.filter(r => r.relation_type === activeRelFilter);
+      }
+
+      if (!filtered.length) {
+        container.innerHTML = '<div class="empty-state">No relationships found matching the selected filter.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(r => {
+        let badgeClass = 'badge-primary';
+        if (r.relation_type === 'corroborates') badgeClass = 'badge-corroborates';
+        else if (r.relation_type === 'contradicts') badgeClass = 'badge-contradicts';
+        else if (r.relation_type === 'contextual_reconciliation') badgeClass = 'badge-contextual';
+
+        return `
+          <div class="rel-card">
+            <div class="rel-header">
+              <span class="badge ${badgeClass}">${r.relation_type.replace('_', ' ')}</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Confidence: ${(r.confidence * 100).toFixed(0)}%</span>
+            </div>
+
+            <div class="reasoning-box">
+              <strong>LLM Reasoning:</strong> ${escapeHtml(r.reasoning)}
+            </div>
+
+            ${r.reconciliation_note ? `
+              <div class="reconciliation-alert">
+                <strong>Reconciliation Context:</strong> ${escapeHtml(r.reconciliation_note)}
+              </div>
+            ` : ''}
+
+            <div class="comparison-grid">
+              <div class="side-card">
+                <div class="side-label">Source Fact A (Page ${r.fact_a ? r.fact_a.page : '?'})</div>
+                ${r.fact_a ? `
+                  <div style="font-weight: 600; color: var(--text-bright);">${escapeHtml(r.fact_a.metric)}</div>
+                  <div style="color: var(--primary); font-weight: bold; margin: 4px 0;">${escapeHtml(r.fact_a.value)} ${r.fact_a.unit ? escapeHtml(r.fact_a.unit) : ''}</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">${escapeHtml(r.fact_a.subject)} • ${escapeHtml(r.fact_a.time_scope || 'unspecified')}</div>
+                  <div class="evidence-box">"${escapeHtml(r.fact_a.evidence_text)}"</div>
+                ` : '<div class="empty-state">Fact details unavailable</div>'}
+              </div>
+
+              <div class="side-card">
+                <div class="side-label">Source Fact B (Page ${r.fact_b ? r.fact_b.page : '?'})</div>
+                ${r.fact_b ? `
+                  <div style="font-weight: 600; color: var(--text-bright);">${escapeHtml(r.fact_b.metric)}</div>
+                  <div style="color: var(--primary); font-weight: bold; margin: 4px 0;">${escapeHtml(r.fact_b.value)} ${r.fact_b.unit ? escapeHtml(r.fact_b.unit) : ''}</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">${escapeHtml(r.fact_b.subject)} • ${escapeHtml(r.fact_b.time_scope || 'unspecified')}</div>
+                  <div class="evidence-box">"${escapeHtml(r.fact_b.evidence_text)}"</div>
+                ` : '<div class="empty-state">Fact details unavailable</div>'}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panelRelationships').style.display = tab === 'relationships' ? 'block' : 'none';
+      document.getElementById('panelFacts').style.display = tab === 'facts' ? 'block' : 'none';
+      document.getElementById('panelFailures').style.display = tab === 'failures' ? 'block' : 'none';
+
+      if (tab === 'relationships') document.getElementById('tabRel').classList.add('active');
+      if (tab === 'facts') document.getElementById('tabFacts').classList.add('active');
+      if (tab === 'failures') document.getElementById('tabFailures').classList.add('active');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Drag & drop support
+    const dropZone = document.getElementById('dropZone');
+    ['dragenter', 'dragover'].forEach(name => {
+      dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; }, false);
+    });
+    ['dragleave', 'drop'].forEach(name => {
+      dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--border)'; }, false);
+    });
+    dropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const file = dt.files[0];
+      if (file && file.name.endsWith('.pdf')) {
+        selectedFile = file;
+        document.getElementById('fileLabel').textContent = file.name;
+        document.getElementById('uploadBtn').disabled = false;
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
