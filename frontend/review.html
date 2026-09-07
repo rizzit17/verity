@@ -52,6 +52,14 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #353943;
     }
+
+    .prose-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .mono-data {
+      font-family: "JetBrains Mono", monospace;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -201,24 +209,35 @@
           Review Queue
         </a>
       </nav>
-      <div class="flex items-center gap-space-2 shrink-0">
-        <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()"
-            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
-            type="button" title="Seed Demo Database">
-            [SEED]
+      <!-- 3. RIGHT: Dev Tools Dropdown, /docs, Terminal Icon -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <!-- Dev Tools Dropdown -->
+        <div class="relative inline-block text-left" id="dev-tools-dropdown-wrapper">
+          <button id="btn-dev-tools" onclick="toggleDevToolsMenu()"
+            class="flex items-center gap-1 px-2.5 py-1.5 bg-surface-container-low hover:bg-surface-container-high border border-white/10 hover:border-white/20 text-on-surface-variant hover:text-on-surface font-mono text-xs transition-colors cursor-pointer"
+            type="button" title="Developer & Admin Tools">
+            <span class="material-symbols-outlined text-[15px] text-outline">tune</span>
+            <span>Dev Tools</span>
+            <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()"
-            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
-            type="button" title="Clear All Data">
-            [CLEAR]
-          </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
-            href="/docs" target="_blank">
-            <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
-            <span>/docs</span>
-          </a>
+          <div id="dev-tools-menu" class="hidden absolute right-0 mt-1 w-44 bg-[#121620] border border-white/15 shadow-2xl z-50 py-1 flex flex-col">
+            <button onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
+              <span>[SEED DEMO]</span>
+            </button>
+            <div class="h-px bg-white/10 my-0.5"></div>
+            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
+              <span>[CLEAR DB]</span>
+            </button>
+          </div>
         </div>
+
+        <a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-surface-container-low border border-white/10 text-on-surface font-mono text-xs hover:border-secondary/40 transition-colors"
+          href="/docs" target="_blank">
+          <span class="w-1.5 h-1.5 bg-tertiary animate-pulse rounded-full"></span>
+          <span>/docs</span>
+        </a>
         <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
           class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
           type="button" aria-label="Toggle Navigation">
@@ -504,6 +523,21 @@
       }
     }
 
+    function toggleDevToolsMenu() {
+      const menu = document.getElementById('dev-tools-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+    function closeDevToolsMenu() {
+      const menu = document.getElementById('dev-tools-menu');
+      if (menu) menu.classList.add('hidden');
+    }
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('dev-tools-dropdown-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeDevToolsMenu();
+      }
+    });
+
     async function loadDocumentsList() {
       try {
         const res = await fetch('/documents');
@@ -523,22 +557,31 @@
 
           container.innerHTML = docs.map(doc => {
             const isDone = doc.status === 'done';
-            const badgeClass = isDone ? 'bg-tertiary/15 text-tertiary border-tertiary/30' : 'bg-secondary/15 text-secondary border-secondary/30 animate-pulse';
-            const badgeText = isDone ? '■ AUDITED' : 'PROCESSING';
-            const factsText = `${doc.page_count || 5} PAGES • ${doc.fact_count || 0} FACTS`;
+            const isFailed = doc.status === 'failed';
+            let badgeClass = 'bg-secondary/15 text-secondary border-secondary/30 animate-pulse';
+            let badgeText = 'PROCESSING';
+            if (isDone) {
+              badgeClass = 'bg-tertiary/15 text-tertiary border-tertiary/30';
+              badgeText = '■ AUDITED';
+            } else if (isFailed) {
+              badgeClass = 'bg-error/20 text-error border-error/40';
+              badgeText = '▲ FAILED';
+            }
+            const errorTitle = isFailed && doc.error_message ? ` title="Error: ${escapeHtml(doc.error_message)}"` : ` title="${escapeHtml(doc.filename)}"`;
+            const factsText = isFailed ? (doc.error_message ? `ERROR: ${escapeHtml(doc.error_message.slice(0, 28))}...` : 'FAILED') : `${doc.page_count || 5} PAGES • ${doc.fact_count || 0} FACTS`;
 
             return `
-              <div onclick="window.location.href='/explorer?doc_id=${doc.id}'" class="bg-surface-container-low/80 hover:bg-surface-container-high p-3 flex flex-col gap-2 transition-all cursor-pointer border border-white/5 hover:border-primary/50 border-l-2 border-l-transparent hover:border-l-primary group">
+              <div onclick="window.location.href='/explorer?doc_id=${doc.id}'" ${errorTitle} class="bg-surface-container-low/80 hover:bg-surface-container-high p-3 flex flex-col gap-2 transition-all cursor-pointer border border-white/5 hover:border-primary/50 border-l-2 ${isFailed ? 'border-l-error' : 'border-l-transparent hover:border-l-primary'} group">
                 <div class="flex items-start justify-between gap-2">
                   <div class="flex items-center gap-2 min-w-0">
-                    <span class="material-symbols-outlined text-secondary text-[18px] shrink-0 group-hover:text-primary transition-colors">description</span>
-                    <span class="font-mono text-xs text-on-surface font-semibold truncate" title="${escapeHtml(doc.filename)}">${escapeHtml(doc.filename)}</span>
+                    <span class="material-symbols-outlined ${isFailed ? 'text-error' : 'text-secondary'} text-[18px] shrink-0 group-hover:text-primary transition-colors">${isFailed ? 'error' : 'description'}</span>
+                    <span class="font-mono text-xs text-on-surface font-semibold truncate">${escapeHtml(doc.filename)}</span>
                   </div>
                   <span class="px-1.5 py-0.5 ${badgeClass} border font-mono text-[9px] tracking-wider uppercase shrink-0">${badgeText}</span>
                 </div>
                 <div class="flex items-center justify-between font-mono text-[10px] text-outline pl-6">
-                  <span>${factsText}</span>
-                  <span class="text-tertiary font-semibold">CONF: 98%</span>
+                  <span class="${isFailed ? 'text-error/80' : ''}">${factsText}</span>
+                  <span class="${isFailed ? 'text-error font-semibold' : 'text-tertiary font-semibold'}">${isFailed ? 'FAILED' : 'CONF: 98%'}</span>
                 </div>
               </div>
             `;
@@ -614,9 +657,9 @@
 
       container.innerHTML = `
         <!-- ACTIVE CASE REMEDIATION CARD: Case 4 -->
-        <div class="w-full bg-[#141822] border border-white/10 shadow-xl border-l-4 border-l-error flex flex-col transition-all duration-200" id="activeRemediationCard">
+        <div class="w-full bg-[#141822] border border-white/10 shadow-xl border-l-4 border-l-error flex flex-col transition-all duration-200 relative" id="activeRemediationCard">
           <!-- Case Alert Banner -->
-          <div class="bg-surface-container-high/70 px-5 py-3 flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
+          <div class="bg-surface-container-high/70 px-5 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
             <div class="flex items-center gap-3 flex-wrap">
               <span class="px-2.5 py-0.5 bg-error/15 border border-error/30 text-error font-mono text-xs flex items-center gap-1.5 font-bold tracking-wide">
                 <span>▲</span>
@@ -630,7 +673,7 @@
               </span>
             </div>
             <div class="flex items-center gap-3 font-mono text-xs">
-              <span class="font-mono text-xs text-outline bg-surface-container-lowest/80 px-2.5 py-1 border border-white/5">CASE ID: <span class="text-on-surface font-semibold">#${fail.id.slice(0, 8)}</span></span>
+              <span class="font-mono text-xs text-outline bg-surface-container-lowest/80 px-2.5 py-1 border border-white/5">CASE ID: <span class="mono-data text-on-surface font-semibold">#${fail.id.slice(0, 8)}</span></span>
               <span class="flex items-center gap-1.5 text-error font-bold px-2.5 py-1 bg-error/10 border border-error/20">
                 <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
                 <span>PENDING HITL ACTION</span>
@@ -638,36 +681,36 @@
             </div>
           </div>
 
-          <!-- Inspection Grid: Raw Evidence vs Issue Rationale -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 p-5 lg:p-6 bg-surface-container-low/40">
+          <!-- Inspection Grid: Raw Evidence vs Issue Rationale (Compact Layout) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 lg:p-5 bg-surface-container-low/40">
             <!-- Source Snippet Box (Col 1-7) -->
-            <div class="lg:col-span-7 bg-surface-container-lowest/90 border border-white/10 p-5 flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-3">
+            <div class="lg:col-span-7 bg-surface-container-lowest/90 border border-white/10 p-4 flex flex-col justify-between gap-3">
+              <div class="flex flex-col gap-2">
                 <div class="flex items-center justify-between">
                   <span class="font-mono text-xs text-outline flex items-center gap-1.5 font-semibold">
-                    <span class="material-symbols-outlined text-[18px] text-secondary">description</span>
+                    <span class="material-symbols-outlined text-[17px] text-secondary">description</span>
                     <span>RAW SOURCE CONTEXT (PAGE ${page})</span>
                   </span>
-                  <span class="font-mono text-[11px] text-secondary uppercase tracking-wider px-2 py-0.5 bg-secondary/10 border border-secondary/20">
-                    EXTRACTED FROM INGESTION STREAM
+                  <span class="font-mono text-[10px] text-secondary uppercase tracking-wider px-2 py-0.5 bg-secondary/10 border border-secondary/20">
+                    INGESTION STREAM
                   </span>
                 </div>
-                <!-- OCR Extract Display (Prominent & Clear Font) -->
-                <div class="p-4 bg-surface-container-high/40 border-l-2 border-secondary border border-white/5 flex flex-col gap-2">
-                  <div class="text-outline font-mono text-xs uppercase tracking-wider select-none font-bold">DOCUMENT STREAM BUFFER:</div>
-                  <p class="font-mono text-base lg:text-[15.5px] leading-relaxed text-[#acedff] m-0 font-medium select-text">
+                <!-- OCR Extract Display -->
+                <div class="p-3 bg-surface-container-high/40 border-l-2 border-secondary border border-white/5 flex flex-col gap-1.5">
+                  <div class="text-outline font-mono text-[10px] uppercase tracking-wider select-none font-bold">DOCUMENT STREAM BUFFER:</div>
+                  <p class="font-mono text-sm leading-relaxed text-[#acedff] m-0 font-medium select-text">
                     "${escapeHtml(raw.evidence_text || raw.snippet || reason)}"
                   </p>
                 </div>
               </div>
 
               <!-- Stepped Confidence Meter -->
-              <div class="flex flex-col gap-1.5 pt-2 border-t border-white/5">
+              <div class="flex flex-col gap-1 pt-1.5 border-t border-white/5">
                 <div class="flex justify-between items-center font-mono text-xs">
-                  <span class="text-outline text-xs uppercase tracking-wider">SYNTHETIC INFERENCE CONFIDENCE SCORE</span>
-                  <span class="text-error font-bold px-2 py-0.5 bg-error/10 border border-error/20 text-xs">40% / 100% [GATED FOR REVIEW]</span>
+                  <span class="text-outline text-[11px] uppercase tracking-wider">CONFIDENCE SCORE</span>
+                  <span class="mono-data text-error font-bold px-2 py-0.5 bg-error/10 border border-error/20 text-xs">40% / 100% [GATED]</span>
                 </div>
-                <div class="flex items-center gap-1 h-2.5 pt-1">
+                <div class="flex items-center gap-1 h-2 pt-0.5">
                   <span class="h-full w-full bg-error"></span>
                   <span class="h-full w-full bg-error"></span>
                   <span class="h-full w-full bg-error"></span>
@@ -683,109 +726,109 @@
             </div>
 
             <!-- Diagnostic Explainer Box (Col 8-12) -->
-            <div class="lg:col-span-5 bg-surface-container-lowest/90 border border-white/10 p-5 flex flex-col justify-between gap-4">
-              <div class="flex flex-col gap-3">
-                <div class="flex items-center gap-2 text-primary font-mono text-xs font-bold tracking-wider pb-2 border-b border-white/5">
-                  <span class="material-symbols-outlined text-[18px]">psychology</span>
+            <div class="lg:col-span-5 bg-surface-container-lowest/90 border border-white/10 p-4 flex flex-col justify-between gap-3">
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2 text-primary font-mono text-xs font-bold tracking-wider pb-1.5 border-b border-white/5">
+                  <span class="material-symbols-outlined text-[17px]">psychology</span>
                   <span>MODEL AUDIT DIAGNOSTICS</span>
                 </div>
-                <div class="p-4 bg-surface-container-high/40 border border-white/5 flex flex-col gap-3.5">
-                  <div class="flex items-start gap-2.5">
-                    <span class="px-2 py-0.5 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">1</span>
-                    <div class="font-sans text-[14px] text-[#e4e7f4] leading-relaxed">
+                <div class="p-3 bg-surface-container-high/40 border border-white/5 flex flex-col gap-2.5">
+                  <div class="flex items-start gap-2">
+                    <span class="px-1.5 py-0.2 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">1</span>
+                    <div class="prose-text text-[13px] text-[#e4e7f4] leading-relaxed">
                       <strong class="text-on-surface font-semibold">Entity Ambiguity:</strong> Subject not explicitly stated in isolated clause window.
                     </div>
                   </div>
-                  <div class="flex items-start gap-2.5">
-                    <span class="px-2 py-0.5 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">2</span>
-                    <div class="font-sans text-[14px] text-[#e4e7f4] leading-relaxed">
+                  <div class="flex items-start gap-2">
+                    <span class="px-1.5 py-0.2 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">2</span>
+                    <div class="prose-text text-[13px] text-[#e4e7f4] leading-relaxed">
                       <strong class="text-on-surface font-semibold">Gating Trigger:</strong> Gated by confidence filter (&lt; 0.70) to prevent ungrounded attribution.
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="p-3 bg-error/10 border border-error/25 flex items-center justify-between font-mono text-xs">
+              <div class="p-2.5 bg-error/10 border border-error/25 flex items-center justify-between font-mono text-xs">
                 <span class="text-outline">EVALUATION STATUS:</span>
                 <span class="text-error font-bold tracking-wider">HITL MANDATE ENGAGED</span>
               </div>
             </div>
           </div>
 
-          <!-- Editable HITL Remediation Form -->
-          <div class="p-5 lg:p-6 bg-surface-container-low border-t border-white/10 flex flex-col gap-5">
-            <div class="flex items-center justify-between pb-2 border-b border-white/5 flex-wrap gap-2">
+          <!-- Editable HITL Remediation Form (Compact 2x2 Grid) -->
+          <div class="p-4 lg:p-5 bg-surface-container-low border-t border-white/10 flex flex-col gap-4">
+            <div class="flex items-center justify-between pb-1.5 border-b border-white/5 flex-wrap gap-2">
               <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-[22px]">edit_note</span>
-                <span class="font-sans text-base text-on-surface font-bold">Fact Disambiguation &amp; Override Console</span>
+                <span class="material-symbols-outlined text-primary text-[20px]">edit_note</span>
+                <span class="font-sans text-sm sm:text-base text-on-surface font-bold">Fact Disambiguation &amp; Override Console</span>
               </div>
-              <span class="font-mono text-[11px] text-outline uppercase tracking-wider px-2.5 py-1 bg-surface-container border border-white/5">
+              <span class="font-mono text-[10px] text-outline uppercase tracking-wider px-2 py-0.5 bg-surface-container border border-white/5">
                 EDITABLE KNOWLEDGE PROVENANCE DRAFT
               </span>
             </div>
 
-            <!-- Form Fields Grid (Spacious 2x2 Grid for Zero Cramping) -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <!-- Form Fields Grid (Tightened for 1080p Viewport - B5) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
               <!-- Subject Field -->
-              <div class="flex flex-col gap-1.5">
-                <label class="font-mono text-xs text-outline uppercase tracking-wider font-semibold">Target Entity Scope</label>
-                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm sm:text-base p-3.5 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldEntity" type="text" value="${escapeHtml(raw.subject || 'Delhivery Limited')}"/>
-                <span class="font-mono text-[11px] text-tertiary flex items-center gap-1 font-semibold">
+              <div class="flex flex-col gap-1">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Target Entity Scope</label>
+                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldEntity" type="text" value="${escapeHtml(raw.subject || 'Delhivery Limited')}"/>
+                <span class="font-mono text-[10px] text-tertiary flex items-center gap-1 font-semibold">
                   <span>■</span> <span>Entity disambiguated</span>
                 </span>
               </div>
 
               <!-- Metric Field -->
-              <div class="flex flex-col gap-1.5">
-                <label class="font-mono text-xs text-outline uppercase tracking-wider font-semibold">Reconciled Metric</label>
-                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm sm:text-base p-3.5 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldMetric" type="text" value="${escapeHtml(raw.metric || 'EBITDA Profitability Status')}"/>
-                <span class="font-mono text-[11px] text-outline">Standard taxonomy key</span>
+              <div class="flex flex-col gap-1">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Reconciled Metric</label>
+                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldMetric" type="text" value="${escapeHtml(raw.metric || 'EBITDA Profitability Status')}"/>
+                <span class="font-mono text-[10px] text-outline">Standard taxonomy key</span>
               </div>
 
               <!-- Value Field -->
-              <div class="flex flex-col gap-1.5">
-                <label class="font-mono text-xs text-outline uppercase tracking-wider font-semibold">Validated Value &amp; Denomination</label>
+              <div class="flex flex-col gap-1">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Validated Value &amp; Denomination</label>
                 <div class="flex items-stretch border border-white/10 bg-surface-container-lowest focus-within:border-secondary/60 transition-colors">
-                  <input class="flex-1 min-w-0 bg-transparent text-secondary font-mono text-sm sm:text-base font-bold p-3.5 outline-none" id="fieldValue" type="text" value="${escapeHtml(raw.value || 'profitable')}"/>
-                  <div class="w-[1px] bg-white/10 my-1"></div>
-                  <select class="w-48 sm:w-52 shrink-0 bg-surface-container-high/70 text-on-surface font-sans text-sm p-3.5 outline-none cursor-pointer" id="fieldUnit">
+                  <input class="flex-1 min-w-0 bg-transparent text-secondary font-mono text-sm font-bold py-2 px-3 outline-none" id="fieldValue" type="text" value="${escapeHtml(raw.value || 'profitable')}"/>
+                  <div class="w-[1px] bg-white/10 my-0.5"></div>
+                  <select class="w-40 sm:w-44 shrink-0 bg-surface-container-high/70 text-on-surface font-sans text-xs py-2 px-2.5 outline-none cursor-pointer" id="fieldUnit">
                     <option selected value="status">Status (Qualitative)</option>
                     <option value="cr">₹ Crores</option>
                     <option value="mn">₹ Millions</option>
                     <option value="pct">% Percentage</option>
                   </select>
                 </div>
-                <span class="font-mono text-[11px] text-outline">Denominated value &amp; scale</span>
+                <span class="font-mono text-[10px] text-outline">Denominated value &amp; scale</span>
               </div>
 
               <!-- Fiscal Period -->
-              <div class="flex flex-col gap-1.5">
-                <label class="font-mono text-xs text-outline uppercase tracking-wider font-semibold">Fiscal Epoch Period</label>
-                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm sm:text-base p-3.5 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldTimeframe" type="text" value="${escapeHtml(raw.time_scope || 'FY24 Full Year')}"/>
-                <span class="font-mono text-[11px] text-outline">Explicit fiscal scope</span>
+              <div class="flex flex-col gap-1">
+                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Fiscal Epoch Period</label>
+                <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldTimeframe" type="text" value="${escapeHtml(raw.time_scope || 'FY24 Full Year')}"/>
+                <span class="font-mono text-[10px] text-outline">Explicit fiscal scope</span>
               </div>
             </div>
 
             <!-- Auditor Notes -->
-            <div class="flex flex-col gap-1.5">
-              <label class="font-mono text-xs text-outline uppercase tracking-wider font-semibold flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold flex items-center justify-between">
                 <span>Auditor Reconciliation Rationale (Immutable Audit Trail)</span>
-                <span class="text-on-surface-variant font-mono text-[11px] text-outline px-2 py-0.5 bg-surface-container border border-white/5">AUDITOR_SIG: ID_8829_LEAD</span>
+                <span class="text-on-surface-variant font-mono text-[10px] text-outline px-1.5 py-0.5 bg-surface-container border border-white/5">AUDITOR_SIG: ID_8829_LEAD</span>
               </label>
-              <textarea class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm sm:text-[14.5px] p-3.5 outline-none focus:border-primary/60 border border-white/10 leading-relaxed resize-none transition-colors" id="auditorNotes" rows="2">Confirmed from Page ${page} that statement reflects Delhivery Limited's consolidated positive EBITDA performance in FY24.</textarea>
+              <textarea class="w-full bg-surface-container-lowest text-on-surface prose-text text-xs sm:text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 leading-relaxed resize-none transition-colors" id="auditorNotes" rows="2">Confirmed from Page ${page} that statement reflects Delhivery Limited's consolidated positive EBITDA performance in FY24.</textarea>
             </div>
+          </div>
 
-            <!-- Action Trigger Matrix -->
-            <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
-              <button onclick="approveAndInject('${fail.id}')" class="px-6 py-3 bg-gradient-to-r from-tertiary-container to-tertiary text-on-tertiary-container hover:text-on-tertiary font-sans font-bold text-sm tracking-wide flex items-center gap-2.5 border border-tertiary/40 shadow-lg shadow-tertiary/10 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer" type="button">
-                <span class="material-symbols-outlined text-[20px]">task_alt</span>
-                <span>[APPROVE FACT &amp; INJECT TO GRAPH]</span>
-              </button>
+          <!-- Sticky Action Console (B5: Guaranteed reachable without excessive scroll) -->
+          <div class="sticky bottom-0 bg-[#121620]/95 backdrop-blur-md px-5 py-3 border-t border-white/15 z-30 shadow-2xl flex flex-wrap items-center justify-between gap-3">
+            <button onclick="approveAndInject('${fail.id}')" class="px-5 py-2.5 bg-gradient-to-r from-tertiary-container to-tertiary text-on-tertiary-container hover:text-on-tertiary font-sans font-bold text-xs sm:text-sm tracking-wide flex items-center gap-2 border border-tertiary/40 shadow-lg shadow-tertiary/10 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer" type="button">
+              <span class="material-symbols-outlined text-[18px]">task_alt</span>
+              <span>[APPROVE FACT &amp; INJECT TO GRAPH]</span>
+            </button>
 
-              <button onclick="discardCase('${fail.id}')" class="px-4 py-2.5 bg-surface-container hover:bg-error/15 border border-error/30 text-error hover:border-error font-mono text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer" type="button">
-                <span class="material-symbols-outlined text-[18px]">delete_sweep</span>
-                <span>[DISCARD / DISMISS]</span>
-              </button>
-            </div>
+            <button onclick="discardCase('${fail.id}')" class="px-3.5 py-2 bg-surface-container hover:bg-error/15 border border-error/30 text-error hover:border-error font-mono text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer" type="button">
+              <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+              <span>[DISCARD / DISMISS]</span>
+            </button>
           </div>
         </div>
       `;

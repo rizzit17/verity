@@ -38,6 +38,14 @@
     ::-webkit-scrollbar {
       display: none;
     }
+
+    .prose-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .mono-data {
+      font-family: "JetBrains Mono", monospace;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -185,24 +193,35 @@
           Review Queue
         </a>
       </nav>
-      <div class="flex items-center gap-space-2 shrink-0">
-        <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()"
-            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
-            type="button" title="Seed Demo Database">
-            [SEED]
+      <!-- 3. RIGHT: Dev Tools Dropdown, /docs, Terminal Icon -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <!-- Dev Tools Dropdown -->
+        <div class="relative inline-block text-left" id="dev-tools-dropdown-wrapper">
+          <button id="btn-dev-tools" onclick="toggleDevToolsMenu()"
+            class="flex items-center gap-1 px-2.5 py-1.5 bg-surface-container-low hover:bg-surface-container-high border border-white/10 hover:border-white/20 text-on-surface-variant hover:text-on-surface font-mono text-xs transition-colors cursor-pointer"
+            type="button" title="Developer & Admin Tools">
+            <span class="material-symbols-outlined text-[15px] text-outline">tune</span>
+            <span>Dev Tools</span>
+            <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()"
-            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
-            type="button" title="Clear All Data">
-            [CLEAR]
-          </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
-            href="/docs" target="_blank">
-            <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
-            <span>/docs</span>
-          </a>
+          <div id="dev-tools-menu" class="hidden absolute right-0 mt-1 w-44 bg-[#121620] border border-white/15 shadow-2xl z-50 py-1 flex flex-col">
+            <button onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
+              <span>[SEED DEMO]</span>
+            </button>
+            <div class="h-px bg-white/10 my-0.5"></div>
+            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
+              <span>[CLEAR DB]</span>
+            </button>
+          </div>
         </div>
+
+        <a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-surface-container-low border border-white/10 text-on-surface font-mono text-xs hover:border-secondary/40 transition-colors"
+          href="/docs" target="_blank">
+          <span class="w-1.5 h-1.5 bg-tertiary animate-pulse rounded-full"></span>
+          <span>/docs</span>
+        </a>
         <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
           class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
           type="button" aria-label="Toggle Navigation">
@@ -361,7 +380,7 @@
                     class="flex items-center justify-between pb-space-3 mb-space-3 bg-surface-container-lowest p-space-2">
                     <div class="flex items-center gap-space-2">
                       <span
-                        class="px-space-2 py-0.5 bg-primary-container/20 text-primary font-label-caps text-label-caps font-bold">◆
+                        class="px-space-2 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 font-label-caps text-label-caps font-bold">◆
                         CONTEXTUAL RECONCILIATION</span>
                       <span
                         class="px-space-2 py-0.5 bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">STABLE
@@ -810,6 +829,21 @@
       }
     }
 
+    function toggleDevToolsMenu() {
+      const menu = document.getElementById('dev-tools-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+    function closeDevToolsMenu() {
+      const menu = document.getElementById('dev-tools-menu');
+      if (menu) menu.classList.add('hidden');
+    }
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('dev-tools-dropdown-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeDevToolsMenu();
+      }
+    });
+
     // Dynamic Mock Cases Data
     const casesData = {
       'case-corrob': {
@@ -834,7 +868,7 @@
       },
       'case-reconcile': {
         status: '◆ CONTEXTUAL RECONCILIATION',
-        statusClass: 'bg-primary-container/30 text-primary',
+        statusClass: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
         metricTitle: 'Operating EBITDA vs Adjusted EBITDA (FY24)',
         score: '95.4%',
         scoreColor: 'text-tertiary',

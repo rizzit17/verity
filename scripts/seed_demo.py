@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -29,7 +30,9 @@ from app.extract import process_document
 from app.relate import relate_new_facts
 
 
-DEFAULT_DATASETS_DIR = Path(r"C:\Users\Rishit\Desktop\SUPERJOIN\starter-datasets")
+DEFAULT_DATASETS_DIR = BASE_DIR / "starter-datasets"
+if not DEFAULT_DATASETS_DIR.exists():
+    DEFAULT_DATASETS_DIR = Path(r"C:\Users\Rishit\Desktop\SUPERJOIN\starter-datasets")
 
 ORDERED_STARTER_FILES = [
     # Dataset A — Delhivery
@@ -44,22 +47,41 @@ ORDERED_STARTER_FILES = [
 
 
 def ingest_file(pdf_path: Path, db, max_pages: Optional[int] = None) -> str:
-    """Copies file into uploads and runs extraction + relationship pipelines."""
-    doc_id = str(uuid.uuid4())
-    dest_path = UPLOAD_DIR / f"{doc_id}.pdf"
-    shutil.copy2(pdf_path, dest_path)
+    """Copies file into uploads and runs extraction + relationship pipelines with deduplication."""
+    file_bytes = pdf_path.read_bytes()
+    content_hash = hashlib.sha256(file_bytes).hexdigest()
 
-    doc = DocumentModel(
-        id=doc_id,
-        filename=pdf_path.name,
-        status="pending"
-    )
-    db.add(doc)
-    db.commit()
+    existing = db.query(DocumentModel).filter(
+        DocumentModel.content_hash == content_hash
+    ).first()
+
+    if existing and existing.status == "done":
+        print(f"\nDocument '{pdf_path.name}' already ingested with status 'done' (Doc ID: {existing.id}). Skipping re-upload.")
+        return existing.id
+
+    doc_id = existing.id if existing else str(uuid.uuid4())
+    dest_path = UPLOAD_DIR / f"{doc_id}.pdf"
+    dest_path.write_bytes(file_bytes)
+
+    if not existing:
+        doc = DocumentModel(
+            id=doc_id,
+            filename=pdf_path.name,
+            content_hash=content_hash,
+            status="pending"
+        )
+        db.add(doc)
+        db.commit()
+    else:
+        existing.status = "pending"
+        existing.error_message = None
+        db.commit()
 
     print(f"\nProcessing: {pdf_path.name} (Doc ID: {doc_id})...")
     facts = process_document(doc_id, db=db, max_pages=max_pages)
-    print(f" -> Extracted {len(facts)} facts across {doc.page_count} pages.")
+    doc_record = db.query(DocumentModel).filter(DocumentModel.id == doc_id).first()
+    page_count = doc_record.page_count if doc_record else len(facts)
+    print(f" -> Extracted {len(facts)} facts across {page_count} pages.")
 
     print(f" -> Computing cross-document relationships...")
     rels = relate_new_facts(doc_id, db=db)
@@ -183,8 +205,8 @@ def main():
                         help="Path to starter-datasets directory")
     parser.add_argument("--single-dataset", type=str, choices=["delhivery", "india-macroeconomy"], default=None,
                         help="Run only one dataset")
-    parser.add_argument("--max-pages", type=int, default=None,
-                        help="Max pages per document to process (useful for rate-limited free-tier keys)")
+    parser.add_argument("--max-pages", type=int, default=8,
+                        help="Max pages per document to process (default: 8 pages covering executive summary/highlights)")
     parser.add_argument("--report-only", action="store_true",
                         help="Skip ingestion and only print the 4 demo cases from existing database")
     args = parser.parse_args()

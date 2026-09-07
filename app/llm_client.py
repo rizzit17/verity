@@ -95,6 +95,20 @@ def _set_cached_response(cache_key: str, response_text: str):
             logger.warning("Failed to save LLM cache to disk: %s", e)
 
 
+_rate_lock = threading.Lock()
+_last_call_time = 0.0
+
+
+def _pace_api_call(min_interval: float = 4.0):
+    global _last_call_time
+    with _rate_lock:
+        now = time.time()
+        elapsed = now - _last_call_time
+        if elapsed < min_interval:
+            time.sleep(min_interval - elapsed)
+        _last_call_time = time.time()
+
+
 def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> str:
     """Executes a Gemini call with persistent caching, model failover, and rate-limit backoff."""
     from google.genai import types
@@ -113,7 +127,7 @@ def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> 
         temperature=0.1
     )
 
-    models_to_try = [GEMINI_MODEL, "gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.5-flash"]
+    models_to_try = [GEMINI_MODEL, "gemini-3.1-flash-lite", "gemini-3-flash-preview", "gemini-flash-lite-latest", "gemini-3.7-flash"]
     # Deduplicate while preserving order
     seen_m = set()
     candidate_models = [m for m in models_to_try if not (m in seen_m or seen_m.add(m))]
@@ -122,6 +136,7 @@ def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> 
     for model_name in candidate_models:
         for attempt in range(max_retries):
             try:
+                _pace_api_call(4.0)
                 response = client.models.generate_content(
                     model=model_name,
                     contents=full_prompt,
@@ -134,15 +149,18 @@ def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> 
             except Exception as exc:
                 last_exc = exc
                 err_str = str(exc)
-                if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
-                    wait_time = min(15, 6 * (attempt + 1))
+                if "Quota exceeded" in err_str or "PerDay" in err_str or "quotaId" in err_str:
+                    logger.warning("Daily quota exceeded on %s. Immediately switching to next model...", model_name)
+                    break
+                elif "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+                    wait_time = min(15, 5 * (attempt + 1))
                     logger.warning(
-                        "Rate limit on %s (429). Attempt %d/%d (waiting %ds before retry or switching model)...",
+                        "Rate limit on %s (429). Attempt %d/%d (waiting %ds before retry)...",
                         model_name, attempt + 1, max_retries, wait_time
                     )
                     time.sleep(wait_time)
-                elif "503" in err_str or "UNAVAILABLE" in err_str:
-                    logger.warning("Model %s unavailable (503). Trying next candidate model...", model_name)
+                elif "503" in err_str or "UNAVAILABLE" in err_str or "404" in err_str:
+                    logger.warning("Model %s unavailable. Trying next candidate model...", model_name)
                     break
                 else:
                     if attempt < max_retries - 1:

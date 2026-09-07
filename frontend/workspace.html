@@ -35,6 +35,15 @@
       }
     }
 
+    .prose-text {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.625;
+    }
+
+    .mono-data {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
     ::-webkit-scrollbar {
       display: none;
     }
@@ -145,66 +154,82 @@
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
   <header
     class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
-    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
-      <div class="flex items-center gap-space-3 shrink-0">
-        <a href="/" class="flex items-center gap-space-2 text-decoration-none">
+    <div class="h-16 w-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+      <!-- 1. LEFT: Brand & Compact Stats Pill Cluster -->
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="/" class="flex items-center gap-2 text-decoration-none">
           <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
           <span
-            class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+            class="hidden sm:inline-block px-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
+        <!-- Stats Pill Cluster -->
         <div
-          class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
-          <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
+          class="hidden lg:flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-white/10 font-mono text-xs text-on-surface-variant">
+          <span class="flex items-center gap-1"><span class="text-outline">Files:</span><span id="nav-files"
               class="text-on-surface font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Facts:</span><span id="nav-facts"
+          <span class="flex items-center gap-1"><span class="text-outline">Facts:</span><span id="nav-facts"
               class="text-secondary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Relations:</span><span
+          <span class="flex items-center gap-1"><span class="text-outline">Relations:</span><span
               id="nav-relations" class="text-tertiary font-bold">...</span></span>
           <span class="text-outline-variant">|</span>
-          <span class="flex items-center gap-space-1"><span class="text-outline">Queue:</span><span id="nav-queue"
+          <span class="flex items-center gap-1"><span class="text-outline">Queue:</span><span id="nav-queue"
               class="text-error font-bold">...</span></span>
         </div>
       </div>
-      <nav class="hidden md:flex items-center h-full gap-space-1">
+
+      <!-- 2. CENTER: Primary Nav Tabs (Visually dominant) -->
+      <nav class="hidden md:flex items-center h-full gap-1">
         <a href="/"
-          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-4 h-16 flex items-center font-sans text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
         <a href="/workspace"
-          class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+          class="px-4 h-16 flex items-center font-sans text-sm font-semibold whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Workspace
         </a>
         <a href="/explorer"
-          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-4 h-16 flex items-center font-sans text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
         <a href="/review"
-          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-4 h-16 flex items-center font-sans text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Review Queue
         </a>
       </nav>
-      <div class="flex items-center gap-space-2 shrink-0">
-        <div class="flex items-center gap-space-1.5">
-          <button id="btn-seed-demo" onclick="handleSeedDemo()"
-            class="px-space-2 py-space-1 bg-transparent hover:bg-surface-container-high hover:text-on-surface border border-white/10 text-on-surface-variant font-label-caps text-label-caps transition-colors"
-            type="button" title="Seed Demo Database">
-            [SEED]
+
+      <!-- 3. RIGHT: Dev Tools Dropdown, /docs, Terminal Icon -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <!-- Dev Tools Dropdown -->
+        <div class="relative inline-block text-left" id="dev-tools-dropdown-wrapper">
+          <button id="btn-dev-tools" onclick="toggleDevToolsMenu()"
+            class="flex items-center gap-1 px-2.5 py-1.5 bg-surface-container-low hover:bg-surface-container-high border border-white/10 hover:border-white/20 text-on-surface-variant hover:text-on-surface font-mono text-xs transition-colors cursor-pointer"
+            type="button" title="Developer & Admin Tools">
+            <span class="material-symbols-outlined text-[15px] text-outline">tune</span>
+            <span>Dev Tools</span>
+            <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
-          <button id="btn-clear-db" onclick="handleClearDb()"
-            class="px-space-2 py-space-1 bg-transparent hover:bg-error-container hover:text-on-error-container border border-error/30 text-error font-label-caps text-label-caps transition-colors"
-            type="button" title="Clear All Data">
-            [CLEAR]
-          </button>
-          <a class="hidden sm:flex items-center gap-space-1.5 px-space-2 py-space-1 bg-surface-container-low border border-white/10 text-on-surface font-label-caps text-label-caps hover:border-secondary/40 transition-colors"
-            href="/docs" target="_blank">
-            <span class="w-1.5 h-1.5 bg-tertiary animate-pulse"></span>
-            <span>/docs</span>
-          </a>
+          <div id="dev-tools-menu" class="hidden absolute right-0 mt-1 w-44 bg-[#121620] border border-white/15 shadow-2xl z-50 py-1 flex flex-col">
+            <button onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
+              <span>[SEED DEMO]</span>
+            </button>
+            <div class="h-px bg-white/10 my-0.5"></div>
+            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
+              <span>[CLEAR DB]</span>
+            </button>
+          </div>
         </div>
+
+        <a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-surface-container-low border border-white/10 text-on-surface font-mono text-xs hover:border-secondary/40 transition-colors"
+          href="/docs" target="_blank">
+          <span class="w-1.5 h-1.5 bg-tertiary animate-pulse rounded-full"></span>
+          <span>/docs</span>
+        </a>
         <button onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')"
           class="md:hidden p-1.5 text-on-surface-variant hover:text-on-surface border border-white/10 bg-surface-container-low"
           type="button" aria-label="Toggle Navigation">
@@ -468,10 +493,10 @@
           <button onclick="setRelTypeFilter('contextual_reconciliation')"
             class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
             data-type="contextual_reconciliation">
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
             <span>CONTEXTUAL RECONCILIATION</span>
             <span id="tab-count-reconcile"
-              class="px-1.5 py-0.2 bg-primary/10 text-primary font-bold rounded-sm">0</span>
+              class="px-1.5 py-0.2 bg-amber-500/10 text-amber-400 font-bold rounded-sm">0</span>
           </button>
         </div>
 
@@ -520,6 +545,21 @@
       }
     }
 
+    function toggleDevToolsMenu() {
+      const menu = document.getElementById('dev-tools-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+    function closeDevToolsMenu() {
+      const menu = document.getElementById('dev-tools-menu');
+      if (menu) menu.classList.add('hidden');
+    }
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('dev-tools-dropdown-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeDevToolsMenu();
+      }
+    });
+
     function renderDocumentsList() {
       const container = document.getElementById('doc-list-container');
       if (allDocuments.length === 0) {
@@ -534,22 +574,31 @@
 
       container.innerHTML = allDocuments.map(doc => {
         const isDone = doc.status === 'done';
-        const badgeClass = isDone ? 'bg-tertiary/15 text-tertiary border-tertiary/30' : 'bg-secondary/15 text-secondary border-secondary/30 animate-pulse';
-        const badgeText = isDone ? '■ READY' : 'PROCESSING';
-        const factsText = `${doc.page_count || '?'} PAGES • ${doc.fact_count || 0} FACTS`;
+        const isFailed = doc.status === 'failed';
+        let badgeClass = 'bg-secondary/15 text-secondary border-secondary/30 animate-pulse';
+        let badgeText = 'PROCESSING';
+        if (isDone) {
+          badgeClass = 'bg-tertiary/15 text-tertiary border-tertiary/30';
+          badgeText = '■ READY';
+        } else if (isFailed) {
+          badgeClass = 'bg-error/20 text-error border-error/40';
+          badgeText = '▲ FAILED';
+        }
+        const errorTitle = isFailed && doc.error_message ? ` title="Error: ${escapeHtml(doc.error_message)}"` : ` title="${escapeHtml(doc.filename)}"`;
+        const factsText = isFailed ? (doc.error_message ? `ERROR: ${escapeHtml(doc.error_message.slice(0, 32))}...` : 'FAILED') : `${doc.page_count || '?'} PAGES • ${doc.fact_count || 0} FACTS`;
 
         return `
-          <div onclick="window.location.href='/explorer?doc_id=${doc.id}'" class="bg-surface-container-low/80 hover:bg-surface-container-high p-3 flex flex-col gap-2 transition-all cursor-pointer border border-white/5 hover:border-primary/50 border-l-2 border-l-transparent hover:border-l-primary group">
+          <div onclick="window.location.href='/explorer?doc_id=${doc.id}'" ${errorTitle} class="bg-surface-container-low/80 hover:bg-surface-container-high p-3 flex flex-col gap-2 transition-all cursor-pointer border border-white/5 hover:border-primary/50 border-l-2 ${isFailed ? 'border-l-error' : 'border-l-transparent hover:border-l-primary'} group">
             <div class="flex items-start justify-between gap-2">
               <div class="flex items-center gap-2 min-w-0">
-                <span class="material-symbols-outlined text-secondary text-[18px] shrink-0 group-hover:text-primary transition-colors">description</span>
-                <span class="font-mono text-xs text-on-surface font-semibold truncate" title="${escapeHtml(doc.filename)}">${escapeHtml(doc.filename)}</span>
+                <span class="material-symbols-outlined ${isFailed ? 'text-error' : 'text-secondary'} text-[18px] shrink-0 group-hover:text-primary transition-colors">${isFailed ? 'error' : 'description'}</span>
+                <span class="font-mono text-xs text-on-surface font-semibold truncate">${escapeHtml(doc.filename)}</span>
               </div>
               <span class="px-1.5 py-0.5 ${badgeClass} border font-mono text-[9px] tracking-wider uppercase shrink-0">${badgeText}</span>
             </div>
             <div class="flex items-center justify-between font-mono text-[10px] text-outline pl-6">
-              <span>${factsText}</span>
-              <span class="text-tertiary font-semibold">CONF: 98%</span>
+              <span class="${isFailed ? 'text-error/80' : ''}">${factsText}</span>
+              <span class="${isFailed ? 'text-error font-semibold' : 'text-tertiary font-semibold'}">${isFailed ? 'FAILED' : 'CONF: 98%'}</span>
             </div>
           </div>
         `;
@@ -584,8 +633,13 @@
     function setRelTypeFilter(type) {
       currentRelTypeFilter = type;
       document.querySelectorAll('.rel-tab').forEach(tab => {
-        if (tab.getAttribute('data-type') === type) {
-          tab.className = 'rel-tab px-3 py-1.5 font-mono text-xs bg-primary text-on-primary font-bold shadow-sm flex items-center gap-2 transition-all cursor-pointer';
+        const tabType = tab.getAttribute('data-type');
+        if (tabType === type) {
+          let activeBg = 'bg-primary text-on-primary';
+          if (type === 'corroborates') activeBg = 'bg-tertiary text-on-tertiary';
+          else if (type === 'contradicts') activeBg = 'bg-error text-white';
+          else if (type === 'contextual_reconciliation') activeBg = 'bg-amber-500 text-black';
+          tab.className = `rel-tab px-3 py-1.5 font-mono text-xs ${activeBg} font-bold shadow-sm flex items-center gap-2 transition-all cursor-pointer`;
         } else {
           tab.className = 'rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer';
         }
@@ -644,9 +698,9 @@
       }
 
       container.innerHTML = filtered.map(rel => {
-        let badgeStyle = 'bg-primary/15 text-primary border-primary/30';
+        let badgeStyle = 'bg-amber-500/15 text-amber-400 border-amber-500/30';
         let badgeLabel = '◆ CONTEXTUAL RECONCILIATION';
-        let borderHighlight = 'border-l-primary';
+        let borderHighlight = 'border-l-amber-500';
 
         if (rel.relation_type === 'corroborates') {
           badgeStyle = 'bg-tertiary/15 text-tertiary border-tertiary/30';
@@ -671,42 +725,40 @@
                   ${badgeLabel}
                 </span>
                 <span class="font-mono text-xs text-outline bg-surface-container-lowest/80 px-2 py-0.5 border border-white/5">
-                  ID: <span class="text-on-surface">#${rel.id.slice(0, 8)}</span>
+                  ID: <span class="mono-data text-on-surface">#${rel.id.slice(0, 8)}</span>
                 </span>
                 <span class="font-mono text-[11px] text-on-surface-variant bg-surface-container-lowest/80 px-2 py-0.5 border border-white/5">
-                  <span class="text-outline">SCOPE:</span> <span class="font-semibold text-on-surface">${(fa.metric || 'Financial metric').toUpperCase()}</span>
+                  <span class="text-outline">SCOPE:</span> <span class="mono-data font-semibold text-on-surface">${(fa.metric || 'Financial metric').toUpperCase()}</span>
                 </span>
               </div>
               <div class="flex items-center gap-3">
                 <div class="flex items-center gap-2 font-mono text-xs bg-surface-container-lowest/80 px-2.5 py-1 border border-white/5">
                   <span class="text-outline">CONFIDENCE:</span>
-                  <span class="font-mono text-tertiary font-bold">${confPercent}%</span>
+                  <span class="mono-data text-tertiary font-bold">${confPercent}%</span>
                   ${renderSteppedConfidence(rel.confidence)}
                 </div>
               </div>
             </div>
 
             <div class="p-5 lg:p-6 flex flex-col gap-5">
-              <!-- LLM Synthesis Reasoning Box -->
-              <div class="bg-surface-container-lowest/90 border border-white/10 p-4 lg:p-5 flex flex-col gap-2.5">
+              <!-- LLM Reasoning Box (B2, B3) -->
+              <div class="bg-surface-container-lowest/90 border border-white/10 p-4 lg:p-5 flex flex-col gap-2">
                 <div class="flex items-center gap-2 text-primary font-mono text-xs font-bold tracking-wider">
                   <span class="material-symbols-outlined text-[18px]">psychology</span>
-                  <span>SYNTHESIS REASONING (GEMINI 3.5 FLASH LITE)</span>
+                  <span>LLM REASONING</span>
                 </div>
-                <p class="font-sans text-[14.5px] leading-relaxed text-[#e4e7f4] tracking-normal font-normal">
+                <p class="prose-text text-[14px] leading-relaxed text-[#e4e7f4] tracking-normal font-normal">
                   ${escapeHtml(rel.reasoning || 'No detailed reasoning recorded.')}
                 </p>
               </div>
 
-              ${rel.reconciliation_note ? `
-                <!-- Reconciliation Context Callout -->
-                <div class="bg-secondary/5 border border-secondary/20 border-l-4 border-l-secondary p-4 flex items-start gap-3.5">
-                  <span class="material-symbols-outlined text-secondary text-[22px] shrink-0 mt-0.5">schema</span>
-                  <div class="flex flex-col gap-1">
-                    <span class="font-mono text-xs text-secondary font-bold tracking-wider uppercase">RECONCILIATION CONTEXT</span>
-                    <p class="font-sans text-[13.5px] leading-relaxed text-on-surface">
-                      ${escapeHtml(rel.reconciliation_note)}
-                    </p>
+              ${rel.relation_type === 'contextual_reconciliation' && rel.reconciliation_note ? `
+                <!-- Distinct One-Line Reconciliation Note Callout (B3, B4) -->
+                <div class="bg-amber-500/10 border border-amber-500/30 border-l-4 border-l-amber-500 p-3.5 flex items-center gap-3">
+                  <span class="material-symbols-outlined text-amber-400 text-[20px] shrink-0">schema</span>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-mono text-xs text-amber-400 font-bold tracking-wider uppercase shrink-0">RECONCILIATION NOTE:</span>
+                    <span class="prose-text text-xs text-amber-200 font-medium">${escapeHtml(rel.reconciliation_note)}</span>
                   </div>
                 </div>
               ` : ''}

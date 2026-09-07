@@ -178,10 +178,13 @@ def process_document(
                     attributes_json=json.dumps(attrs)
                 )
 
-                # Generate and store embedding
-                desc = build_embedding_descriptor(fact)
-                fact_vec = embed(desc)
-                fact.set_embedding(fact_vec)
+                # Generate and store embedding (skip for non-comparable metadata)
+                if attrs.get("comparable") is not False:
+                    desc = build_embedding_descriptor(fact)
+                    fact_vec = embed(desc)
+                    fact.set_embedding(fact_vec)
+                else:
+                    fact.embedding = None
 
                 db.add(fact)
                 extracted_facts.append(fact)

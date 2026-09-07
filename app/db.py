@@ -14,6 +14,7 @@ from sqlalchemy import (
     String,
     Text,
     create_engine,
+    text,
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
@@ -37,6 +38,7 @@ class DocumentModel(Base):
 
     id = Column(String(36), primary_key=True, default=generate_uuid)
     filename = Column(String(255), nullable=False)
+    content_hash = Column(String(64), nullable=True, index=True)
     uploaded_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     page_count = Column(Integer, default=0, nullable=False)
     status = Column(String(50), default="pending", nullable=False)  # pending, processing, done, failed
@@ -127,6 +129,19 @@ class ExtractionFailureModel(Base):
 
 def init_db():
     Base.metadata.create_all(bind=engine)
+    try:
+        with engine.connect() as conn:
+            # Check if content_hash column exists in documents table
+            result = conn.execute(text("PRAGMA table_info(documents);")).fetchall()
+            col_names = [r[1] for r in result]
+            if "content_hash" not in col_names:
+                conn.execute(text("ALTER TABLE documents ADD COLUMN content_hash VARCHAR(64);"))
+                conn.commit()
+            # Sweep any documents left stuck in processing or pending from interrupted past sessions
+            conn.execute(text("UPDATE documents SET status = 'failed', error_message = 'Extraction interrupted or terminated unexpectedly' WHERE status IN ('processing', 'pending');"))
+            conn.commit()
+    except Exception as e:
+        pass
 
 
 def get_db():

@@ -42,7 +42,11 @@ def find_candidates(
     """
     Computes cosine similarity between new_fact and existing_facts using in-memory numpy.
     Filters candidates with similarity >= threshold and returns top_k candidate (Fact, score) tuples.
+    Skips non-comparable metadata facts.
     """
+    if new_fact.attributes.get("comparable") is False:
+        return []
+
     new_vec = embed_fact(new_fact)
     if new_vec is None or len(new_vec) == 0:
         return []
@@ -51,7 +55,7 @@ def find_candidates(
     if norm_new == 0:
         return []
 
-    # Filter candidates by document exclusion
+    # Filter candidates by document exclusion and comparability
     pool: List[FactModel] = []
     pool_vecs: List[np.ndarray] = []
 
@@ -59,6 +63,8 @@ def find_candidates(
         if ef.id == new_fact.id:
             continue
         if exclude_same_document and ef.document_id == new_fact.document_id:
+            continue
+        if ef.attributes.get("comparable") is False:
             continue
 
         vec = ef.get_embedding()
@@ -113,6 +119,15 @@ def relate_new_facts(
 
         all_facts = db.query(FactModel).all()
         
+        # Pre-filter existing pool facts to avoid re-checking non-comparable items
+        pool_candidate_facts: List[FactModel] = []
+        for ef in all_facts:
+            if exclude_same_document and ef.document_id == document_id:
+                continue
+            if ef.attributes.get("comparable") is False:
+                continue
+            pool_candidate_facts.append(ef)
+
         # Load existing relationship pairs to avoid duplicate comparisons
         existing_rels = db.query(RelationshipModel).all()
         seen_pairs: Set[Tuple[str, str]] = set()
@@ -124,9 +139,12 @@ def relate_new_facts(
         comparison_tasks = []
 
         for nf in new_facts:
+            if nf.attributes.get("comparable") is False:
+                continue
+
             candidates = find_candidates(
                 new_fact=nf,
-                existing_facts=all_facts,
+                existing_facts=pool_candidate_facts,
                 threshold=threshold,
                 top_k=top_k,
                 exclude_same_document=exclude_same_document
@@ -137,6 +155,11 @@ def relate_new_facts(
                 if pair_key in seen_pairs:
                     continue
                 seen_pairs.add(pair_key)
+
+                logger.info(
+                    "Candidate Pair (sim=%.3f): [%s | %s] vs [%s | %s]",
+                    score, nf.subject, nf.metric, cand_fact.subject, cand_fact.metric
+                )
 
                 # Prepare dictionary representation for LLM prompt
                 fact_a_dict = {
@@ -163,8 +186,9 @@ def relate_new_facts(
 
         def _compare_single_pair(task_item):
             f_a_id, f_b_id, score, a_dict, b_dict = task_item
-            logger.info("Comparing candidate pair: Fact [%s] vs [%s]", a_dict.get("metric"), b_dict.get("metric"))
+            logger.info("Running LLM comparison for candidate pair (sim=%.3f): [%s | %s] vs [%s | %s]", score, a_dict.get("subject"), a_dict.get("metric"), b_dict.get("subject"), b_dict.get("metric"))
             comparison = compare_facts(a_dict, b_dict)
+            logger.info("Result for [%s] vs [%s]: %s (conf=%.2f, note=%s)", a_dict.get("metric"), b_dict.get("metric"), comparison.get("relation_type"), comparison.get("confidence", 0), comparison.get("reconciliation_note"))
             return f_a_id, f_b_id, score, comparison
 
         num_rel_workers = min(EXTRACTION_MAX_WORKERS, len(comparison_tasks)) if comparison_tasks else 1

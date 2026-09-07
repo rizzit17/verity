@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import shutil
@@ -77,17 +78,46 @@ async def upload_document(
             detail="Only PDF documents are supported."
         )
 
+    content = await file.read()
+    content_hash = hashlib.sha256(content).hexdigest()
+
+    # Check if this document content was already uploaded and successfully processed
+    existing = db.query(DocumentModel).filter(
+        DocumentModel.content_hash == content_hash
+    ).first()
+
+    if existing and existing.status == "done":
+        logger.info("Document '%s' already ingested (id: %s, hash: %s). Reusing existing record.", file.filename, existing.id, content_hash)
+        facts_count = db.query(FactModel).filter(FactModel.document_id == existing.id).count()
+        rels_count = db.query(RelationshipModel).filter(
+            (RelationshipModel.fact_a_id.in_(db.query(FactModel.id).filter(FactModel.document_id == existing.id))) |
+            (RelationshipModel.fact_b_id.in_(db.query(FactModel.id).filter(FactModel.document_id == existing.id)))
+        ).count()
+        failures_count = db.query(ExtractionFailureModel).filter(
+            ExtractionFailureModel.document_id == existing.id
+        ).count()
+        return DocumentProcessSummary(
+            document_id=existing.id,
+            filename=existing.filename,
+            page_count=existing.page_count,
+            facts_extracted=facts_count,
+            relationships_found=rels_count,
+            failures_count=failures_count,
+            status=existing.status
+        )
+
     doc_id = str(uuid.uuid4())
     save_path = UPLOAD_DIR / f"{doc_id}.pdf"
 
     # Save uploaded bytes
     with open(save_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(content)
 
     # Create document record
     doc = DocumentModel(
         id=doc_id,
         filename=file.filename,
+        content_hash=content_hash,
         status="pending"
     )
     db.add(doc)
@@ -118,7 +148,10 @@ async def upload_document(
             status=doc.status
         )
     except Exception as exc:
-        logger.exception("Failed to process uploaded document: %s", exc)
+        logger.exception("Failed to process uploaded document %s: %s", doc_id, exc)
+        doc.status = "failed"
+        doc.error_message = str(exc)
+        db.commit()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Document processing failed: {exc}"
@@ -509,13 +542,11 @@ def seed_demo_api(db: Session = Depends(get_db)):
         from scripts.seed_demo import DEFAULT_DATASETS_DIR, ORDERED_STARTER_FILES, ingest_file
         seeded_docs = []
         if DEFAULT_DATASETS_DIR.exists():
-            for folder_name, filename in ORDERED_STARTER_FILES[:3]:
+            for folder_name, filename in ORDERED_STARTER_FILES:
                 pdf_path = DEFAULT_DATASETS_DIR / folder_name / filename
                 if pdf_path.exists():
-                    existing = db.query(DocumentModel).filter(DocumentModel.filename == filename).first()
-                    if not existing:
-                        doc_id = ingest_file(pdf_path, db, max_pages=5)
-                        seeded_docs.append(filename)
+                    doc_id = ingest_file(pdf_path, db, max_pages=8)
+                    seeded_docs.append(filename)
         return {
             "status": "seeded",
             "seeded_documents": seeded_docs,
