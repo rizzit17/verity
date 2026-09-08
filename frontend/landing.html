@@ -15,10 +15,13 @@
     rel="stylesheet" />
   <style>
     @layer base {
-      html, body {
+
+      html,
+      body {
         margin: 0;
         padding: 0;
       }
+
       body {
         overscroll-behavior: none;
       }
@@ -29,7 +32,7 @@
     }
 
     .prose-text {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Inter", "Space Grotesk", sans-serif;
     }
 
     .mono-data {
@@ -42,14 +45,17 @@
       pointer-events: none;
       transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .modal-backdrop.open {
       opacity: 1;
       pointer-events: auto;
     }
+
     .modal-box {
       transform: scale(0.95) translateY(12px);
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .modal-backdrop.open .modal-box {
       transform: scale(1) translateY(0);
     }
@@ -138,14 +144,15 @@
             "headline-md": ["Space Grotesk", "sans-serif"],
             "headline-sm": ["Space Grotesk", "sans-serif"],
             "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
-            "body-sm": ["JetBrains Mono", "monospace"],
-            "body-lg": ["JetBrains Mono", "monospace"],
+            "sans": ["Space Grotesk", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
             "display-xl-mobile": ["Space Grotesk", "sans-serif"],
             "display-xl": ["Space Grotesk", "sans-serif"],
             "headline-lg": ["Space Grotesk", "sans-serif"],
             "data-metric": ["JetBrains Mono", "monospace"],
             "label-caps": ["JetBrains Mono", "monospace"],
-            "body-md": ["JetBrains Mono", "monospace"],
+            "body-md": ["Inter", "sans-serif"],
             "code-inline": ["JetBrains Mono", "monospace"]
           }
         }
@@ -162,10 +169,12 @@
     <div class="h-16 w-full max-w-[1600px] mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
       <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
         <a href="/" class="flex items-center gap-2 sm:gap-2.5 text-decoration-none group">
-          <div class="w-8 h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_15px_rgba(208,188,255,0.3)] group-hover:scale-105 transition-transform shrink-0">
+          <div
+            class="w-8 h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_15px_rgba(208,188,255,0.3)] group-hover:scale-105 transition-transform shrink-0">
             <span class="material-symbols-outlined text-[20px] text-tertiary">verified</span>
           </div>
-          <span class="font-headline-md text-lg sm:text-xl md:text-2xl tracking-tight text-white font-extrabold">Verity</span>
+          <span
+            class="font-headline-md text-lg sm:text-xl md:text-2xl tracking-tight text-white font-extrabold">Verity</span>
 
         </a>
         <div
@@ -262,7 +271,8 @@
     <div class="flex flex-col w-full">
 
       <!-- CLEAN HERO & PROJECT ABOUT SECTION -->
-      <section class="relative w-full overflow-hidden bg-transparent px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
+      <section
+        class="relative w-full overflow-hidden bg-transparent px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <!-- Ambient Tech Glows -->
         <div class="absolute -top-32 left-1/4 w-96 h-96 bg-primary-container/10 blur-3xl pointer-events-none"></div>
         <div class="absolute top-1/2 -right-32 w-96 h-96 bg-secondary-container/10 blur-3xl pointer-events-none"></div>
@@ -275,7 +285,8 @@
               class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary shadow-sm shrink-0">
               <span class="material-symbols-outlined text-[18px] sm:text-[20px] text-tertiary font-bold">verified</span>
             </div>
-            <span class="font-headline-md text-lg sm:text-xl font-extrabold tracking-wider text-white uppercase select-none">
+            <span
+              class="font-headline-md text-lg sm:text-xl font-extrabold tracking-wider text-white uppercase select-none">
               VERITY
             </span>
             <span class="font-mono text-white/25 text-sm sm:text-base font-semibold select-none">//</span>
@@ -293,7 +304,8 @@
           </h1>
 
           <!-- CONCISE ABOUT PARAGRAPH -->
-          <p class="font-body-lg text-sm sm:text-base md:text-lg text-on-surface-variant max-w-3xl mb-space-8 leading-relaxed font-normal">
+          <p
+            class="font-body-lg text-sm sm:text-base md:text-lg text-on-surface-variant max-w-3xl mb-space-8 leading-relaxed font-normal">
             Verity is an auditable fact intelligence platform designed for analysts, auditors, and researchers.
             It auto-extracts structured claims from corporate PDFs with exact page-level citations, cross-examines
             claims across independent filings, and detects corroborations, contradictions, and reporting variances using
@@ -324,7 +336,8 @@
       </section>
 
       <!-- CLEAN CAPABILITIES OVERVIEW SECTION -->
-      <section class="w-full bg-surface-container-lowest/60 backdrop-blur-sm border-t border-b border-white/5 px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
+      <section
+        class="w-full bg-surface-container-lowest/60 backdrop-blur-sm border-t border-b border-white/5 px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <div class="max-w-6xl mx-auto">
           <div class="mb-space-8 text-center max-w-2xl mx-auto">
             <span class="font-mono text-xs text-secondary uppercase font-bold tracking-wider">CORE CAPABILITIES</span>
@@ -340,10 +353,12 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-space-6">
 
             <!-- Card 1: Provenance & Page Anchoring -->
-            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-secondary/40 transition-all group">
+            <div
+              class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-secondary/40 transition-all group">
               <div>
                 <div class="flex items-center justify-between mb-3">
-                  <div class="w-9 h-9 bg-secondary/10 border border-secondary/30 flex items-center justify-center text-secondary">
+                  <div
+                    class="w-9 h-9 bg-secondary/10 border border-secondary/30 flex items-center justify-center text-secondary">
                     <span class="material-symbols-outlined text-[18px]">menu_book</span>
                   </div>
                   <span class="font-mono text-xs text-tertiary">AUDITABLE CITATIONS</span>
@@ -352,7 +367,8 @@
                   Physical Page Provenance
                 </h3>
                 <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
-                  Every extracted fact is anchored to its physical PDF page coordinates and verbatim quotation boundaries, eliminating hallucinations.
+                  Every extracted fact is anchored to its physical PDF page coordinates and verbatim quotation
+                  boundaries, eliminating hallucinations.
                 </p>
               </div>
               <button onclick="openModal('modal-provenance')"
@@ -363,10 +379,12 @@
             </div>
 
             <!-- Card 2: Interactive Cross-Doc Reasoning -->
-            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-primary/40 transition-all group">
+            <div
+              class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-primary/40 transition-all group">
               <div>
                 <div class="flex items-center justify-between mb-3">
-                  <div class="w-9 h-9 bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
+                  <div
+                    class="w-9 h-9 bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
                     <span class="material-symbols-outlined text-[18px]">psychology</span>
                   </div>
                   <span class="font-mono text-xs text-primary">CROSS-DOCUMENT</span>
@@ -375,7 +393,8 @@
                   Cross-Document Reasoning
                 </h3>
                 <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
-                  Identifies whether disclosures corroborate, directly contradict, or require contextual accounting reconciliation across filings.
+                  Identifies whether disclosures corroborate, directly contradict, or require contextual accounting
+                  reconciliation across filings.
                 </p>
               </div>
               <button onclick="openModal('modal-interactive-demo')"
@@ -386,10 +405,12 @@
             </div>
 
             <!-- Card 3: Unit & Currency Normalization -->
-            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-tertiary/40 transition-all group">
+            <div
+              class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-tertiary/40 transition-all group">
               <div>
                 <div class="flex items-center justify-between mb-3">
-                  <div class="w-9 h-9 bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary">
+                  <div
+                    class="w-9 h-9 bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary">
                     <span class="material-symbols-outlined text-[18px]">calculate</span>
                   </div>
                   <span class="font-mono text-xs text-tertiary">UNIT HARMONIZATION</span>
@@ -398,7 +419,8 @@
                   Unit &amp; Fiscal Normalization
                 </h3>
                 <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
-                  Harmonizes Indian scale (Crores, Lakhs) and Western accounting (Millions, Billions) alongside fiscal period definitions.
+                  Harmonizes Indian scale (Crores, Lakhs) and Western accounting (Millions, Billions) alongside fiscal
+                  period definitions.
                 </p>
               </div>
               <button onclick="openModal('modal-pipeline')"
@@ -409,10 +431,12 @@
             </div>
 
             <!-- Card 4: Human-in-the-Loop Governance -->
-            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-amber-400/40 transition-all group">
+            <div
+              class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-amber-400/40 transition-all group">
               <div>
                 <div class="flex items-center justify-between mb-3">
-                  <div class="w-9 h-9 bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                  <div
+                    class="w-9 h-9 bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
                     <span class="material-symbols-outlined text-[18px]">gavel</span>
                   </div>
                   <span class="font-mono text-xs text-amber-400">AUDIT QUEUE</span>
@@ -421,7 +445,8 @@
                   Human Governance Queue
                 </h3>
                 <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
-                  Low-confidence or ambiguous claims are automatically isolated into an auditable compliance queue with human review.
+                  Low-confidence or ambiguous claims are automatically isolated into an auditable compliance queue with
+                  human review.
                 </p>
               </div>
               <button onclick="openModal('modal-governance')"
@@ -442,7 +467,8 @@
             Ready to Verify Corporate Intelligence?
           </h2>
           <p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-space-8">
-            Ingest your own 10-K, annual reports, and investor prospectuses, or test live with pre-loaded enterprise filings.
+            Ingest your own 10-K, annual reports, and investor prospectuses, or test live with pre-loaded enterprise
+            filings.
           </p>
           <div class="flex flex-wrap items-center justify-center gap-space-4">
             <a href="/workspace"
@@ -471,7 +497,8 @@
       class="modal-box w-full max-w-4xl max-h-[90vh] bg-[#121622] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-left"
       onclick="event.stopPropagation()">
       <!-- Modal Header -->
-      <div class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
         <div class="flex items-center gap-3">
           <div class="w-7 h-7 bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
             <span class="material-symbols-outlined text-[16px]">play_circle</span>
@@ -524,7 +551,8 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex items-center justify-between text-xs font-mono text-outline shrink-0">
+      <div
+        class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex items-center justify-between text-xs font-mono text-outline shrink-0">
         <span>Evaluator: Gemini 3.5 Flash Lite • In-Memory Numpy Cosine</span>
         <a href="/workspace" class="text-secondary hover:underline flex items-center gap-1">
           <span>Open Full Workspace</span>
@@ -541,9 +569,11 @@
     <div
       class="modal-box w-full max-w-3xl max-h-[90vh] bg-[#121622] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-left"
       onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-7 h-7 bg-secondary/20 border border-secondary/40 flex items-center justify-center text-secondary">
+          <div
+            class="w-7 h-7 bg-secondary/20 border border-secondary/40 flex items-center justify-center text-secondary">
             <span class="material-symbols-outlined text-[16px]">menu_book</span>
           </div>
           <div>
@@ -559,9 +589,12 @@
 
       <div class="p-6 overflow-y-auto space-y-5 text-sm text-on-surface-variant">
         <div>
-          <h4 class="font-headline-sm text-base text-on-surface font-bold mb-1">Why Standard RAG Fails Financial Filings</h4>
+          <h4 class="font-headline-sm text-base text-on-surface font-bold mb-1">Why Standard RAG Fails Financial Filings
+          </h4>
           <p class="leading-relaxed">
-            Standard Retrieval-Augmented Generation (RAG) splits text into arbitrary token lengths, stripping out table row associations and physical page metadata. When an LLM asserts a revenue figure, human auditors cannot trace the quote back to the statutory page without manual document searching.
+            Standard Retrieval-Augmented Generation (RAG) splits text into arbitrary token lengths, stripping out table
+            row associations and physical page metadata. When an LLM asserts a revenue figure, human auditors cannot
+            trace the quote back to the statutory page without manual document searching.
           </p>
         </div>
 
@@ -573,15 +606,18 @@
           <ul class="space-y-2 text-xs font-mono text-on-surface">
             <li class="flex items-start gap-2">
               <span class="text-secondary">▸</span>
-              <span><strong>PyMuPDF Engine:</strong> Ingests native text blocks with exact page number indices and line-coordinate bounding boxes.</span>
+              <span><strong>PyMuPDF Engine:</strong> Ingests native text blocks with exact page number indices and
+                line-coordinate bounding boxes.</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-secondary">▸</span>
-              <span><strong>Verbatim Anchoring:</strong> Facts must contain exact verbatim string quotes from the source text chunk. Any synthetic metric without an anchor is rejected.</span>
+              <span><strong>Verbatim Anchoring:</strong> Facts must contain exact verbatim string quotes from the source
+                text chunk. Any synthetic metric without an anchor is rejected.</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-secondary">▸</span>
-              <span><strong>Auditable Export:</strong> Every claim in the knowledge graph includes immutable attributes: <code>source_file</code>, <code>page_num</code>, and <code>verbatim_quote</code>.</span>
+              <span><strong>Auditable Export:</strong> Every claim in the knowledge graph includes immutable attributes:
+                <code>source_file</code>, <code>page_num</code>, and <code>verbatim_quote</code>.</span>
             </li>
           </ul>
         </div>
@@ -593,7 +629,8 @@
             <span class="text-secondary">PAGE 4</span>
           </div>
           <p class="text-on-surface italic bg-surface-container-low p-2.5 border-l-2 border-secondary">
-            "...Adjusted EBITDA of <span class="text-secondary font-bold">₹758 Mn</span> for the fiscal year ended March 31, 2024, demonstrating core margin expansion..."
+            "...Adjusted EBITDA of <span class="text-secondary font-bold">₹758 Mn</span> for the fiscal year ended March
+            31, 2024, demonstrating core margin expansion..."
           </p>
           <div class="flex items-center justify-between text-[11px] text-outline pt-1">
             <span>Parsed Normalized Value: ₹758.00M</span>
@@ -603,7 +640,8 @@
       </div>
 
       <div class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex justify-end shrink-0">
-        <button onclick="closeModal('modal-provenance')" class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
+        <button onclick="closeModal('modal-provenance')"
+          class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
           Close Window
         </button>
       </div>
@@ -617,7 +655,8 @@
     <div
       class="modal-box w-full max-w-3xl max-h-[90vh] bg-[#121622] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-left"
       onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
         <div class="flex items-center gap-3">
           <div class="w-7 h-7 bg-tertiary/20 border border-tertiary/40 flex items-center justify-center text-tertiary">
             <span class="material-symbols-outlined text-[16px]">calculate</span>
@@ -637,7 +676,9 @@
         <div>
           <h4 class="font-headline-sm text-base text-on-surface font-bold mb-1">Scale &amp; Currency Harmonization</h4>
           <p class="leading-relaxed">
-            Corporate filings frequently mix disparate financial notations - such as Lakhs, Crores, Millions, and Billions - often within the same company's prospectus versus its statutory audited report. Verity automatically normalizes numbers to standard base units before running reconciliation algorithms.
+            Corporate filings frequently mix disparate financial notations - such as Lakhs, Crores, Millions, and
+            Billions - often within the same company's prospectus versus its statutory audited report. Verity
+            automatically normalizes numbers to standard base units before running reconciliation algorithms.
           </p>
         </div>
 
@@ -680,7 +721,8 @@
       </div>
 
       <div class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex justify-end shrink-0">
-        <button onclick="closeModal('modal-pipeline')" class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
+        <button onclick="closeModal('modal-pipeline')"
+          class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
           Close Window
         </button>
       </div>
@@ -694,9 +736,11 @@
     <div
       class="modal-box w-full max-w-3xl max-h-[90vh] bg-[#121622] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-left"
       onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-7 h-7 bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400">
+          <div
+            class="w-7 h-7 bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-400">
             <span class="material-symbols-outlined text-[16px]">gavel</span>
           </div>
           <div>
@@ -714,7 +758,9 @@
         <div>
           <h4 class="font-headline-sm text-base text-on-surface font-bold mb-1">Gated Quality Assurance</h4>
           <p class="leading-relaxed">
-            In financial reporting, false positives can lead to regulatory non-compliance. Whenever model confidence falls below our 70% threshold, or when an entity subject is ambiguous, Verity quarantines the assertion in the Review Queue instead of polluting the production knowledge layer.
+            In financial reporting, false positives can lead to regulatory non-compliance. Whenever model confidence
+            falls below our 70% threshold, or when an entity subject is ambiguous, Verity quarantines the assertion in
+            the Review Queue instead of polluting the production knowledge layer.
           </p>
         </div>
 
@@ -724,7 +770,8 @@
             <div>
               <h5 class="font-headline-sm text-xs font-bold text-on-surface">Audit Trail Transparency</h5>
               <p class="text-xs text-outline mt-0.5 leading-relaxed">
-                Reviewers can accept, correct, or reject flagged claims with mandatory notes. All actions record auditor ID, timestamp, and resolution classification.
+                Reviewers can accept, correct, or reject flagged claims with mandatory notes. All actions record auditor
+                ID, timestamp, and resolution classification.
               </p>
             </div>
           </div>
@@ -733,19 +780,22 @@
             <div>
               <h5 class="font-headline-sm text-xs font-bold text-on-surface">Immutable Ledger State</h5>
               <p class="text-xs text-outline mt-0.5 leading-relaxed">
-                Human-resolved relationships are permanently marked with an audited badge and frozen against subsequent automated override.
+                Human-resolved relationships are permanently marked with an audited badge and frozen against subsequent
+                automated override.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex items-center justify-between shrink-0">
+      <div
+        class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex items-center justify-between shrink-0">
         <a href="/review" class="text-xs font-mono text-amber-400 hover:underline flex items-center gap-1">
           <span>Open Review Queue</span>
           <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
         </a>
-        <button onclick="closeModal('modal-governance')" class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
+        <button onclick="closeModal('modal-governance')"
+          class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
           Close Window
         </button>
       </div>
@@ -759,13 +809,15 @@
     <div
       class="modal-box w-full max-w-3xl max-h-[90vh] bg-[#121622] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-left"
       onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
+      <div
+        class="flex items-center justify-between px-6 py-4 bg-surface-container-high border-b border-white/10 shrink-0">
         <div class="flex items-center gap-3">
           <div class="w-7 h-7 bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
             <span class="material-symbols-outlined text-[16px]">account_tree</span>
           </div>
           <div>
-            <h3 class="font-headline-md text-lg font-bold text-on-surface">System Architecture &amp; Technology Stack</h3>
+            <h3 class="font-headline-md text-lg font-bold text-on-surface">System Architecture &amp; Technology Stack
+            </h3>
             <p class="font-mono text-xs text-outline">End-to-End Pipeline Infrastructure</p>
           </div>
         </div>
@@ -779,7 +831,8 @@
         <div>
           <h4 class="font-headline-sm text-base text-on-surface font-bold mb-1">Architecture Overview</h4>
           <p class="leading-relaxed">
-            Verity is constructed as a high-integrity, modular backend service with a modern responsive frontend. The architecture is decoupled into Ingestion, Extraction, Vector Indexing, Reasoning, and Storage layers.
+            Verity is constructed as a high-integrity, modular backend service with a modern responsive frontend. The
+            architecture is decoupled into Ingestion, Extraction, Vector Indexing, Reasoning, and Storage layers.
           </p>
         </div>
 
@@ -799,20 +852,26 @@
           <div class="text-secondary font-bold pb-1 border-b border-white/10">PIPELINE DATAFLOW</div>
           <ol class="space-y-1.5 text-on-surface-variant list-decimal list-inside">
             <li><strong>PDF Ingestion:</strong> Multi-page documents parsed into page-indexed text blocks.</li>
-            <li><strong>Fact Extraction:</strong> Claims mined with metric, entity, date, value, and verbatim quote.</li>
-            <li><strong>Candidate Matching:</strong> Metric &amp; subject strings vectorized and paired via cosine clustering.</li>
-            <li><strong>LLM Reconciliation:</strong> Dual claims evaluated for Corroboration, Contradiction, or Nuance.</li>
+            <li><strong>Fact Extraction:</strong> Claims mined with metric, entity, date, value, and verbatim quote.
+            </li>
+            <li><strong>Candidate Matching:</strong> Metric &amp; subject strings vectorized and paired via cosine
+              clustering.</li>
+            <li><strong>LLM Reconciliation:</strong> Dual claims evaluated for Corroboration, Contradiction, or Nuance.
+            </li>
             <li><strong>Audited Knowledge Layer:</strong> Results published to UI and persistent JSON/SQLite store.</li>
           </ol>
         </div>
       </div>
 
-      <div class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex items-center justify-between shrink-0">
-        <a href="/docs" target="_blank" class="text-xs font-mono text-secondary hover:underline flex items-center gap-1">
+      <div
+        class="px-6 py-3 bg-surface-container-lowest border-t border-white/10 flex items-center justify-between shrink-0">
+        <a href="/docs" target="_blank"
+          class="text-xs font-mono text-secondary hover:underline flex items-center gap-1">
           <span>Open Interactive OpenAPI /docs</span>
           <span class="material-symbols-outlined text-[14px]">open_in_new</span>
         </a>
-        <button onclick="closeModal('modal-architecture')" class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
+        <button onclick="closeModal('modal-architecture')"
+          class="px-4 py-1.5 bg-surface-container-high hover:bg-surface-container text-on-surface text-xs font-mono cursor-pointer">
           Close Window
         </button>
       </div>
@@ -829,7 +888,9 @@
         <span>HIGH INTEGRITY INTELLIGENCE</span>
       </div>
       <div class="flex flex-wrap items-center gap-4 sm:gap-6">
-        <span class="text-on-surface-variant font-medium">ARCHITECTED &amp; <strong class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">DESIGNED BY RISHIT</strong></span>
+        <span class="text-on-surface-variant font-medium">ARCHITECTED &amp; <strong
+            class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">DESIGNED BY
+            RISHIT</strong></span>
         <span class="text-outline-variant">|</span>
         <span class="text-on-surface-variant font-semibold">&copy; 2026 Verity Systems Inc.</span>
       </div>
