@@ -249,11 +249,11 @@
   </header>
 
   <!-- MAIN VIEWPORT -->
-  <main class="w-full pt-16 bg-background min-h-screen">
+  <main class="w-full pt-16 bg-transparent min-h-screen">
     <div class="flex flex-col w-full">
       <!-- HERO SECTION -->
       <section
-        class="relative w-full overflow-hidden bg-surface-container-lowest px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
+        class="relative w-full overflow-hidden bg-transparent px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <!-- Ambient Tech Glows -->
         <div class="absolute -top-40 left-1/4 w-96 h-96 bg-primary-container/15 blur-3xl pointer-events-none"></div>
         <div class="absolute top-1/3 -right-32 w-80 h-80 bg-secondary-container/15 blur-3xl pointer-events-none"></div>
@@ -956,6 +956,7 @@
     // Init
     syncTelemetry();
   </script>
+  <script type="module" src="/static/light-rays.js"></script>
 </body>
 
 </html>
