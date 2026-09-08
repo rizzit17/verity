@@ -224,13 +224,13 @@
             <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();"
               class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
-              <span>[SEED DEMO]</span>
+              <span>Load Demo Data</span>
             </button>
             <div class="h-px bg-white/10 my-0.5"></div>
             <button onclick="handleClearDb(); closeDevToolsMenu();"
               class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
-              <span>[CLEAR DB]</span>
+              <span>Reset Workspace</span>
             </button>
           </div>
         </div>
@@ -421,7 +421,7 @@
           type: 'error'
         });
       } finally {
-        if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
+        if (btn) { btn.textContent = 'Load Demo Data'; btn.disabled = false; }
       }
     }
 

@@ -217,14 +217,14 @@
             <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
           <div id="dev-tools-menu" class="hidden absolute right-0 mt-1 w-44 bg-[#121620] border border-white/15 shadow-2xl z-50 py-1 flex flex-col">
-            <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
+            <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-sans text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
-              <span>[SEED DEMO]</span>
+              <span>Load Demo Data</span>
             </button>
             <div class="h-px bg-white/10 my-0.5"></div>
-            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
+            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-sans text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
-              <span>[CLEAR DB]</span>
+              <span>Reset Workspace</span>
             </button>
           </div>
         </div>
@@ -261,7 +261,7 @@
 
   <!-- MAIN WORKSPACE -->
   <main class="w-full pt-16 bg-transparent min-h-screen flex flex-col">
-    <!-- Top Command & Session Ribbon -->
+    <!-- Top Command & Session Ribbon (Clean & Professional) -->
     <div
       class="w-full bg-surface-container-lowest border-b border-white/10 px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
       <div class="flex items-center gap-2.5">
@@ -269,34 +269,15 @@
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
         </span>
-        <span class="font-mono text-xs font-bold text-on-surface tracking-tight">
-          KNOWLEDGE WORKBENCH <span class="text-outline">//</span> RECONCILIATION RUNNER
-        </span>
-        <span
-          class="hidden sm:inline-block px-2 py-0.5 bg-primary/10 border border-primary/30 text-primary font-mono text-[10px] uppercase tracking-wider font-semibold">
-          CROSS-DOCUMENT FACT LAYER
+        <span class="font-sans text-xs font-bold text-on-surface tracking-tight uppercase">
+          Document Intelligence Workbench
         </span>
       </div>
-      <div class="flex items-center gap-2 font-mono text-[11px]">
-        <div
-          class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
-          <span class="text-outline">EMBEDDINGS:</span>
-          <span class="text-secondary font-bold">all-MiniLM-L6-v2</span>
-        </div>
-        <div
-          class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
-          <span class="text-outline">REASONER:</span>
-          <span class="text-primary font-bold">Gemini 3.5 Flash Lite</span>
-        </div>
-        <div
-          class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
-          <span class="text-outline">SYNC:</span>
-          <span class="text-tertiary font-bold">ACTIVE (14ms)</span>
-        </div>
+      <div class="flex items-center gap-3">
         <button onclick="handleSeedDemo()"
-          class="px-3 py-1 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-[11px] font-bold tracking-wider transition-colors shadow-sm"
+          class="px-3 py-1 bg-primary hover:bg-primary-fixed text-on-primary font-sans text-xs font-bold transition-colors shadow-sm cursor-pointer"
           type="button">
-          [TRIGGER SEED RUN]
+          Run Demo Analysis
         </button>
       </div>
     </div>
@@ -309,33 +290,32 @@
         <!-- Upload Dropzone Card -->
         <div class="p-4 border-b border-white/10 flex flex-col gap-3 bg-surface-container-low/30">
           <div class="flex items-center justify-between">
-            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // INGESTION
-              GATEWAY</span>
-            <span
-              class="px-1.5 py-0.5 bg-surface-container-high border border-white/10 text-secondary font-mono text-[10px]">MIME:
-              PDF</span>
+            <span class="font-sans text-xs text-on-surface uppercase font-bold tracking-wider">
+              Upload Document
+            </span>
+            <span class="text-xs text-outline">PDF format</span>
           </div>
           <!-- Page Count / Extraction Depth Toggle -->
           <div class="flex flex-col gap-1.5 bg-surface-container-lowest/90 p-2.5 border border-white/10">
-            <div class="flex items-center justify-between font-mono text-[11px]">
-              <span class="text-outline uppercase font-semibold text-[10px] tracking-wider flex items-center gap-1">
-                <span class="material-symbols-outlined text-[13px] text-primary">layers</span>
-                PAGE EXTRACTION LIMIT:
+            <div class="flex items-center justify-between font-sans text-xs">
+              <span class="text-outline font-medium flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-primary">layers</span>
+                Extraction Depth:
               </span>
-              <span id="page-count-hint" class="text-primary text-[10px] font-bold">15 Pgs (Fast)</span>
+              <span id="page-count-hint" class="text-primary font-semibold text-[11px]">15 Pgs (Fast)</span>
             </div>
             <div class="grid grid-cols-4 gap-1 pt-1" id="page-count-selector">
-              <button type="button" data-pages="15" onclick="setPageCount(15, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono font-bold bg-primary text-on-primary transition-all cursor-pointer shadow-sm">
+              <button type="button" data-pages="15" onclick="setPageCount(15, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-sans font-bold bg-primary text-on-primary transition-all cursor-pointer shadow-sm">
                 15 pgs
               </button>
-              <button type="button" data-pages="30" onclick="setPageCount(30, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">
+              <button type="button" data-pages="30" onclick="setPageCount(30, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-sans text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">
                 30 pgs
               </button>
-              <button type="button" data-pages="50" onclick="setPageCount(50, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">
+              <button type="button" data-pages="50" onclick="setPageCount(50, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-sans text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">
                 50 pgs
               </button>
-              <button type="button" data-pages="0" onclick="setPageCount(0, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer" title="Extract All Pages">
-                ALL ∞
+              <button type="button" data-pages="0" onclick="setPageCount(0, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-sans text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer" title="Extract All Pages">
+                All Pgs
               </button>
             </div>
           </div>
@@ -347,17 +327,8 @@
               class="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <span class="material-symbols-outlined text-primary text-[22px]">upload_file</span>
             </div>
-            <span class="font-sans text-sm text-on-surface font-semibold mb-0.5">Drop Financial Prospectus or
-              10-K</span>
-            <span class="font-mono text-[11px] text-outline mb-2.5">Annual Reports, Filings, Form 8-K (Max 50MB)</span>
-            <div
-              class="w-full bg-surface-container-lowest/80 p-2 border border-white/5 flex items-center justify-between font-mono text-[10px] text-on-surface-variant">
-              <span class="flex items-center gap-1 text-tertiary">
-                <span class="material-symbols-outlined text-[13px]">bolt</span>
-                PYMUPDF OCR CHUNKING
-              </span>
-              <span class="text-outline">FACT DEDUPLICATION ON</span>
-            </div>
+            <span class="font-sans text-sm text-on-surface font-semibold mb-0.5">Drop Corporate PDF</span>
+            <span class="font-sans text-xs text-outline mb-1">Annual Reports, Prospectus, or Filings (Max 50MB)</span>
             <input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" id="pdf-input" type="file"
               onchange="handleFileUpload(this.files)" />
           </div>
@@ -423,15 +394,15 @@
           <div class="flex items-center justify-between pb-2 border-b border-white/5">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-outline text-[16px]">folder_open</span>
-              <span class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">
-                INGESTED ARTIFACTS (<span id="doc-count" class="text-on-surface font-bold">0</span>)
+              <span class="font-sans text-xs text-outline uppercase tracking-wider font-semibold">
+                Ingested Documents (<span id="doc-count" class="text-on-surface font-bold">0</span>)
               </span>
             </div>
             <button onclick="loadDocuments()"
-              class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors"
+              class="font-sans text-xs text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors"
               type="button">
               <span class="material-symbols-outlined text-[13px]">refresh</span>
-              REFRESH
+              Refresh
             </button>
           </div>
           <!-- Document Cards Stream -->
@@ -442,17 +413,15 @@
           </div>
           <!-- Audit Summary Metric Tile -->
           <div class="mt-auto pt-4 border-t border-white/10 flex flex-col gap-2">
-            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">WORKSPACE STATS
-              MATRIX</span>
+            <span class="font-sans text-[11px] text-outline uppercase tracking-wider font-semibold">Workspace Summary</span>
             <div class="grid grid-cols-2 gap-2">
               <div class="bg-surface-container-low border border-white/5 p-2.5 flex flex-col">
                 <span id="stat-isolated-facts" class="font-mono text-xl text-on-surface font-bold">...</span>
-                <span class="font-mono text-[9px] text-outline tracking-wider uppercase mt-0.5">ISOLATED FACTS</span>
+                <span class="font-sans text-[10px] text-outline tracking-wider uppercase mt-0.5">Extracted Facts</span>
               </div>
               <div class="bg-surface-container-low border border-white/5 p-2.5 flex flex-col">
                 <span id="stat-certainty" class="font-mono text-xl text-tertiary font-bold">...</span>
-                <span class="font-mono text-[9px] text-outline tracking-wider uppercase mt-0.5">AGGREGATE
-                  CERTAINTY</span>
+                <span class="font-sans text-[10px] text-outline tracking-wider uppercase mt-0.5">Average Confidence</span>
               </div>
             </div>
           </div>
@@ -465,32 +434,26 @@
         <div
           class="bg-surface-container/60 border border-white/10 p-3.5 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 sm:gap-4">
           <div class="flex flex-col gap-1">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span
-                class="px-2 py-0.5 bg-primary/20 border border-primary/40 text-primary font-mono text-[9px] sm:text-[10px] uppercase font-bold tracking-wider">
-                MODULE 02
-              </span>
-              <h1 class="font-sans text-base sm:text-lg lg:text-xl text-on-surface font-bold tracking-tight">
-                Cross-Document Relationships Explorer
-              </h1>
-            </div>
+            <h1 class="font-sans text-base sm:text-lg lg:text-xl text-on-surface font-bold tracking-tight">
+              Cross-Document Relationships Explorer
+            </h1>
             <p class="font-sans text-[11px] sm:text-xs text-on-surface-variant leading-relaxed">
-              Forensic cross-examination of claims across independent prospectus, audit, and presentation files.
+              Verify and compare facts across documents to identify corroborations, contradictions, and reconciliations.
             </p>
           </div>
           <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto">
             <div class="relative flex-1 sm:w-60">
               <input id="rel-filter-input" oninput="applyFilters()"
-                class="bg-surface-container-low/90 px-3 py-1.5 pr-8 font-mono text-xs text-on-surface placeholder:text-outline w-full focus:outline-none focus:border-primary/60 border border-white/15 transition-colors"
-                placeholder="FILTER CLAIMS..." type="text" />
+                class="bg-surface-container-low/90 px-3 py-1.5 pr-8 font-sans text-xs text-on-surface placeholder:text-outline w-full focus:outline-none focus:border-primary/60 border border-white/15 transition-colors"
+                placeholder="Filter claims or entities..." type="text" />
               <span
                 class="material-symbols-outlined absolute right-2.5 top-2 text-outline text-[16px] pointer-events-none">search</span>
             </div>
             <button onclick="exportRelationshipsCSV()"
-              class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-2.5 sm:px-3 py-1.5 font-mono text-xs flex items-center gap-1.5 border border-white/10 hover:border-white/20 transition-colors shrink-0 cursor-pointer"
+              class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-2.5 sm:px-3 py-1.5 font-sans text-xs flex items-center gap-1.5 border border-white/10 hover:border-white/20 transition-colors shrink-0 cursor-pointer"
               type="button" title="Export CSV">
               <span class="material-symbols-outlined text-[15px]">download</span>
-              <span class="hidden xs:inline">[CSV]</span>
+              <span class="hidden xs:inline">Export CSV</span>
             </button>
           </div>
         </div>
@@ -499,30 +462,30 @@
         <div class="flex items-center gap-1.5 sm:gap-2 bg-surface-container-low/60 border border-white/10 p-1.5 overflow-x-auto"
           id="rel-filter-tabs">
           <button onclick="setRelTypeFilter('all')" id="rel-tab-all"
-            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs bg-primary text-[#1c1445] font-extrabold shadow-sm border border-primary/50 flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer"
+            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-sans text-[11px] sm:text-xs bg-primary text-[#1c1445] font-extrabold shadow-sm border border-primary/50 flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer"
             data-type="all">
-            <span>ALL</span>
+            <span>All</span>
             <span id="tab-count-all" class="px-1.5 py-0.5 bg-[#1c1445]/20 text-[#1c1445] font-extrabold rounded-sm border border-[#1c1445]/30">0</span>
           </button>
           <button onclick="setRelTypeFilter('corroborates')" id="rel-tab-corroborates"
-            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer"
+            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-sans text-[11px] sm:text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer"
             data-type="corroborates">
             <span id="tab-dot-corrob" class="w-2 h-2 rounded-full bg-tertiary"></span>
-            <span>CORROBORATES</span>
+            <span>Corroborates</span>
             <span id="tab-count-corrob" class="px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold rounded-sm border border-tertiary/30">0</span>
           </button>
           <button onclick="setRelTypeFilter('contradicts')" id="rel-tab-contradicts"
-            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer"
+            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-sans text-[11px] sm:text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer"
             data-type="contradicts">
             <span id="tab-dot-contradict" class="w-2 h-2 rounded-full bg-error"></span>
-            <span>CONTRADICTS</span>
+            <span>Contradicts</span>
             <span id="tab-count-contradict" class="px-1.5 py-0.5 bg-error/15 text-error font-bold rounded-sm border border-error/30">0</span>
           </button>
           <button onclick="setRelTypeFilter('contextual_reconciliation')" id="rel-tab-contextual_reconciliation"
-            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-mono text-[11px] sm:text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer"
+            class="rel-tab shrink-0 px-2.5 sm:px-3 py-1.5 font-sans text-[11px] sm:text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer"
             data-type="contextual_reconciliation">
             <span id="tab-dot-reconcile" class="w-2 h-2 rounded-full bg-amber-400"></span>
-            <span>RECONCILED</span>
+            <span>Reconciled</span>
             <span id="tab-count-reconcile"
               class="px-1.5 py-0.5 bg-amber-400/15 text-amber-300 font-bold rounded-sm border border-amber-400/30">0</span>
           </button>
@@ -594,7 +557,7 @@
         container.innerHTML = `
           <div class="p-space-4 bg-surface-container-low text-center text-outline font-body-sm">
             No documents ingested yet.<br/>
-            Drop a PDF above or click <strong>[SEED DEMO]</strong>.
+            Drop a PDF above or click <strong>Load Demo Data</strong>.
           </div>
         `;
         return;
@@ -800,9 +763,9 @@
             <span class="material-symbols-outlined text-outline text-[42px]">find_in_page</span>
             <span class="font-sans text-base text-on-surface font-bold">No Relationships Found</span>
             <p class="font-sans text-xs text-on-surface-variant max-w-md leading-relaxed">
-              ${allRelationships.length === 0 ? 'No cross-document relationships exist in the database yet. Click [TRIGGER SEED RUN] or upload 2+ PDFs to trigger automated comparison.' : 'No relationships match your active search filter.'}
+              ${allRelationships.length === 0 ? 'No cross-document relationships exist in the database yet. Click <strong>Run Demo Analysis</strong> or upload 2+ corporate PDFs to trigger comparison.' : 'No relationships match your active search filter.'}
             </p>
-            ${allRelationships.length === 0 ? '<button onclick="handleSeedDemo()" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-xs font-bold mt-2 transition-colors cursor-pointer shadow-sm">[SEED DEMO DATASET]</button>' : ''}
+            ${allRelationships.length === 0 ? '<button onclick="handleSeedDemo()" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-sans text-xs font-bold mt-2 transition-colors cursor-pointer shadow-sm">Load Demo Dataset</button>' : ''}
           </div>
         `;
         return;
@@ -810,16 +773,16 @@
 
       container.innerHTML = filtered.map(rel => {
         let badgeStyle = 'bg-amber-500/15 text-amber-400 border-amber-500/30';
-        let badgeLabel = '◆ CONTEXTUAL RECONCILIATION';
+        let badgeLabel = 'Reconciliation';
         let borderHighlight = 'border-l-amber-500';
 
         if (rel.relation_type === 'corroborates') {
           badgeStyle = 'bg-tertiary/15 text-tertiary border-tertiary/30';
-          badgeLabel = '■ CORROBORATES';
+          badgeLabel = 'Corroborates';
           borderHighlight = 'border-l-tertiary';
         } else if (rel.relation_type === 'contradicts') {
           badgeStyle = 'bg-error/15 text-error border-error/30';
-          badgeLabel = '▲ CONTRADICTS';
+          badgeLabel = 'Contradicts';
           borderHighlight = 'border-l-error';
         }
 
@@ -832,19 +795,19 @@
             <!-- Card Header Ribbon -->
             <div class="bg-surface-container-high/70 p-3 sm:px-5 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-white/10">
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="px-2.5 py-0.5 ${badgeStyle} border font-mono text-[11px] sm:text-xs font-bold tracking-wide">
+                <span class="px-2.5 py-0.5 ${badgeStyle} border font-sans text-xs font-bold tracking-wide">
                   ${badgeLabel}
                 </span>
                 <span class="font-mono text-[11px] text-outline bg-surface-container-lowest/80 px-2 py-0.5 border border-white/5">
                   ID: <span class="mono-data text-on-surface">#${rel.id.slice(0, 8)}</span>
                 </span>
-                <span class="font-mono text-[10px] sm:text-[11px] text-on-surface-variant bg-surface-container-lowest/80 px-2 py-0.5 border border-white/5 truncate max-w-[200px] sm:max-w-none">
-                  <span class="text-outline">SCOPE:</span> <span class="mono-data font-semibold text-on-surface">${(fa.metric || 'Financial metric').toUpperCase()}</span>
+                <span class="font-sans text-[11px] text-on-surface-variant bg-surface-container-lowest/80 px-2 py-0.5 border border-white/5 truncate max-w-[200px] sm:max-w-none">
+                  <span class="text-outline">Scope:</span> <span class="font-semibold text-on-surface">${escapeHtml(fa.metric || 'Financial metric')}</span>
                 </span>
               </div>
               <div class="flex items-center gap-3 self-end sm:self-auto">
-                <div class="flex items-center gap-1.5 sm:gap-2 font-mono text-[11px] sm:text-xs bg-surface-container-lowest/80 px-2 sm:px-2.5 py-1 border border-white/5">
-                  <span class="text-outline">CONF:</span>
+                <div class="flex items-center gap-1.5 sm:gap-2 font-sans text-xs bg-surface-container-lowest/80 px-2 sm:px-2.5 py-1 border border-white/5">
+                  <span class="text-outline">Confidence:</span>
                   <span class="mono-data text-tertiary font-bold">${confPercent}%</span>
                   ${renderSteppedConfidence(rel.confidence)}
                 </div>
@@ -854,9 +817,9 @@
             <div class="p-3.5 sm:p-5 lg:p-6 flex flex-col gap-4 sm:gap-5">
               <!-- LLM Reasoning Box (B2, B3) -->
               <div class="bg-surface-container-lowest/90 border border-white/10 p-4 lg:p-5 flex flex-col gap-2">
-                <div class="flex items-center gap-2 text-primary font-mono text-xs font-bold tracking-wider">
+                <div class="flex items-center gap-2 text-primary font-sans text-xs font-bold tracking-wider">
                   <span class="material-symbols-outlined text-[18px]">psychology</span>
-                  <span>LLM REASONING</span>
+                  <span>Analysis &amp; Reasoning</span>
                 </div>
                 <p class="prose-text text-[14px] leading-relaxed text-[#e4e7f4] tracking-normal font-normal">
                   ${escapeHtml(rel.reasoning || 'No detailed reasoning recorded.')}
@@ -868,7 +831,7 @@
                 <div class="bg-amber-500/10 border border-amber-500/30 border-l-4 border-l-amber-500 p-3.5 flex items-center gap-3">
                   <span class="material-symbols-outlined text-amber-400 text-[20px] shrink-0">schema</span>
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span class="font-mono text-xs text-amber-400 font-bold tracking-wider uppercase shrink-0">RECONCILIATION NOTE:</span>
+                    <span class="font-sans text-xs text-amber-400 font-bold tracking-wider uppercase shrink-0">Reconciliation Note:</span>
                     <span class="prose-text text-xs text-amber-200 font-medium">${escapeHtml(rel.reconciliation_note)}</span>
                   </div>
                 </div>
@@ -881,35 +844,35 @@
                   <div class="flex flex-col gap-3">
                     <div class="flex items-center justify-between pb-3 border-b border-white/10">
                       <div class="flex items-center gap-2">
-                        <span class="px-2 py-0.5 bg-secondary/15 border border-secondary/30 text-secondary font-mono text-[11px] font-bold">SOURCE FACT A</span>
-                        <span class="px-2 py-0.5 bg-surface-container-high text-outline font-mono text-[11px]">PAGE ${fa.page || 1}</span>
+                        <span class="px-2 py-0.5 bg-secondary/15 border border-secondary/30 text-secondary font-sans text-xs font-semibold">Source Claim A</span>
+                        <span class="px-2 py-0.5 bg-surface-container-high text-outline font-sans text-xs">Page ${fa.page || 1}</span>
                       </div>
-                      <span class="font-mono text-[11px] text-outline truncate max-w-[200px]" title="${escapeHtml(fa.document_id || 'Document A')}">
+                      <span class="font-sans text-xs text-outline truncate max-w-[200px]" title="${escapeHtml(fa.document_id || 'Document A')}">
                         ${escapeHtml(fa.document_id || 'Document A')}
                       </span>
                     </div>
 
                     <div class="flex flex-col gap-1">
-                      <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">METRIC IDENTIFIER</span>
+                      <span class="font-sans text-[11px] text-outline uppercase tracking-wider font-semibold">Reported Metric</span>
                       <span class="font-sans text-base font-bold text-on-surface tracking-tight">${escapeHtml(fa.metric || 'Metric A')}</span>
                     </div>
 
                     <div class="bg-surface-container-high/60 border border-white/5 p-3 flex items-baseline justify-between">
-                      <span class="font-mono text-xl lg:text-2xl text-secondary font-bold tracking-tight">${escapeHtml(fa.value || 'N/A')} <span class="text-sm font-normal text-on-surface-variant">${escapeHtml(fa.unit || '')}</span></span>
+                      <span class="font-mono text-xl lg:text-2xl text-secondary font-bold tracking-tight">${escapeHtml(fa.value || 'N/A')} <span class="text-sm font-normal text-on-surface-variant font-sans">${escapeHtml(fa.unit || '')}</span></span>
                       <span class="px-2 py-0.5 bg-surface-container text-outline font-mono text-[10px] uppercase">${escapeHtml(fa.time_scope || 'UNSPECIFIED')}</span>
                     </div>
 
-                    <div class="flex items-center gap-2 font-mono text-xs text-on-surface-variant pt-1">
-                      <span class="text-outline text-[11px]">ENTITY SCOPE:</span>
+                    <div class="flex items-center gap-2 font-sans text-xs text-on-surface-variant pt-1">
+                      <span class="text-outline text-[11px]">Entity:</span>
                       <span class="text-on-surface font-semibold">${escapeHtml(fa.subject || 'Entity')}</span>
                       <span class="text-outline">•</span>
-                      <span class="text-secondary">${escapeHtml(fa.time_scope || '')}</span>
+                      <span class="text-secondary font-mono text-[11px]">${escapeHtml(fa.time_scope || '')}</span>
                     </div>
                   </div>
 
                   <!-- Verbatim Citation Quote Box -->
-                  <div class="bg-surface-container-lowest border-l-2 border-secondary p-3.5 font-mono text-xs text-on-surface-variant border border-white/5">
-                    <span class="text-outline block mb-1.5 font-mono text-[10px] uppercase font-bold tracking-wider">VERBATIM DOCUMENT CITATION:</span>
+                  <div class="bg-surface-container-lowest border-l-2 border-secondary p-3.5 font-sans text-xs text-on-surface-variant border border-white/5">
+                    <span class="text-outline block mb-1.5 font-sans text-[11px] uppercase font-semibold tracking-wider">Source Evidence Citation:</span>
                     <span class="italic text-on-surface/90 font-mono text-[11.5px] leading-relaxed block">"${escapeHtml(fa.evidence_text || 'No raw quotation recorded.')}"</span>
                   </div>
                 </div>
@@ -919,35 +882,35 @@
                   <div class="flex flex-col gap-3">
                     <div class="flex items-center justify-between pb-3 border-b border-white/10">
                       <div class="flex items-center gap-2">
-                        <span class="px-2 py-0.5 bg-primary/15 border border-primary/30 text-primary font-mono text-[11px] font-bold">SOURCE FACT B</span>
-                        <span class="px-2 py-0.5 bg-surface-container-high text-outline font-mono text-[11px]">PAGE ${fb.page || 1}</span>
+                        <span class="px-2 py-0.5 bg-primary/15 border border-primary/30 text-primary font-sans text-xs font-semibold">Source Claim B</span>
+                        <span class="px-2 py-0.5 bg-surface-container-high text-outline font-sans text-xs">Page ${fb.page || 1}</span>
                       </div>
-                      <span class="font-mono text-[11px] text-outline truncate max-w-[200px]" title="${escapeHtml(fb.document_id || 'Document B')}">
+                      <span class="font-sans text-xs text-outline truncate max-w-[200px]" title="${escapeHtml(fb.document_id || 'Document B')}">
                         ${escapeHtml(fb.document_id || 'Document B')}
                       </span>
                     </div>
 
                     <div class="flex flex-col gap-1">
-                      <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">METRIC IDENTIFIER</span>
+                      <span class="font-sans text-[11px] text-outline uppercase tracking-wider font-semibold">Reported Metric</span>
                       <span class="font-sans text-base font-bold text-on-surface tracking-tight">${escapeHtml(fb.metric || 'Metric B')}</span>
                     </div>
 
                     <div class="bg-surface-container-high/60 border border-white/5 p-3 flex items-baseline justify-between">
-                      <span class="font-mono text-xl lg:text-2xl text-primary font-bold tracking-tight">${escapeHtml(fb.value || 'N/A')} <span class="text-sm font-normal text-on-surface-variant">${escapeHtml(fb.unit || '')}</span></span>
+                      <span class="font-mono text-xl lg:text-2xl text-primary font-bold tracking-tight">${escapeHtml(fb.value || 'N/A')} <span class="text-sm font-normal text-on-surface-variant font-sans">${escapeHtml(fb.unit || '')}</span></span>
                       <span class="px-2 py-0.5 bg-surface-container text-outline font-mono text-[10px] uppercase">${escapeHtml(fb.time_scope || 'UNSPECIFIED')}</span>
                     </div>
 
-                    <div class="flex items-center gap-2 font-mono text-xs text-on-surface-variant pt-1">
-                      <span class="text-outline text-[11px]">ENTITY SCOPE:</span>
+                    <div class="flex items-center gap-2 font-sans text-xs text-on-surface-variant pt-1">
+                      <span class="text-outline text-[11px]">Entity:</span>
                       <span class="text-on-surface font-semibold">${escapeHtml(fb.subject || 'Entity')}</span>
                       <span class="text-outline">•</span>
-                      <span class="text-primary">${escapeHtml(fb.time_scope || '')}</span>
+                      <span class="text-primary font-mono text-[11px]">${escapeHtml(fb.time_scope || '')}</span>
                     </div>
                   </div>
 
                   <!-- Verbatim Citation Quote Box -->
-                  <div class="bg-surface-container-lowest border-l-2 border-primary p-3.5 font-mono text-xs text-on-surface-variant border border-white/5">
-                    <span class="text-outline block mb-1.5 font-mono text-[10px] uppercase font-bold tracking-wider">VERBATIM DOCUMENT CITATION:</span>
+                  <div class="bg-surface-container-lowest border-l-2 border-primary p-3.5 font-sans text-xs text-on-surface-variant border border-white/5">
+                    <span class="text-outline block mb-1.5 font-sans text-[11px] uppercase font-semibold tracking-wider">Source Evidence Citation:</span>
                     <span class="italic text-on-surface/90 font-mono text-[11.5px] leading-relaxed block">"${escapeHtml(fb.evidence_text || 'No raw quotation recorded.')}"</span>
                   </div>
                 </div>
@@ -1200,8 +1163,8 @@
           type: 'error'
         });
       } finally {
-        if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
-        if (seedRunBtn) { seedRunBtn.textContent = '[TRIGGER SEED RUN]'; seedRunBtn.disabled = false; }
+        if (btn) { btn.textContent = 'Load Demo Data'; btn.disabled = false; }
+        if (seedRunBtn) { seedRunBtn.textContent = 'Run Demo Seed'; seedRunBtn.disabled = false; }
       }
     }
 

@@ -225,14 +225,14 @@
             <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
           <div id="dev-tools-menu" class="hidden absolute right-0 mt-1 w-44 bg-[#121620] border border-white/15 shadow-2xl z-50 py-1 flex flex-col">
-            <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
+            <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-sans text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
-              <span>[SEED DEMO]</span>
+              <span>Load Demo Data</span>
             </button>
             <div class="h-px bg-white/10 my-0.5"></div>
-            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
+            <button onclick="handleClearDb(); closeDevToolsMenu();" class="w-full text-left px-3 py-2 text-xs font-sans text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
-              <span>[CLEAR DB]</span>
+              <span>Reset Workspace</span>
             </button>
           </div>
         </div>
@@ -277,12 +277,8 @@
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
         </span>
-        <span class="font-mono text-xs font-bold text-on-surface tracking-tight uppercase">
-          HUMAN REVIEW <span class="text-outline">//</span> EXCEPTION QUEUE
-        </span>
-        <span
-          class="hidden sm:inline-block px-2 py-0.5 bg-error/10 border border-error/30 text-error font-mono text-[10px] uppercase tracking-wider font-semibold">
-          EVALUATION CASE 4: HITL RECONCILIATION
+        <span class="font-sans text-xs font-bold text-on-surface tracking-tight uppercase">
+          Human Review &amp; Audit Queue
         </span>
       </div>
 
@@ -291,29 +287,19 @@
         <div
           class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-error/30 text-on-surface-variant">
           <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
-          <span class="text-outline">UNRESOLVED:</span>
+          <span class="text-outline font-sans text-xs">Unresolved:</span>
           <span id="stat-unresolved" class="text-error font-bold">0</span>
         </div>
         <div
           class="flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
           <span class="material-symbols-outlined text-tertiary text-[14px]">verified</span>
-          <span class="text-outline">RESOLVED:</span>
+          <span class="text-outline font-sans text-xs">Resolved:</span>
           <span id="stat-resolved" class="text-tertiary font-bold">14</span>
         </div>
         <div
           class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
-          <span class="text-outline">ACCURACY:</span>
+          <span class="text-outline font-sans text-xs">Accuracy:</span>
           <span class="text-secondary font-bold">99.2%</span>
-        </div>
-        <div
-          class="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
-          <span class="text-outline">AUTO-FLAG GATE:</span>
-          <span class="text-primary font-bold">&lt; 70% CONF</span>
-        </div>
-        <div
-          class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 text-on-surface-variant">
-          <span class="text-outline">POLICY:</span>
-          <span class="text-secondary font-bold">STRICT DETERMINISM</span>
         </div>
       </div>
     </div>
@@ -326,19 +312,17 @@
         <!-- Ingestion / Auditor Gate Card -->
         <div class="p-4 border-b border-white/10 flex flex-col gap-3 bg-surface-container-low/30">
           <div class="flex items-center justify-between">
-            <span class="font-mono text-[10px] text-outline uppercase tracking-wider font-semibold">01 // AUDIT PIPELINE
-              GATEWAY</span>
+            <span class="font-sans text-[11px] text-outline uppercase tracking-wider font-semibold">Audit Pipeline Policy</span>
             <span
-              class="px-1.5 py-0.5 bg-surface-container-high border border-error/30 text-error font-mono text-[10px] font-bold">HITL
-              ENGAGED</span>
+              class="px-1.5 py-0.5 bg-surface-container-high border border-error/30 text-error font-sans text-[10px] font-bold">Active</span>
           </div>
           <div class="p-3 bg-surface-container-low border border-white/5 flex flex-col gap-1.5">
             <div class="flex items-center gap-2 text-on-surface">
               <span class="material-symbols-outlined text-secondary text-[18px]">security</span>
-              <span class="font-sans text-sm font-bold">Quarantine Enforcement</span>
+              <span class="font-sans text-sm font-bold">Review Queue Policy</span>
             </div>
             <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
-              Facts with confidence &lt; 0.70 or ungrounded entity attributions are quarantined here for auditor review.
+              Low-confidence claims and flagged reporting variances are held here for auditor verification before being committed to the knowledge base.
             </p>
           </div>
         </div>
@@ -348,15 +332,15 @@
           <div class="flex items-center justify-between pb-2 border-b border-white/5">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-outline text-[16px]">folder_open</span>
-              <span class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">
-                INGESTED ARTIFACTS (<span id="doc-active-badge" class="text-on-surface font-bold">0</span>)
+              <span class="font-sans text-xs text-outline uppercase tracking-wider font-semibold">
+                Ingested Documents (<span id="doc-active-badge" class="text-on-surface font-bold">0</span>)
               </span>
             </div>
             <button onclick="loadDocumentsList()"
-              class="font-mono text-[10px] text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors"
+              class="font-sans text-xs text-secondary hover:text-on-surface flex items-center gap-1 cursor-pointer transition-colors"
               type="button">
               <span class="material-symbols-outlined text-[13px]">refresh</span>
-              REFRESH
+              Refresh
             </button>
           </div>
           <div id="review-doc-list" class="flex flex-col gap-2 overflow-y-auto max-h-[380px] xl:max-h-[460px] pr-1">
@@ -370,10 +354,10 @@
         <div class="mt-auto p-4 border-t border-white/10 bg-surface-container-low/30 flex flex-col gap-1.5">
           <div class="flex items-center gap-2 text-secondary">
             <span class="material-symbols-outlined text-[18px]">verified_user</span>
-            <span class="font-mono text-xs font-bold uppercase tracking-wider">Provenance Ledger</span>
+            <span class="font-sans text-xs font-bold uppercase tracking-wider">Provenance Ledger</span>
           </div>
           <p class="font-sans text-xs text-outline leading-relaxed m-0">
-            Every approved assertion is stamped into the knowledge graph with immutable auditor digital verification.
+            Every approved assertion is verified and stamped into the knowledge graph with full auditor traceability.
           </p>
         </div>
       </aside>
@@ -385,34 +369,29 @@
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div class="flex flex-col gap-1">
               <div class="flex items-center gap-2.5 flex-wrap">
-                <span
-                  class="px-2 py-0.5 bg-error/20 border border-error/40 text-error font-mono text-[10px] uppercase font-bold tracking-wider">
-                  MODULE 04
-                </span>
                 <h2 class="font-sans text-lg lg:text-xl text-on-surface font-bold tracking-tight m-0">
                   Human Review &amp; Exception Queue
                 </h2>
               </div>
               <p class="font-sans text-xs text-on-surface-variant leading-relaxed m-0">
-                Forensic disambiguation of low-confidence extractions, missing entity scopes, and cross-filing semantic
-                contradictions.
+                Review low-confidence extractions, verify claims, and resolve semantic contradictions across documents.
               </p>
             </div>
 
             <!-- Active Case Pager Stepper -->
             <div id="casePager"
-              class="flex items-center gap-3 bg-surface-container-low px-3 py-1.5 border border-white/10 font-mono text-xs shrink-0">
-              <span class="text-outline">CASE</span>
+              class="flex items-center gap-3 bg-surface-container-low px-3 py-1.5 border border-white/10 font-sans text-xs shrink-0">
+              <span class="text-outline">Case</span>
               <span id="caseIndexDisplay" class="text-on-surface font-bold text-sm">1</span>
-              <span class="text-outline">OF</span>
+              <span class="text-outline">of</span>
               <span id="caseTotalDisplay" class="text-secondary font-bold text-sm">1</span>
               <div class="flex items-center gap-1.5 ml-2">
                 <button onclick="prevCase()"
-                  class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10"
-                  title="Previous Case" type="button">◀ PREV</button>
+                  class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-semibold transition-colors cursor-pointer border border-white/10"
+                  title="Previous Case" type="button">Previous</button>
                 <button onclick="nextCase()"
-                  class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-bold transition-colors cursor-pointer border border-white/10"
-                  title="Next Case" type="button">NEXT ▶</button>
+                  class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-semibold transition-colors cursor-pointer border border-white/10"
+                  title="Next Case" type="button">Next</button>
               </div>
             </div>
           </div>
@@ -420,29 +399,25 @@
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/5">
             <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full sm:w-auto" id="filterTabs">
               <button onclick="setReviewTab('pending')" id="tab-btn-pending"
-                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-error text-[#410006] font-mono text-[11px] sm:text-xs font-extrabold flex items-center gap-1.5 sm:gap-2 shadow-sm transition-all cursor-pointer border border-error/50"
+                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-error text-[#410006] font-sans text-[11px] sm:text-xs font-bold flex items-center gap-1.5 sm:gap-2 shadow-sm transition-all cursor-pointer border border-error/50"
                 type="button">
-                <span>▲ NEEDS REVIEW</span>
+                <span>Needs Review</span>
                 <span id="tab-review-count" class="px-1.5 py-0.5 bg-[#410006]/20 text-[#410006] font-extrabold text-[10px] sm:text-[11px] rounded-sm border border-[#410006]/30">0</span>
               </button>
               <button onclick="setReviewTab('resolved')" id="tab-btn-resolved"
-                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-[11px] sm:text-xs flex items-center gap-1.5 sm:gap-2 border border-white/10 transition-all cursor-pointer"
+                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-sans text-[11px] sm:text-xs flex items-center gap-1.5 sm:gap-2 border border-white/10 transition-all cursor-pointer"
                 type="button">
                 <span id="tab-dot-resolved" class="w-1.5 h-1.5 bg-tertiary"></span>
-                <span>RESOLVED</span>
+                <span>Resolved</span>
                 <span id="tab-resolved-count" class="px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold text-[10px] sm:text-[11px] rounded-sm border border-tertiary/30">0</span>
               </button>
               <button onclick="setReviewTab('discarded')" id="tab-btn-discarded"
-                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-[11px] sm:text-xs flex items-center gap-1.5 sm:gap-2 border border-white/10 transition-all cursor-pointer"
+                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-sans text-[11px] sm:text-xs flex items-center gap-1.5 sm:gap-2 border border-white/10 transition-all cursor-pointer"
                 type="button">
                 <span id="tab-dot-discarded" class="w-1.5 h-1.5 bg-outline"></span>
-                <span>DISCARDED</span>
+                <span>Discarded</span>
                 <span id="tab-discarded-count" class="px-1.5 py-0.5 bg-white/10 text-on-surface font-bold text-[10px] sm:text-[11px] rounded-sm border border-white/10">0</span>
               </button>
-            </div>
-            <div class="hidden xl:flex items-center gap-2 font-mono text-[11px] text-outline shrink-0">
-              <span class="w-1.5 h-1.5 bg-secondary"></span>
-              <span>AUDIT POLICY: STRICT DETERMINISM</span>
             </div>
           </div>
         </div>
@@ -754,8 +729,8 @@
             <p class="font-sans text-sm text-on-surface-variant max-w-lg leading-relaxed m-0">
               Audit items that you review, disambiguate, and approve into the Knowledge Graph will be cataloged here with their complete resolution provenance.
             </p>
-            <button onclick="setReviewTab('pending')" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-xs font-bold transition-colors cursor-pointer shadow-sm mt-2">
-              [GO TO NEEDS REVIEW QUEUE]
+            <button onclick="setReviewTab('pending')" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-sans text-xs font-semibold transition-colors cursor-pointer shadow-sm mt-2">
+              View Needs Review Queue
             </button>
           </div>
         `;
@@ -833,8 +808,8 @@
             <p class="font-sans text-sm text-on-surface-variant max-w-lg leading-relaxed m-0">
               Low-confidence extractions or noisy items that you dismiss from the review queue will appear here for audit trail and restoration if needed.
             </p>
-            <button onclick="setReviewTab('pending')" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-xs font-bold transition-colors cursor-pointer shadow-sm mt-2">
-              [GO TO NEEDS REVIEW QUEUE]
+            <button onclick="setReviewTab('pending')" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-sans text-xs font-semibold transition-colors cursor-pointer shadow-sm mt-2">
+              View Needs Review Queue
             </button>
           </div>
         `;
@@ -977,8 +952,8 @@
             <p class="font-sans text-sm text-on-surface-variant max-w-lg leading-relaxed m-0">
               Every fact extracted from ingested filings met high confidence thresholds (&gt;= 0.70) with verified entity provenance. Zero pending audit exceptions.
             </p>
-            <div class="p-3 bg-surface-container-lowest border border-white/5 font-mono text-xs text-outline">
-              TRIGGER TEST EXCEPTION: To inspect Evaluation Case 4, click [SEED] or upload a document containing ambiguous entity scopes.
+            <div class="p-3 bg-surface-container-lowest border border-white/5 font-sans text-xs text-outline">
+              To test exception handling, click <strong>Load Demo Data</strong> in Dev Tools or upload a document with ambiguous entity scopes.
             </div>
           </div>
         `;
@@ -998,27 +973,27 @@
       const reason = fail.reason || "Low extraction confidence or unspecified entity scope.";
 
       container.innerHTML = `
-        <!-- ACTIVE CASE REMEDIATION CARD: Case 4 -->
+        <!-- ACTIVE CASE REMEDIATION CARD -->
         <div class="w-full bg-[#141822] border border-white/10 shadow-xl border-l-4 border-l-error flex flex-col transition-all duration-200 relative" id="activeRemediationCard">
           <!-- Case Alert Banner -->
           <div class="bg-surface-container-high/70 px-5 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-white/10">
             <div class="flex items-center gap-3 flex-wrap">
-              <span class="px-2.5 py-0.5 bg-error/15 border border-error/30 text-error font-mono text-xs flex items-center gap-1.5 font-bold tracking-wide">
+              <span class="px-2.5 py-0.5 bg-error/15 border border-error/30 text-error font-sans text-xs flex items-center gap-1.5 font-bold tracking-wide">
                 <span>▲</span>
-                <span>LOW CONFIDENCE / AMBIGUOUS ENTITY</span>
+                <span>Low Confidence Claim</span>
               </span>
-              <span class="px-2.5 py-0.5 bg-surface-container-lowest/80 border border-white/5 text-secondary font-mono text-xs font-semibold">
-                PAGE ${page}
+              <span class="px-2.5 py-0.5 bg-surface-container-lowest/80 border border-white/5 text-secondary font-sans text-xs font-semibold">
+                Page ${page}
               </span>
               <span class="hidden md:inline font-sans text-xs text-on-surface-variant">
-                TRIGGER: <span class="font-mono text-on-surface text-xs font-semibold">${escapeHtml(reason)}</span>
+                Trigger: <span class="font-mono text-on-surface text-xs font-semibold">${escapeHtml(reason)}</span>
               </span>
             </div>
             <div class="flex items-center gap-3 font-mono text-xs">
-              <span class="font-mono text-xs text-outline bg-surface-container-lowest/80 px-2.5 py-1 border border-white/5">CASE ID: <span class="mono-data text-on-surface font-semibold">#${fail.id.slice(0, 8)}</span></span>
-              <span class="flex items-center gap-1.5 text-error font-bold px-2.5 py-1 bg-error/10 border border-error/20">
+              <span class="font-mono text-xs text-outline bg-surface-container-lowest/80 px-2.5 py-1 border border-white/5">Case ID: <span class="mono-data text-on-surface font-semibold">#${fail.id.slice(0, 8)}</span></span>
+              <span class="flex items-center gap-1.5 text-error font-bold px-2.5 py-1 bg-error/10 border border-error/20 font-sans text-xs">
                 <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
-                <span>PENDING HITL ACTION</span>
+                <span>Needs Review</span>
               </span>
             </div>
           </div>
@@ -1029,17 +1004,17 @@
             <div class="lg:col-span-7 bg-surface-container-lowest/90 border border-white/10 p-4 flex flex-col justify-between gap-3">
               <div class="flex flex-col gap-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-mono text-xs text-outline flex items-center gap-1.5 font-semibold">
+                  <span class="font-sans text-xs text-outline flex items-center gap-1.5 font-semibold">
                     <span class="material-symbols-outlined text-[17px] text-secondary">description</span>
-                    <span>RAW SOURCE CONTEXT (PAGE ${page})</span>
+                    <span>Source Context (Page ${page})</span>
                   </span>
-                  <span class="font-mono text-[10px] text-secondary uppercase tracking-wider px-2 py-0.5 bg-secondary/10 border border-secondary/20">
-                    INGESTION STREAM
+                  <span class="font-sans text-[11px] text-secondary uppercase tracking-wider px-2 py-0.5 bg-secondary/10 border border-secondary/20">
+                    Source Document
                   </span>
                 </div>
                 <!-- OCR Extract Display -->
                 <div class="p-3 bg-surface-container-high/40 border-l-2 border-secondary border border-white/5 flex flex-col gap-1.5">
-                  <div class="text-outline font-mono text-[10px] uppercase tracking-wider select-none font-bold">DOCUMENT STREAM BUFFER:</div>
+                  <div class="text-outline font-sans text-[11px] uppercase tracking-wider select-none font-semibold">Excerpt from Document:</div>
                   <p class="font-mono text-sm leading-relaxed text-[#acedff] m-0 font-medium select-text">
                     "${escapeHtml(raw.evidence_text || raw.snippet || reason)}"
                   </p>
@@ -1048,9 +1023,9 @@
 
               <!-- Stepped Confidence Meter -->
               <div class="flex flex-col gap-1 pt-1.5 border-t border-white/5">
-                <div class="flex justify-between items-center font-mono text-xs">
-                  <span class="text-outline text-[11px] uppercase tracking-wider">CONFIDENCE SCORE</span>
-                  <span class="mono-data text-error font-bold px-2 py-0.5 bg-error/10 border border-error/20 text-xs">40% / 100% [GATED]</span>
+                <div class="flex justify-between items-center font-sans text-xs">
+                  <span class="text-outline text-[11px] uppercase tracking-wider">Extraction Confidence</span>
+                  <span class="mono-data text-error font-bold px-2 py-0.5 bg-error/10 border border-error/20 text-xs">40% Confidence (Flagged)</span>
                 </div>
                 <div class="flex items-center gap-1 h-2 pt-0.5">
                   <span class="h-full w-full bg-error"></span>
@@ -1070,9 +1045,9 @@
             <!-- Diagnostic Explainer Box (Col 8-12) -->
             <div class="lg:col-span-5 bg-surface-container-lowest/90 border border-white/10 p-4 flex flex-col justify-between gap-3">
               <div class="flex flex-col gap-2">
-                <div class="flex items-center gap-2 text-primary font-mono text-xs font-bold tracking-wider pb-1.5 border-b border-white/5">
+                <div class="flex items-center gap-2 text-primary font-sans text-xs font-bold tracking-wider pb-1.5 border-b border-white/5">
                   <span class="material-symbols-outlined text-[17px]">psychology</span>
-                  <span>MODEL AUDIT DIAGNOSTICS</span>
+                  <span>Extraction Diagnostics</span>
                 </div>
                 <div class="p-3 bg-surface-container-high/40 border border-white/5 flex flex-col gap-2.5">
                   <div class="flex items-start gap-2">
@@ -1084,14 +1059,14 @@
                   <div class="flex items-start gap-2">
                     <span class="px-1.5 py-0.2 bg-error/20 text-error font-mono text-xs font-bold shrink-0 mt-0.5">2</span>
                     <div class="prose-text text-[13px] text-[#e4e7f4] leading-relaxed">
-                      <strong class="text-on-surface font-semibold">Gating Trigger:</strong> Gated by confidence filter (&lt; 0.70) to prevent ungrounded attribution.
+                      <strong class="text-on-surface font-semibold">Confidence Threshold:</strong> Filtered (&lt; 0.70) to prevent ungrounded claims.
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="p-2.5 bg-error/10 border border-error/25 flex items-center justify-between font-mono text-xs">
-                <span class="text-outline">EVALUATION STATUS:</span>
-                <span class="text-error font-bold tracking-wider">HITL MANDATE ENGAGED</span>
+              <div class="p-2.5 bg-error/10 border border-error/25 flex items-center justify-between font-sans text-xs">
+                <span class="text-outline">Status:</span>
+                <span class="text-error font-bold">Held for Auditor Review</span>
               </div>
             </div>
           </div>
@@ -1103,8 +1078,8 @@
                 <span class="material-symbols-outlined text-primary text-[20px]">edit_note</span>
                 <span class="font-sans text-sm sm:text-base text-on-surface font-bold">Fact Disambiguation &amp; Override Console</span>
               </div>
-              <span class="font-mono text-[10px] text-outline uppercase tracking-wider px-2 py-0.5 bg-surface-container border border-white/5">
-                EDITABLE KNOWLEDGE PROVENANCE DRAFT
+              <span class="font-sans text-[11px] text-outline uppercase tracking-wider px-2 py-0.5 bg-surface-container border border-white/5">
+                Review &amp; Edit Claim
               </span>
             </div>
 
@@ -1112,23 +1087,23 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
               <!-- Subject Field -->
               <div class="flex flex-col gap-1">
-                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Target Entity Scope</label>
+                <label class="font-sans text-xs text-outline font-semibold">Target Entity</label>
                 <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldEntity" type="text" value="${escapeHtml(raw.subject || 'Delhivery Limited')}"/>
-                <span class="font-mono text-[10px] text-tertiary flex items-center gap-1 font-semibold">
+                <span class="font-sans text-[11px] text-tertiary flex items-center gap-1 font-semibold">
                   <span>■</span> <span>Entity disambiguated</span>
                 </span>
               </div>
 
               <!-- Metric Field -->
               <div class="flex flex-col gap-1">
-                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Reconciled Metric</label>
+                <label class="font-sans text-xs text-outline font-semibold">Reported Metric</label>
                 <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldMetric" type="text" value="${escapeHtml(raw.metric || 'EBITDA Profitability Status')}"/>
-                <span class="font-mono text-[10px] text-outline">Standard taxonomy key</span>
+                <span class="font-sans text-[10px] text-outline">Standard taxonomy key</span>
               </div>
 
               <!-- Value Field -->
               <div class="flex flex-col gap-1">
-                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Validated Value &amp; Denomination</label>
+                <label class="font-sans text-xs text-outline font-semibold">Reported Value &amp; Scale</label>
                 <div class="flex items-stretch border border-white/10 bg-surface-container-lowest focus-within:border-secondary/60 transition-colors">
                   <input class="flex-1 min-w-0 bg-transparent text-secondary font-mono text-sm font-bold py-2 px-3 outline-none" id="fieldValue" type="text" value="${escapeHtml(raw.value || 'profitable')}"/>
                   <div class="w-[1px] bg-white/10 my-0.5"></div>
@@ -1139,22 +1114,21 @@
                     <option value="pct">% Percentage</option>
                   </select>
                 </div>
-                <span class="font-mono text-[10px] text-outline">Denominated value &amp; scale</span>
+                <span class="font-sans text-[10px] text-outline">Denominated value &amp; scale</span>
               </div>
 
               <!-- Fiscal Period -->
               <div class="flex flex-col gap-1">
-                <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold">Fiscal Epoch Period</label>
+                <label class="font-sans text-xs text-outline font-semibold">Fiscal Period</label>
                 <input class="w-full bg-surface-container-lowest text-on-surface font-sans text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 transition-colors" id="fieldTimeframe" type="text" value="${escapeHtml(raw.time_scope || 'FY24 Full Year')}"/>
-                <span class="font-mono text-[10px] text-outline">Explicit fiscal scope</span>
+                <span class="font-sans text-[10px] text-outline">Explicit fiscal scope</span>
               </div>
             </div>
 
             <!-- Auditor Notes -->
             <div class="flex flex-col gap-1">
-              <label class="font-mono text-[11px] text-outline uppercase tracking-wider font-semibold flex items-center justify-between">
-                <span>Auditor Reconciliation Rationale (Immutable Audit Trail)</span>
-                <span class="text-on-surface-variant font-mono text-[10px] text-outline px-1.5 py-0.5 bg-surface-container border border-white/5">AUDITOR_SIG: ID_8829_LEAD</span>
+              <label class="font-sans text-xs text-outline font-semibold flex items-center justify-between">
+                <span>Auditor Review Notes</span>
               </label>
               <textarea class="w-full bg-surface-container-lowest text-on-surface prose-text text-xs sm:text-sm py-2 px-3 outline-none focus:border-primary/60 border border-white/10 leading-relaxed resize-none transition-colors" id="auditorNotes" rows="2">Confirmed from Page ${page} that statement reflects Delhivery Limited's consolidated positive EBITDA performance in FY24.</textarea>
             </div>
@@ -1164,12 +1138,12 @@
           <div class="sticky bottom-0 bg-[#121620]/95 backdrop-blur-md px-5 py-3 border-t border-white/15 z-30 shadow-2xl flex flex-wrap items-center justify-between gap-3">
             <button onclick="approveAndInject('${fail.id}')" class="px-5 py-2.5 bg-gradient-to-r from-tertiary-container to-tertiary text-on-tertiary-container hover:text-on-tertiary font-sans font-bold text-xs sm:text-sm tracking-wide flex items-center gap-2 border border-tertiary/40 shadow-lg shadow-tertiary/10 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer" type="button">
               <span class="material-symbols-outlined text-[18px]">task_alt</span>
-              <span>[APPROVE FACT &amp; INJECT TO GRAPH]</span>
+              <span>Approve Fact &amp; Add to Graph</span>
             </button>
 
-            <button onclick="discardCase('${fail.id}')" class="px-3.5 py-2 bg-surface-container hover:bg-error/15 border border-error/30 text-error hover:border-error font-mono text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer" type="button">
+            <button onclick="discardCase('${fail.id}')" class="px-3.5 py-2 bg-surface-container hover:bg-error/15 border border-error/30 text-error hover:border-error font-sans text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer" type="button">
               <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
-              <span>[DISCARD / DISMISS]</span>
+              <span>Discard Fact</span>
             </button>
           </div>
         </div>
@@ -1270,7 +1244,7 @@
           type: 'error'
         });
       } finally {
-        if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
+        if (btn) { btn.textContent = 'Load Demo Data'; btn.disabled = false; }
       }
     }
 

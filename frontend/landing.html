@@ -220,13 +220,13 @@
             <button id="btn-seed-demo" onclick="handleSeedDemo(); closeDevToolsMenu();"
               class="w-full text-left px-3 py-2 text-xs font-mono text-on-surface hover:bg-surface-container-high flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-tertiary">data_saver_on</span>
-              <span>[SEED DEMO]</span>
+              <span>Load Demo Data</span>
             </button>
             <div class="h-px bg-white/10 my-0.5"></div>
             <button onclick="handleClearDb(); closeDevToolsMenu();"
               class="w-full text-left px-3 py-2 text-xs font-mono text-error hover:bg-error/10 flex items-center gap-2 transition-colors cursor-pointer">
               <span class="material-symbols-outlined text-[15px] text-error">delete_forever</span>
-              <span>[CLEAR DB]</span>
+              <span>Reset Workspace</span>
             </button>
           </div>
         </div>
@@ -305,161 +305,134 @@
             deterministic multi-step LLM reasoning.
           </p>
 
-          <!-- PRIMARY ACTION BUTTONS -->
-          <div class="flex flex-wrap items-center justify-center gap-space-4 mb-space-12">
+          <!-- PRIMARY ACTION BUTTONS (CLEAN & DIRECT) -->
+          <div class="flex flex-wrap items-center justify-center gap-space-4 mb-space-8">
             <a href="/workspace"
-              class="px-space-6 py-space-3.5 bg-primary text-on-primary font-body-md text-body-md font-semibold tracking-tight shadow-lg hover:bg-primary-container transition-all flex items-center gap-space-2 cursor-pointer">
+              class="px-space-6 py-space-3 bg-primary text-on-primary font-sans text-sm font-bold tracking-tight shadow-lg hover:bg-primary-container transition-all flex items-center gap-2 cursor-pointer">
               <span class="material-symbols-outlined text-[18px]">terminal</span>
               <span>Launch Workspace</span>
             </a>
 
             <button onclick="openModal('modal-interactive-demo')"
-              class="px-space-6 py-space-3.5 bg-surface-container hover:bg-surface-container-high text-secondary border border-secondary/30 font-body-md text-body-md font-semibold tracking-tight transition-all flex items-center gap-space-2 cursor-pointer shadow-md">
+              class="px-space-6 py-space-3 bg-surface-container hover:bg-surface-container-high text-secondary border border-secondary/30 font-sans text-sm font-semibold tracking-tight transition-all flex items-center gap-2 cursor-pointer shadow-md">
               <span class="material-symbols-outlined text-[18px]">play_circle</span>
               <span>Interactive Verification Demo</span>
             </button>
 
             <a href="/explorer"
-              class="px-space-5 py-space-3.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface border border-white/10 font-body-md text-body-md transition-all flex items-center gap-space-2">
+              class="px-space-5 py-space-3 bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface border border-white/10 font-sans text-sm transition-all flex items-center gap-2">
               <span class="material-symbols-outlined text-[18px]">dataset</span>
               <span>Mined Facts Explorer</span>
             </a>
           </div>
-
-          <!-- QUICK INFO PILLS -->
-          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs font-mono text-outline">
-            <span class="px-3 py-1.5 bg-surface-container-lowest/80 border border-white/5 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-tertiary"></span>
-              <span>Page-Anchored Grounding</span>
-            </span>
-            <span class="px-3 py-1.5 bg-surface-container-lowest/80 border border-white/5 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-secondary"></span>
-              <span>Dense Vector Retrieval</span>
-            </span>
-            <span class="px-3 py-1.5 bg-surface-container-lowest/80 border border-white/5 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-primary"></span>
-              <span>Deterministic Multi-Step Reasoning</span>
-            </span>
-            <span class="px-3 py-1.5 bg-surface-container-lowest/80 border border-white/5 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-              <span>Human Governance Queue</span>
-            </span>
-          </div>
         </div>
       </section>
 
-      <!-- CLEAN CAPABILITIES OVERVIEW SECTION (MODAL CARDS) -->
-      <section class="w-full bg-surface-container-lowest/60 backdrop-blur-sm border-t border-b border-white/5 px-space-4 lg:px-space-8 py-space-16">
+      <!-- CLEAN CAPABILITIES OVERVIEW SECTION -->
+      <section class="w-full bg-surface-container-lowest/60 backdrop-blur-sm border-t border-b border-white/5 px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <div class="max-w-6xl mx-auto">
-          <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-10 gap-space-4">
-            <div>
-              <span class="font-label-caps text-label-caps text-secondary uppercase font-bold tracking-wider">CORE PILLARS</span>
-              <h2 class="font-headline-lg text-2xl sm:text-3xl text-on-surface font-bold mt-1">
-                Precision-Engineered Fact Architecture
-              </h2>
-              <p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">
-                Click any pillar to open an interactive deep dive detailing how Verity validates financial claims.
-              </p>
-            </div>
-            <button onclick="openModal('modal-architecture')"
-              class="px-4 py-2 bg-surface-container hover:bg-surface-container-high text-on-surface border border-white/10 font-mono text-xs flex items-center gap-2 shrink-0 transition-colors cursor-pointer">
-              <span class="material-symbols-outlined text-[16px] text-tertiary">account_tree</span>
-              <span>[View System Architecture]</span>
-            </button>
+          <div class="mb-space-8 text-center max-w-2xl mx-auto">
+            <span class="font-mono text-xs text-secondary uppercase font-bold tracking-wider">CORE CAPABILITIES</span>
+            <h2 class="font-headline-lg text-2xl sm:text-3xl text-on-surface font-bold mt-1">
+              Precision-Engineered Fact Architecture
+            </h2>
+            <p class="font-sans text-sm text-on-surface-variant mt-2">
+              Explore how Verity extracts, audits, and reconciles claims across corporate reports.
+            </p>
           </div>
 
           <!-- 4 CLEAN CARDS -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-space-6">
 
             <!-- Card 1: Provenance & Page Anchoring -->
-            <div class="bg-surface-container/70 border border-white/10 p-space-6 flex flex-col justify-between hover:border-secondary/40 transition-all group">
+            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-secondary/40 transition-all group">
               <div>
-                <div class="flex items-center justify-between mb-space-4">
-                  <div class="w-10 h-10 bg-secondary/10 border border-secondary/30 flex items-center justify-center text-secondary">
-                    <span class="material-symbols-outlined text-[20px]">menu_book</span>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-9 h-9 bg-secondary/10 border border-secondary/30 flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined text-[18px]">menu_book</span>
                   </div>
-                  <span class="font-mono text-xs text-tertiary group-hover:text-secondary transition-colors">100% AUDITABLE</span>
+                  <span class="font-mono text-xs text-tertiary">AUDITABLE CITATIONS</span>
                 </div>
-                <h3 class="font-headline-md text-xl text-on-surface font-bold mb-space-2">
+                <h3 class="font-headline-md text-lg sm:text-xl text-on-surface font-bold mb-2">
                   Physical Page Provenance
                 </h3>
-                <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-6">
+                <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
                   Every extracted fact is anchored to its physical PDF page coordinates and verbatim quotation boundaries, eliminating hallucinations.
                 </p>
               </div>
               <button onclick="openModal('modal-provenance')"
-                class="w-full py-2.5 px-4 bg-surface-container-high hover:bg-secondary/15 text-secondary border border-secondary/30 font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <span>Inspect Provenance Engine</span>
-                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                class="w-full py-2 px-4 bg-surface-container-high hover:bg-secondary/15 text-secondary border border-secondary/30 font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span>View Provenance Logic</span>
+                <span class="material-symbols-outlined text-[15px]">open_in_new</span>
               </button>
             </div>
 
             <!-- Card 2: Interactive Cross-Doc Reasoning -->
-            <div class="bg-surface-container/70 border border-white/10 p-space-6 flex flex-col justify-between hover:border-primary/40 transition-all group">
+            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-primary/40 transition-all group">
               <div>
-                <div class="flex items-center justify-between mb-space-4">
-                  <div class="w-10 h-10 bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-[20px]">psychology</span>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-9 h-9 bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[18px]">psychology</span>
                   </div>
-                  <span class="font-mono text-xs text-primary group-hover:text-primary-fixed transition-colors">LLM PROOF ENGINE</span>
+                  <span class="font-mono text-xs text-primary">CROSS-DOCUMENT</span>
                 </div>
-                <h3 class="font-headline-md text-xl text-on-surface font-bold mb-space-2">
+                <h3 class="font-headline-md text-lg sm:text-xl text-on-surface font-bold mb-2">
                   Cross-Document Reasoning
                 </h3>
-                <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-6">
+                <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
                   Identifies whether disclosures corroborate, directly contradict, or require contextual accounting reconciliation across filings.
                 </p>
               </div>
               <button onclick="openModal('modal-interactive-demo')"
-                class="w-full py-2.5 px-4 bg-surface-container-high hover:bg-primary/15 text-primary border border-primary/30 font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <span>Launch Interactive Demo Sandbox</span>
-                <span class="material-symbols-outlined text-[16px]">play_circle</span>
+                class="w-full py-2 px-4 bg-surface-container-high hover:bg-primary/15 text-primary border border-primary/30 font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span>Try Interactive Demo</span>
+                <span class="material-symbols-outlined text-[15px]">play_circle</span>
               </button>
             </div>
 
             <!-- Card 3: Unit & Currency Normalization -->
-            <div class="bg-surface-container/70 border border-white/10 p-space-6 flex flex-col justify-between hover:border-tertiary/40 transition-all group">
+            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-tertiary/40 transition-all group">
               <div>
-                <div class="flex items-center justify-between mb-space-4">
-                  <div class="w-10 h-10 bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary">
-                    <span class="material-symbols-outlined text-[20px]">calculate</span>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-9 h-9 bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary">
+                    <span class="material-symbols-outlined text-[18px]">calculate</span>
                   </div>
-                  <span class="font-mono text-xs text-tertiary">AUTOMATED PARSING</span>
+                  <span class="font-mono text-xs text-tertiary">UNIT HARMONIZATION</span>
                 </div>
-                <h3 class="font-headline-md text-xl text-on-surface font-bold mb-space-2">
+                <h3 class="font-headline-md text-lg sm:text-xl text-on-surface font-bold mb-2">
                   Unit &amp; Fiscal Normalization
                 </h3>
-                <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-6">
-                  Seamlessly harmonizes Indian scale (Crores, Lakhs) and Western accounting (Millions, Billions) alongside fiscal period definitions.
+                <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
+                  Harmonizes Indian scale (Crores, Lakhs) and Western accounting (Millions, Billions) alongside fiscal period definitions.
                 </p>
               </div>
               <button onclick="openModal('modal-pipeline')"
-                class="w-full py-2.5 px-4 bg-surface-container-high hover:bg-tertiary/15 text-tertiary border border-tertiary/30 font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <span>Inspect Normalization Pipeline</span>
-                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                class="w-full py-2 px-4 bg-surface-container-high hover:bg-tertiary/15 text-tertiary border border-tertiary/30 font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span>View Normalization Logic</span>
+                <span class="material-symbols-outlined text-[15px]">open_in_new</span>
               </button>
             </div>
 
             <!-- Card 4: Human-in-the-Loop Governance -->
-            <div class="bg-surface-container/70 border border-white/10 p-space-6 flex flex-col justify-between hover:border-amber-400/40 transition-all group">
+            <div class="bg-surface-container/70 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-amber-400/40 transition-all group">
               <div>
-                <div class="flex items-center justify-between mb-space-4">
-                  <div class="w-10 h-10 bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
-                    <span class="material-symbols-outlined text-[20px]">gavel</span>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="w-9 h-9 bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                    <span class="material-symbols-outlined text-[18px]">gavel</span>
                   </div>
-                  <span class="font-mono text-xs text-amber-400">AUDIT TRAIL</span>
+                  <span class="font-mono text-xs text-amber-400">AUDIT QUEUE</span>
                 </div>
-                <h3 class="font-headline-md text-xl text-on-surface font-bold mb-space-2">
-                  Human-in-the-Loop Queue
+                <h3 class="font-headline-md text-lg sm:text-xl text-on-surface font-bold mb-2">
+                  Human Governance Queue
                 </h3>
-                <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-space-6">
-                  Low-confidence or ambiguous claims are automatically isolated into an auditable compliance queue with human override capabilities.
+                <p class="font-sans text-sm text-on-surface-variant leading-relaxed mb-5">
+                  Low-confidence or ambiguous claims are automatically isolated into an auditable compliance queue with human review.
                 </p>
               </div>
               <button onclick="openModal('modal-governance')"
-                class="w-full py-2.5 px-4 bg-surface-container-high hover:bg-amber-400/15 text-amber-400 border border-amber-400/30 font-mono text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <span>Inspect Governance Protocols</span>
-                <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                class="w-full py-2 px-4 bg-surface-container-high hover:bg-amber-400/15 text-amber-400 border border-amber-400/30 font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span>View Review Workflow</span>
+                <span class="material-symbols-outlined text-[15px]">open_in_new</span>
               </button>
             </div>
 
@@ -951,7 +924,7 @@
           type: 'error'
         });
       } finally {
-        if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
+        if (btn) { btn.textContent = 'Load Demo Data'; btn.disabled = false; }
       }
     }
 
