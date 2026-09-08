@@ -159,22 +159,18 @@
   <!-- PERSISTENT OBSIDIAN COMMAND HEADER -->
   <header
     class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
-    <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
-          <div class="w-8 h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_15px_rgba(208,188,255,0.3)] group-hover:scale-105 transition-transform">
+    <div class="h-16 w-full max-w-[1600px] mx-auto px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        <a href="/" class="flex items-center gap-2 sm:gap-2.5 text-decoration-none group">
+          <div class="w-8 h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_15px_rgba(208,188,255,0.3)] group-hover:scale-105 transition-transform shrink-0">
             <span class="material-symbols-outlined text-[20px] text-tertiary">verified</span>
           </div>
-          <span class="font-headline-md text-xl sm:text-2xl tracking-tight text-white font-extrabold">Verity</span>
+          <span class="font-headline-md text-lg sm:text-xl md:text-2xl tracking-tight text-white font-extrabold">Verity</span>
           <span
             class="hidden sm:inline-block px-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase font-bold tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
-        <div class="hidden xl:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 font-mono text-[10px] text-outline uppercase tracking-wider">
-          <span>BY</span>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-bold">RISHIT</span>
-        </div>
         <div
           class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
           <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
@@ -190,33 +186,33 @@
               class="text-error font-bold">...</span></span>
         </div>
       </div>
-      <nav class="hidden md:flex items-center h-full gap-space-1">
+      <nav class="hidden md:flex items-center h-full gap-1">
         <a href="/"
-          class="px-space-3 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+          class="px-3 lg:px-4 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Overview
         </a>
         <a href="/workspace"
-          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-3 lg:px-4 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
         <a href="/explorer"
-          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-3 lg:px-4 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
         <a href="/review"
-          class="px-space-3 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-3 lg:px-4 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Review Queue
         </a>
       </nav>
       <!-- RIGHT: Dev Tools Dropdown, /docs, Terminal Icon -->
-      <div class="flex items-center gap-2.5 shrink-0">
+      <div class="flex items-center gap-2 shrink-0">
         <!-- Dev Tools Dropdown -->
         <div class="relative inline-block text-left" id="dev-tools-dropdown-wrapper">
           <button id="btn-dev-tools" onclick="toggleDevToolsMenu()"
             class="flex items-center gap-1 px-2.5 py-1.5 bg-surface-container-low hover:bg-surface-container-high border border-white/10 hover:border-white/20 text-on-surface-variant hover:text-on-surface font-mono text-xs transition-colors cursor-pointer"
             type="button" title="Developer & Admin Tools">
             <span class="material-symbols-outlined text-[15px] text-outline">tune</span>
-            <span>Dev Tools</span>
+            <span class="hidden sm:inline">Dev Tools</span>
             <span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
           </button>
           <div id="dev-tools-menu"
@@ -235,7 +231,7 @@
           </div>
         </div>
 
-        <a class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-surface-container-low border border-white/10 text-on-surface font-mono text-xs hover:border-secondary/40 transition-colors"
+        <a class="flex items-center gap-1.5 px-2.5 py-1.5 bg-surface-container-low border border-white/10 text-on-surface font-mono text-xs hover:border-secondary/40 transition-colors"
           href="/docs" target="_blank">
           <span class="w-1.5 h-1.5 bg-tertiary animate-pulse rounded-full"></span>
           <span>/docs</span>
@@ -245,7 +241,7 @@
           type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
-        <div class="w-8 h-8 bg-primary flex items-center justify-center shrink-0">
+        <div class="hidden sm:flex w-8 h-8 bg-primary items-center justify-center shrink-0">
           <span class="material-symbols-outlined text-on-primary text-[18px]">terminal</span>
         </div>
       </div>
@@ -271,54 +267,38 @@
     <div class="flex flex-col w-full">
 
       <!-- CLEAN HERO & PROJECT ABOUT SECTION -->
-      <section class="relative w-full overflow-hidden bg-transparent px-space-4 lg:px-space-8 py-space-16 lg:py-space-24">
+      <section class="relative w-full overflow-hidden bg-transparent px-space-4 lg:px-space-8 py-space-12 lg:py-space-16">
         <!-- Ambient Tech Glows -->
         <div class="absolute -top-32 left-1/4 w-96 h-96 bg-primary-container/10 blur-3xl pointer-events-none"></div>
         <div class="absolute top-1/2 -right-32 w-96 h-96 bg-secondary-container/10 blur-3xl pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10 px-2 sm:px-4">
-          <!-- STYLISH DESIGNER & VERITY BADGE CLUSTER -->
-          <div class="flex flex-wrap items-center justify-center gap-3 mb-space-8">
-            <!-- VERITY BRAND BADGE (ENLARGED & PROMINENT) -->
+        <div class="max-w-5xl mx-auto flex flex-col items-center text-center relative z-10 px-2 sm:px-4">
+          <!-- VERITY BRAND BADGE -->
+          <div
+            class="inline-flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-surface-container-lowest/95 border border-primary/30 shadow-[0_0_30px_rgba(208,188,255,0.2)] backdrop-blur-md mb-space-6">
             <div
-              class="inline-flex items-center gap-3 px-5 py-2.5 bg-surface-container-lowest/95 border border-primary/30 shadow-[0_0_35px_rgba(208,188,255,0.25)] backdrop-blur-md">
-              <div
-                class="flex items-center justify-center w-8 h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary shadow-sm shrink-0">
-                <span class="material-symbols-outlined text-[20px] text-tertiary font-bold">verified</span>
-              </div>
-              <span class="font-headline-md text-xl sm:text-2xl font-extrabold tracking-wider text-white uppercase select-none">
-                VERITY
-              </span>
-              <span class="font-mono text-white/25 text-base font-semibold select-none">//</span>
-              <span class="font-mono text-secondary text-xs sm:text-sm font-bold tracking-widest uppercase select-none">
-                FACT KNOWLEDGE LAYER
-              </span>
+              class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary shadow-sm shrink-0">
+              <span class="material-symbols-outlined text-[18px] sm:text-[20px] text-tertiary font-bold">verified</span>
             </div>
-
-            <!-- STYLISH "DESIGNED BY RISHIT" ACCREDITATION BADGE -->
-            <div
-              class="inline-flex items-center gap-2 px-3.5 py-2 bg-surface-container-low/90 border border-white/15 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md">
-              <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              <span class="font-mono text-[11px] text-outline tracking-wider uppercase">ARCHITECTED &amp;</span>
-              <span class="font-mono text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary tracking-wide uppercase">
-                DESIGNED BY RISHIT
-              </span>
-            </div>
+            <span class="font-headline-md text-lg sm:text-xl font-extrabold tracking-wider text-white uppercase select-none">
+              VERITY
+            </span>
+            <span class="font-mono text-white/25 text-sm sm:text-base font-semibold select-none">//</span>
+            <span class="font-mono text-secondary text-xs sm:text-sm font-bold tracking-widest uppercase select-none">
+              FACT KNOWLEDGE LAYER
+            </span>
           </div>
 
-          <!-- HEADLINE (EXPANDED TO COVER GENEROUS SCREEN SPACE ON DESKTOP 100% RATIO) -->
+          <!-- HEADLINE (CLEAN, BALANCED PROPORTION AT 100% DESKTOP RATIO) -->
           <h1
-            class="font-display-xl text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-on-surface max-w-6xl mb-space-8 font-extrabold leading-[1.08]">
+            class="font-display-xl text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-on-surface max-w-4xl mb-space-6 font-extrabold leading-tight">
             Transform Complex Corporate Filings into <span
               class="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed via-secondary to-tertiary">Auditable
               Ground Truth.</span>
           </h1>
 
           <!-- CONCISE ABOUT PARAGRAPH -->
-          <p class="font-body-lg text-sm sm:text-base lg:text-lg text-on-surface-variant max-w-4xl mb-space-10 leading-relaxed font-normal">
+          <p class="font-body-lg text-sm sm:text-base md:text-lg text-on-surface-variant max-w-3xl mb-space-8 leading-relaxed font-normal">
             Verity is an auditable fact intelligence platform designed for analysts, auditors, and researchers.
             It auto-extracts structured claims from corporate PDFs with exact page-level citations, cross-examines
             claims across independent filings, and detects corroborations, contradictions, and reporting variances using
