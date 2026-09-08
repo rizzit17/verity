@@ -6,7 +6,7 @@ Built for the **Superjoin VIT 2026 Hiring Assignment**.
 
 ---
 
-## Live Demo & Recruiter Quick Access
+## Live Demo & Quick Access
 
 > [!NOTE]
 > **Cold Start Notice**: The live deployment is hosted on a free cloud tier. If the instance is currently sleeping due to inactivity, please allow **~30–45 seconds** for the initial cold start to wake up. Subsequent requests will be instantaneous.
