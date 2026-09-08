@@ -234,6 +234,6 @@ python scripts/prepare_demo.py
 
 ---
 
-## 📄 License & Attribution
+## License & Attribution
 Designed and built by **Rishit** for the **Superjoin VIT 2026 Engineering Intern Challenge**.
 All rights reserved.
