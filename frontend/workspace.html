@@ -325,7 +325,7 @@
             </div>
             <span class="font-sans text-sm text-on-surface font-semibold mb-0.5">Drop Corporate PDF</span>
             <span class="font-sans text-xs text-outline mb-1">Annual Reports, Prospectus, or Filings (Max 50MB)</span>
-            <input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" id="pdf-input" type="file"
+            <input accept=".pdf" class="absolute inset-0 opacity-0 cursor-pointer" id="pdf-input" type="file" multiple
               onchange="handleFileUpload(this.files)" />
           </div>
 
@@ -943,145 +943,155 @@
 
     async function handleFileUpload(files) {
       if (!files || files.length === 0) return;
-      const file = files[0];
-      if (!file.name.toLowerCase().endsWith('.pdf')) {
-        await showModalAlert({
-          title: 'INVALID FILE FORMAT',
-          message: 'Please select a valid PDF document to extract facts and cross-document relationships.',
-          type: 'warning'
-        });
-        return;
-      }
 
-      const stepper = document.getElementById('pipeline-stepper');
-      stepper.classList.remove('hidden');
-      document.getElementById('stepper-filename').textContent = file.name;
-      const stepperStep = document.getElementById('stepper-step');
-      if (stepperStep) stepperStep.textContent = 'QUEUED';
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.name.toLowerCase().endsWith('.pdf')) {
+          await showModalAlert({
+            title: 'INVALID FILE FORMAT',
+            message: `"${file.name}" is not a PDF document. Please select valid PDF files.`,
+            type: 'warning'
+          });
+          continue;
+        }
 
-      const formData = new FormData();
-      formData.append('file', file);
+        const stepper = document.getElementById('pipeline-stepper');
+        stepper.classList.remove('hidden');
+        document.getElementById('stepper-filename').textContent = files.length > 1 ? `[${i + 1}/${files.length}] ${file.name}` : file.name;
+        const stepperStep = document.getElementById('stepper-step');
+        if (stepperStep) stepperStep.textContent = 'QUEUED';
 
-      try {
-        const url = `/documents?max_pages=${selectedMaxPages}&sync=false`;
-        const res = await fetch(url, {
-          method: 'POST',
-          body: formData
-        });
+        const formData = new FormData();
+        formData.append('file', file);
 
-        if (!res.ok) {
-          const contentType = res.headers.get('content-type') || '';
-          let errMsg = `Server returned HTTP ${res.status}`;
-          if (contentType.includes('application/json')) {
-            const err = await res.json();
-            errMsg = err.detail || errMsg;
-          } else {
-            const text = await res.text();
-            if (res.status === 504 || text.includes('504 Gateway') || text.includes('timed out')) {
-              errMsg = 'Cloud proxy timeout (HTTP 504). Extraction is taking longer than the cloud gateway limit. Please try fewer pages (e.g. 15 pages) or retry.';
+        try {
+          const url = `/documents?max_pages=${selectedMaxPages}&sync=false`;
+          const res = await fetch(url, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!res.ok) {
+            const contentType = res.headers.get('content-type') || '';
+            let errMsg = `Server returned HTTP ${res.status}`;
+            if (contentType.includes('application/json')) {
+              const err = await res.json();
+              errMsg = err.detail || errMsg;
             } else {
-              errMsg = text.replace(/<[^>]+>/g, ' ').slice(0, 150) || errMsg;
+              const text = await res.text();
+              if (res.status === 504 || text.includes('504 Gateway') || text.includes('timed out')) {
+                errMsg = 'Cloud proxy timeout (HTTP 504). Extraction is taking longer than the cloud gateway limit. Please try fewer pages (e.g. 15 pages) or retry.';
+              } else {
+                errMsg = text.replace(/<[^>]+>/g, ' ').slice(0, 150) || errMsg;
+              }
             }
+            await showModalAlert({
+              title: 'UPLOAD FAILED',
+              message: errMsg,
+              type: 'error'
+            });
+            continue;
           }
-          await showModalAlert({
-            title: 'UPLOAD FAILED',
-            message: errMsg,
-            type: 'error'
-          });
-          return;
-        }
 
-        const data = await res.json();
+          const data = await res.json();
 
-        // Refresh documents list right away so the "PROCESSING" card appears immediately
-        await loadDocuments();
-
-        // If returned already done (e.g. reused cache)
-        if (data.status === 'done') {
-          await showModalAlert({
-            title: 'EXTRACTION COMPLETE',
-            message: `Extracted ${data.facts_extracted} facts across ${data.page_count || 'all'} pages and found ${data.relationships_found} relationships.`,
-            type: 'success',
-            confirmText: 'DONE'
-          });
+          // Refresh documents list right away so the "PROCESSING" card appears immediately
           await loadDocuments();
-          await loadRelationships();
-          await syncTelemetry();
-          return;
-        }
 
-        // If processing in background, start polling loop
-        if (data.status === 'processing') {
-          if (stepperStep) stepperStep.textContent = 'EXTRACTING...';
-          
-          let attempts = 0;
-          const maxAttempts = 180; // 180 * 2s = 360 seconds max polling time
-          
-          await new Promise((resolve) => {
-            const pollTimer = setInterval(async () => {
-              attempts++;
-              try {
-                const pollRes = await fetch(`/documents/${data.document_id}`);
-                if (!pollRes.ok) {
+          // If returned already done (e.g. reused cache)
+          if (data.status === 'done') {
+            await showModalAlert({
+              title: 'EXTRACTION COMPLETE',
+              message: `Extracted ${data.facts_extracted} facts across ${data.page_count || 'all'} pages and found ${data.relationships_found} relationships.`,
+              type: 'success',
+              confirmText: 'DONE'
+            });
+            await loadDocuments();
+            await loadRelationships();
+            await syncTelemetry();
+            continue;
+          }
+
+          // If processing in background, start polling loop
+          if (data.status === 'processing') {
+            if (stepperStep) stepperStep.textContent = 'EXTRACTING...';
+            
+            let attempts = 0;
+            const maxAttempts = 180; // 180 * 2s = 360 seconds max polling time
+            
+            await new Promise((resolve) => {
+              const pollTimer = setInterval(async () => {
+                attempts++;
+                try {
+                  const pollRes = await fetch(`/documents/${data.document_id}`);
+                  if (!pollRes.ok) {
+                    if (attempts >= maxAttempts) {
+                      clearInterval(pollTimer);
+                      resolve();
+                    }
+                    return;
+                  }
+                  const docStatus = await pollRes.json();
+                  
+                  if (stepperStep) {
+                    stepperStep.textContent = docStatus.page_count ? `PG 1..${docStatus.page_count}` : 'PROCESSING';
+                  }
+
+                  if (docStatus.status === 'done') {
+                    clearInterval(pollTimer);
+                    await loadDocuments();
+                    await loadRelationships();
+                    await syncTelemetry();
+                    await showModalAlert({
+                      title: 'EXTRACTION COMPLETE',
+                      message: `Successfully processed "${file.name}"! Extracted ${docStatus.fact_count || 'discrete'} facts across ${docStatus.page_count || 'all'} pages.`,
+                      type: 'success',
+                      confirmText: 'DONE'
+                    });
+                    resolve();
+                  } else if (docStatus.status === 'failed') {
+                    clearInterval(pollTimer);
+                    await loadDocuments();
+                    await showModalAlert({
+                      title: 'EXTRACTION ERROR',
+                      message: `Document processing failed: ${docStatus.error_message || 'Unknown processing error'}`,
+                      type: 'error'
+                    });
+                    resolve();
+                  } else if (attempts >= maxAttempts) {
+                    clearInterval(pollTimer);
+                    await loadDocuments();
+                    await showModalAlert({
+                      title: 'BACKGROUND INGESTION ONGOING',
+                      message: `Document processing is still ongoing in the background. The artifact will automatically switch to READY in the documents list once complete.`,
+                      type: 'info'
+                    });
+                    resolve();
+                  }
+                } catch (e) {
                   if (attempts >= maxAttempts) {
                     clearInterval(pollTimer);
                     resolve();
                   }
-                  return;
                 }
-                const docStatus = await pollRes.json();
-                
-                if (stepperStep) {
-                  stepperStep.textContent = docStatus.page_count ? `PG 1..${docStatus.page_count}` : 'PROCESSING';
-                }
-
-                if (docStatus.status === 'done') {
-                  clearInterval(pollTimer);
-                  await loadDocuments();
-                  await loadRelationships();
-                  await syncTelemetry();
-                  await showModalAlert({
-                    title: 'EXTRACTION COMPLETE',
-                    message: `Successfully processed "${file.name}"! Extracted ${docStatus.fact_count || 'discrete'} facts across ${docStatus.page_count || 'all'} pages.`,
-                    type: 'success',
-                    confirmText: 'DONE'
-                  });
-                  resolve();
-                } else if (docStatus.status === 'failed') {
-                  clearInterval(pollTimer);
-                  await loadDocuments();
-                  await showModalAlert({
-                    title: 'EXTRACTION ERROR',
-                    message: `Document processing failed: ${docStatus.error_message || 'Unknown processing error'}`,
-                    type: 'error'
-                  });
-                  resolve();
-                } else if (attempts >= maxAttempts) {
-                  clearInterval(pollTimer);
-                  await loadDocuments();
-                  await showModalAlert({
-                    title: 'BACKGROUND INGESTION ONGOING',
-                    message: `Document processing is still ongoing in the background. The artifact will automatically switch to READY in the documents list once complete.`,
-                    type: 'info'
-                  });
-                  resolve();
-                }
-              } catch (pollErr) {
-                console.error('Polling error:', pollErr);
-              }
-            }, 2000);
+              }, 2000);
+            });
+          }
+        } catch (err) {
+          await showModalAlert({
+            title: 'NETWORK ERROR',
+            message: `Failed to connect to Verity API: ${err.message}`,
+            type: 'error'
           });
         }
-      } catch (err) {
-        await showModalAlert({
-          title: 'NETWORK ERROR',
-          message: 'Network or server error during upload: ' + (err.message || err),
-          type: 'error'
-        });
-      } finally {
-        stepper.classList.add('hidden');
-        document.getElementById('pdf-input').value = '';
       }
+
+      // Reset input element so selecting the same files again triggers onchange
+      const inputEl = document.getElementById('pdf-input');
+      if (inputEl) inputEl.value = '';
+      
+      const stepper = document.getElementById('pipeline-stepper');
+      if (stepper) stepper.classList.add('hidden');
     }
 
     async function exportRelationshipsCSV() {
