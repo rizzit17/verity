@@ -175,10 +175,7 @@
             <span class="material-symbols-outlined text-[20px] text-tertiary">verified</span>
           </div>
           <span class="font-headline-md text-lg sm:text-xl md:text-2xl tracking-tight text-white font-extrabold">Verity</span>
-          <span
-            class="hidden sm:inline-block px-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase font-bold tracking-wider">
-            FACT LAYER v2.4
-          </span>
+
         </a>
         <div
           class="hidden 2xl:flex items-center gap-2.5 px-3 py-1 bg-surface-container-low border border-white/10 font-mono text-xs text-on-surface-variant">
@@ -197,19 +194,19 @@
       </div>
       <nav class="hidden md:flex items-center h-full gap-1">
         <a href="/"
-          class="px-3 lg:px-4 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-3 lg:px-4 h-16 flex items-center font-sans text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Overview
         </a>
         <a href="/workspace"
-          class="px-3 lg:px-4 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-3 lg:px-4 h-16 flex items-center font-sans text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Workspace
         </a>
         <a href="/explorer"
-          class="px-3 lg:px-4 h-16 flex items-center font-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
+          class="px-3 lg:px-4 h-16 flex items-center font-sans text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors whitespace-nowrap">
           Explorer
         </a>
         <a href="/review"
-          class="px-3 lg:px-4 h-16 flex items-center font-body-sm whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
+          class="px-3 lg:px-4 h-16 flex items-center font-sans text-sm font-semibold whitespace-nowrap bg-surface-container-high text-on-surface border-b-2 border-primary transition-colors">
           Review Queue
         </a>
       </nav>
@@ -247,9 +244,7 @@
           type="button" aria-label="Toggle Navigation">
           <span class="material-symbols-outlined text-[18px]">menu</span>
         </button>
-        <div class="hidden sm:flex w-8 h-8 bg-primary items-center justify-center shrink-0">
-          <span class="material-symbols-outlined text-on-primary text-[18px]">terminal</span>
-        </div>
+
       </div>
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
@@ -1015,7 +1010,7 @@
                 <!-- OCR Extract Display -->
                 <div class="p-3 bg-surface-container-high/40 border-l-2 border-secondary border border-white/5 flex flex-col gap-1.5">
                   <div class="text-outline font-sans text-[11px] uppercase tracking-wider select-none font-semibold">Excerpt from Document:</div>
-                  <p class="font-mono text-sm leading-relaxed text-[#acedff] m-0 font-medium select-text">
+                <p class="font-mono text-sm leading-relaxed text-[#acedff] m-0 font-medium select-text break-words overflow-hidden w-full" style="word-break:break-word;overflow-wrap:break-word;">
                     "${escapeHtml(raw.evidence_text || raw.snippet || reason)}"
                   </p>
                 </div>
