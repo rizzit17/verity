@@ -995,41 +995,126 @@
       const stepper = document.getElementById('pipeline-stepper');
       stepper.classList.remove('hidden');
       document.getElementById('stepper-filename').textContent = file.name;
+      const stepperStep = document.getElementById('stepper-step');
+      if (stepperStep) stepperStep.textContent = 'QUEUED';
 
       const formData = new FormData();
       formData.append('file', file);
 
       try {
-        const url = `/documents?max_pages=${selectedMaxPages}`;
+        const url = `/documents?max_pages=${selectedMaxPages}&sync=false`;
         const res = await fetch(url, {
           method: 'POST',
           body: formData
         });
 
         if (!res.ok) {
-          const err = await res.json();
+          const contentType = res.headers.get('content-type') || '';
+          let errMsg = `Server returned HTTP ${res.status}`;
+          if (contentType.includes('application/json')) {
+            const err = await res.json();
+            errMsg = err.detail || errMsg;
+          } else {
+            const text = await res.text();
+            if (res.status === 504 || text.includes('504 Gateway') || text.includes('timed out')) {
+              errMsg = 'Cloud proxy timeout (HTTP 504). Extraction is taking longer than the cloud gateway limit. Please try fewer pages (e.g. 15 pages) or retry.';
+            } else {
+              errMsg = text.replace(/<[^>]+>/g, ' ').slice(0, 150) || errMsg;
+            }
+          }
           await showModalAlert({
             title: 'UPLOAD FAILED',
-            message: 'Upload failed: ' + (err.detail || 'Unknown error'),
+            message: errMsg,
             type: 'error'
           });
           return;
         }
 
         const data = await res.json();
-        await showModalAlert({
-          title: 'EXTRACTION COMPLETE',
-          message: `Extracted ${data.facts_extracted} facts across ${data.page_count || 'all'} pages and found ${data.relationships_found} relationships.`,
-          type: 'success',
-          confirmText: 'DONE'
-        });
+
+        // Refresh documents list right away so the "PROCESSING" card appears immediately
         await loadDocuments();
-        await loadRelationships();
-        await syncTelemetry();
+
+        // If returned already done (e.g. reused cache)
+        if (data.status === 'done') {
+          await showModalAlert({
+            title: 'EXTRACTION COMPLETE',
+            message: `Extracted ${data.facts_extracted} facts across ${data.page_count || 'all'} pages and found ${data.relationships_found} relationships.`,
+            type: 'success',
+            confirmText: 'DONE'
+          });
+          await loadDocuments();
+          await loadRelationships();
+          await syncTelemetry();
+          return;
+        }
+
+        // If processing in background, start polling loop
+        if (data.status === 'processing') {
+          if (stepperStep) stepperStep.textContent = 'EXTRACTING...';
+          
+          let attempts = 0;
+          const maxAttempts = 180; // 180 * 2s = 360 seconds max polling time
+          
+          await new Promise((resolve) => {
+            const pollTimer = setInterval(async () => {
+              attempts++;
+              try {
+                const pollRes = await fetch(`/documents/${data.document_id}`);
+                if (!pollRes.ok) {
+                  if (attempts >= maxAttempts) {
+                    clearInterval(pollTimer);
+                    resolve();
+                  }
+                  return;
+                }
+                const docStatus = await pollRes.json();
+                
+                if (stepperStep) {
+                  stepperStep.textContent = docStatus.page_count ? `PG 1..${docStatus.page_count}` : 'PROCESSING';
+                }
+
+                if (docStatus.status === 'done') {
+                  clearInterval(pollTimer);
+                  await loadDocuments();
+                  await loadRelationships();
+                  await syncTelemetry();
+                  await showModalAlert({
+                    title: 'EXTRACTION COMPLETE',
+                    message: `Successfully processed "${file.name}"! Extracted ${docStatus.fact_count || 'discrete'} facts across ${docStatus.page_count || 'all'} pages.`,
+                    type: 'success',
+                    confirmText: 'DONE'
+                  });
+                  resolve();
+                } else if (docStatus.status === 'failed') {
+                  clearInterval(pollTimer);
+                  await loadDocuments();
+                  await showModalAlert({
+                    title: 'EXTRACTION ERROR',
+                    message: `Document processing failed: ${docStatus.error_message || 'Unknown processing error'}`,
+                    type: 'error'
+                  });
+                  resolve();
+                } else if (attempts >= maxAttempts) {
+                  clearInterval(pollTimer);
+                  await loadDocuments();
+                  await showModalAlert({
+                    title: 'BACKGROUND INGESTION ONGOING',
+                    message: `Document processing is still ongoing in the background. The artifact will automatically switch to READY in the documents list once complete.`,
+                    type: 'info'
+                  });
+                  resolve();
+                }
+              } catch (pollErr) {
+                console.error('Polling error:', pollErr);
+              }
+            }, 2000);
+          });
+        }
       } catch (err) {
         await showModalAlert({
-          title: 'ERROR',
-          message: 'Network/upload error: ' + err,
+          title: 'NETWORK ERROR',
+          message: 'Network or server error during upload: ' + (err.message || err),
           type: 'error'
         });
       } finally {

@@ -65,15 +65,36 @@ def health_check():
     return {"status": "ok", "app": "Verity Fact Knowledge Layer"}
 
 
+def _run_document_pipeline_background(doc_id: str, effective_max_pages: Optional[int]):
+    """Background task worker that executes extraction and relationship discovery."""
+    db = next(get_db())
+    try:
+        logger.info("Starting background processing for document %s (max_pages=%s)", doc_id, effective_max_pages)
+        process_document(doc_id, db=db, max_pages=effective_max_pages)
+        relate_new_facts(doc_id, db=db)
+        logger.info("Finished background processing for document %s", doc_id)
+    except Exception as exc:
+        logger.exception("Background processing failed for document %s: %s", doc_id, exc)
+        doc = db.query(DocumentModel).filter(DocumentModel.id == doc_id).first()
+        if doc:
+            doc.status = "failed"
+            doc.error_message = str(exc)
+            db.commit()
+    finally:
+        db.close()
+
+
 @app.post("/documents", response_model=DocumentProcessSummary, tags=["Documents"])
 def upload_document(
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     max_pages: Optional[int] = Query(None, description="Max pages to extract (defaults to 15)"),
+    sync: bool = Query(False, description="Whether to wait synchronously for processing to finish"),
     db: Session = Depends(get_db)
 ):
     """
     Uploads a PDF, creates document record, extracts facts, and computes relationships.
-    Runs in a worker threadpool so it never blocks the main event loop.
+    Defaults to asynchronous background processing to prevent HTTP 504 timeouts on Render.
     """
     if not file.filename.lower().endswith(".pdf"):
         raise HTTPException(
@@ -120,21 +141,35 @@ def upload_document(
             )
         else:
             logger.info("Document '%s' previously had %s pages, re-extracting with max_pages=%s", file.filename, existing.page_count, effective_max_pages)
-            extracted_facts = process_document(existing.id, db=db, max_pages=effective_max_pages)
-            relationships = relate_new_facts(existing.id, db=db)
-            failures_count = db.query(ExtractionFailureModel).filter(
-                ExtractionFailureModel.document_id == existing.id
-            ).count()
-            db.refresh(existing)
-            return DocumentProcessSummary(
-                document_id=existing.id,
-                filename=existing.filename,
-                page_count=existing.page_count,
-                facts_extracted=len(extracted_facts),
-                relationships_found=len(relationships),
-                failures_count=failures_count,
-                status=existing.status
-            )
+            if sync:
+                extracted_facts = process_document(existing.id, db=db, max_pages=effective_max_pages)
+                relationships = relate_new_facts(existing.id, db=db)
+                failures_count = db.query(ExtractionFailureModel).filter(
+                    ExtractionFailureModel.document_id == existing.id
+                ).count()
+                db.refresh(existing)
+                return DocumentProcessSummary(
+                    document_id=existing.id,
+                    filename=existing.filename,
+                    page_count=existing.page_count,
+                    facts_extracted=len(extracted_facts),
+                    relationships_found=len(relationships),
+                    failures_count=failures_count,
+                    status=existing.status
+                )
+            else:
+                existing.status = "processing"
+                db.commit()
+                background_tasks.add_task(_run_document_pipeline_background, existing.id, effective_max_pages)
+                return DocumentProcessSummary(
+                    document_id=existing.id,
+                    filename=existing.filename,
+                    page_count=existing.page_count or 0,
+                    facts_extracted=0,
+                    relationships_found=0,
+                    failures_count=0,
+                    status="processing"
+                )
 
     doc_id = str(uuid.uuid4())
     save_path = UPLOAD_DIR / f"{doc_id}.pdf"
@@ -148,15 +183,27 @@ def upload_document(
         id=doc_id,
         filename=file.filename,
         content_hash=content_hash,
-        status="pending"
+        status="processing"
     )
     db.add(doc)
     db.commit()
     db.refresh(doc)
 
+    if not sync:
+        # Schedule in background and return immediate 200 response to avoid cloud proxy timeouts
+        background_tasks.add_task(_run_document_pipeline_background, doc_id, effective_max_pages)
+        return DocumentProcessSummary(
+            document_id=doc.id,
+            filename=doc.filename,
+            page_count=0,
+            facts_extracted=0,
+            relationships_found=0,
+            failures_count=0,
+            status="processing"
+        )
+
     try:
-        # Step 1: Extraction pipeline (default cap to 15 pages to keep processing swift and avoid rate limits)
-        effective_max_pages = None if (max_pages is not None and max_pages <= 0) else (max_pages or 15)
+        # Step 1: Extraction pipeline
         extracted_facts = process_document(doc_id, db=db, max_pages=effective_max_pages)
         
         # Step 2: Relationship pipeline
@@ -192,7 +239,9 @@ def upload_document(
 @app.post("/process/{document_id}", response_model=DocumentProcessSummary, tags=["Documents"])
 def process_existing_document(
     document_id: str,
+    background_tasks: BackgroundTasks,
     max_pages: Optional[int] = Query(None, description="Max pages to extract (0 or None for all)"),
+    sync: bool = Query(False, description="Whether to wait synchronously for processing to finish"),
     db: Session = Depends(get_db)
 ):
     """Triggers or re-triggers extraction and cross-document reconciliation for an existing document."""
@@ -200,8 +249,24 @@ def process_existing_document(
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
 
+    effective_max_pages = None if (max_pages is not None and max_pages <= 0) else max_pages
+
+    if not sync:
+        doc.status = "processing"
+        doc.error_message = None
+        db.commit()
+        background_tasks.add_task(_run_document_pipeline_background, document_id, effective_max_pages)
+        return DocumentProcessSummary(
+            document_id=doc.id,
+            filename=doc.filename,
+            page_count=doc.page_count or 0,
+            facts_extracted=0,
+            relationships_found=0,
+            failures_count=0,
+            status="processing"
+        )
+
     try:
-        effective_max_pages = None if (max_pages is not None and max_pages <= 0) else max_pages
         extracted_facts = process_document(document_id, db=db, max_pages=effective_max_pages)
         relationships = relate_new_facts(document_id, db=db)
         failures_count = db.query(ExtractionFailureModel).filter(
