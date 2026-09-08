@@ -36,17 +36,17 @@ Corporate disclosures and financial reports scatter critical data across dozens 
 ## User Interface & Visual Tour
 
 ### 1. Landing Page & Value Proposition
-![Verity Landing Page](docs/screenshots/Screenshot 2026-09-09 044602.png)
-![Verity Features](docs/screenshots/Screenshot 2026-09-09 044900.png)
+![Verity Landing Page](docs/screenshots/landing_hero.png)
+![Verity Features](docs/screenshots/landing_features.png)
 
 ### 2. Workspace: Cross-Document Intelligence Matrix
-![Verity Workspace](docs/screenshots/Screenshot 2026-09-09 044658.png)
+![Verity Workspace](docs/screenshots/workspace.png)
 
 ### 3. Explorer: Ground-Truth Fact & Evidence Drawer
-![Verity Fact Explorer](docs/screenshots/Screenshot 2026-09-09 044732.png)
+![Verity Fact Explorer](docs/screenshots/explorer.png)
 
 ### 4. Human Review & Exception Queue (Case 4)
-![Verity Review Queue](docs/screenshots/Screenshot 2026-09-09 044813.png)
+![Verity Review Queue](docs/screenshots/review_queue.png)
 
 ---
 
