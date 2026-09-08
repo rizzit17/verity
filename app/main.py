@@ -65,13 +65,14 @@ def health_check():
 
 
 @app.post("/documents", response_model=DocumentProcessSummary, tags=["Documents"])
-async def upload_document(
+def upload_document(
     file: UploadFile = File(...),
+    max_pages: Optional[int] = Query(None, description="Max pages to extract (defaults to 15)"),
     db: Session = Depends(get_db)
 ):
     """
     Uploads a PDF, creates document record, extracts facts, and computes relationships.
-    Processes synchronously for immediate inspection in pass 1 prototype.
+    Runs in a worker threadpool so it never blocks the main event loop.
     """
     if not file.filename.lower().endswith(".pdf"):
         raise HTTPException(
@@ -79,7 +80,7 @@ async def upload_document(
             detail="Only PDF documents are supported."
         )
 
-    content = await file.read()
+    content = file.file.read()
     content_hash = hashlib.sha256(content).hexdigest()
 
     # Check if this document content was already uploaded and successfully processed
@@ -126,8 +127,9 @@ async def upload_document(
     db.refresh(doc)
 
     try:
-        # Step 1: Extraction pipeline
-        extracted_facts = process_document(doc_id, db=db)
+        # Step 1: Extraction pipeline (default cap to 15 pages to keep processing swift and avoid rate limits)
+        effective_max_pages = None if (max_pages is not None and max_pages <= 0) else (max_pages or 15)
+        extracted_facts = process_document(doc_id, db=db, max_pages=effective_max_pages)
         
         # Step 2: Relationship pipeline
         relationships = relate_new_facts(doc_id, db=db)
