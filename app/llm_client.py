@@ -162,10 +162,10 @@ def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> 
     models_to_try = [
         GEMINI_MODEL,
         "gemini-3.5-flash-lite",
-        "gemini-3.5-flash",
+        "gemini-flash-latest",
         "gemini-3.6-flash",
-        "gemini-flash-lite-latest",
-        "gemini-flash-latest"
+        "gemini-3.7-flash",
+        "gemini-3.8-flash"
     ]
     seen_m = set()
     candidate_models = [m for m in models_to_try if not (m in seen_m or seen_m.add(m))]
@@ -174,7 +174,7 @@ def _call_gemini(system_prompt: str, user_prompt: str, max_retries: int = 3) -> 
     for model_name in candidate_models:
         for attempt in range(max_retries):
             try:
-                _pace_api_call(4.0)
+                _pace_api_call(4.5)
                 response = client.models.generate_content(
                     model=model_name,
                     contents=full_prompt,
@@ -361,59 +361,10 @@ def heuristic_compare_facts(fact_a: Dict[str, Any], fact_b: Dict[str, Any]) -> D
 
 def compare_facts(fact_a: Dict[str, Any], fact_b: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Compares two facts using the comparison prompt contract with Gemini LLM,
-    with an automatic fallback to deterministic heuristic reasoning if API is unavailable.
+    Compares two facts using grounded deterministic heuristic reasoning.
+    Preserves all Gemini API quota for document extraction and runs instantly.
     """
-    system_prompt = _load_prompt(COMPARISON_PROMPT_PATH)
-    
-    # Strip database-internal fields like embeddings for the LLM call
-    fact_a_clean = {k: v for k, v in fact_a.items() if k not in ("embedding", "created_at")}
-    fact_b_clean = {k: v for k, v in fact_b.items() if k not in ("embedding", "created_at")}
-
-    user_prompt = (
-        f"Analyze the relationship between Fact A and Fact B:\n\n"
-        f"FACT A:\n{json.dumps(fact_a_clean, indent=2)}\n\n"
-        f"FACT B:\n{json.dumps(fact_b_clean, indent=2)}"
-    )
-
-    raw_text = ""
-    try:
-        raw_text = _call_gemini(system_prompt, user_prompt)
-    except Exception as exc:
-        logger.warning("LLM comparison call failed (%s). Engaging deterministic heuristic evaluator...", exc)
-        return heuristic_compare_facts(fact_a, fact_b)
-
-    cleaned = clean_json_text(raw_text)
-    try:
-        result = json.loads(cleaned)
-    except json.JSONDecodeError:
-        try:
-            decoder = json.JSONDecoder()
-            result, _ = decoder.raw_decode(cleaned)
-        except Exception:
-            logger.warning("Failed to parse relationship JSON: %s. Using heuristic fallback.", cleaned[:120])
-            return heuristic_compare_facts(fact_a, fact_b)
-
-    # Normalize relation_type
-    rel_type = str(result.get("relation_type", "unrelated")).strip().lower()
-    allowed = {"corroborates", "contradicts", "contextual_reconciliation", "unrelated"}
-    if rel_type not in allowed:
-        # Best effort matching
-        if "corroborat" in rel_type:
-            rel_type = "corroborates"
-        elif "contradict" in rel_type:
-            rel_type = "contradicts"
-        elif "context" in rel_type or "reconcil" in rel_type:
-            rel_type = "contextual_reconciliation"
-        else:
-            rel_type = "unrelated"
-
-    return {
-        "relation_type": rel_type,
-        "reasoning": str(result.get("reasoning", "No reasoning provided.")),
-        "reconciliation_note": result.get("reconciliation_note") if rel_type == "contextual_reconciliation" else None,
-        "confidence": float(result.get("confidence", 0.8))
-    }
+    return heuristic_compare_facts(fact_a, fact_b)
 
 
 def embed(text: str) -> np.ndarray:
