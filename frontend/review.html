@@ -251,17 +251,16 @@
     </div>
     <!-- MOBILE ACCORDION / DRAWER -->
     <div id="mobile-nav-menu"
-      class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-space-4 py-space-3 flex flex-col gap-space-2">
-      <a href="/" class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Overview</a>
+      class="hidden md:hidden bg-surface-container-lowest/98 border-b border-white/10 px-4 py-3 flex flex-col gap-2">
+      <a href="/" class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors">Overview</a>
       <a href="/workspace"
-        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Workspace</a>
+        class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors">Workspace</a>
       <a href="/explorer"
-        class="px-space-3 py-space-2 font-body-sm text-on-surface-variant hover:text-on-surface">Explorer</a>
-      <a href="/review" class="px-space-3 py-space-2 font-body-sm text-on-surface bg-surface-container-high">Review
+        class="px-3 py-2 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors">Explorer</a>
+      <a href="/review" class="px-3 py-2 font-mono text-xs text-on-surface bg-surface-container-high font-bold border-l-2 border-primary">Review
         Queue</a>
       <a href="/docs" target="_blank"
-        class="px-space-3 py-space-2 font-body-sm text-tertiary hover:text-on-surface flex items-center gap-2"><span>/docs
-          (API)</span></a>
+        class="px-3 py-2 font-mono text-xs text-tertiary hover:text-on-surface hover:bg-surface-container-high transition-colors flex items-center gap-2"><span>/docs (Interactive Swagger API)</span></a>
     </div>
   </header>
 
@@ -415,31 +414,30 @@
             </div>
           </div>
 
-          <!-- Filter Tabs Switcher -->
-          <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/5">
-            <div class="flex flex-wrap items-center gap-2" id="filterTabs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/5">
+            <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto w-full sm:w-auto" id="filterTabs">
               <button onclick="setReviewTab('pending')" id="tab-btn-pending"
-                class="px-3.5 py-1.5 bg-error text-[#410006] font-mono text-xs font-extrabold flex items-center gap-2 shadow-sm transition-all cursor-pointer border border-error/50"
+                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-error text-[#410006] font-mono text-[11px] sm:text-xs font-extrabold flex items-center gap-1.5 sm:gap-2 shadow-sm transition-all cursor-pointer border border-error/50"
                 type="button">
                 <span>▲ NEEDS REVIEW</span>
-                <span id="tab-review-count" class="px-1.5 py-0.5 bg-[#410006]/20 text-[#410006] font-extrabold text-[11px] rounded-sm border border-[#410006]/30">0</span>
+                <span id="tab-review-count" class="px-1.5 py-0.5 bg-[#410006]/20 text-[#410006] font-extrabold text-[10px] sm:text-[11px] rounded-sm border border-[#410006]/30">0</span>
               </button>
               <button onclick="setReviewTab('resolved')" id="tab-btn-resolved"
-                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer"
+                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-[11px] sm:text-xs flex items-center gap-1.5 sm:gap-2 border border-white/10 transition-all cursor-pointer"
                 type="button">
                 <span id="tab-dot-resolved" class="w-1.5 h-1.5 bg-tertiary"></span>
-                <span>RESOLVED / APPROVED</span>
-                <span id="tab-resolved-count" class="px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold text-[11px] rounded-sm border border-tertiary/30">0</span>
+                <span>RESOLVED</span>
+                <span id="tab-resolved-count" class="px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold text-[10px] sm:text-[11px] rounded-sm border border-tertiary/30">0</span>
               </button>
               <button onclick="setReviewTab('discarded')" id="tab-btn-discarded"
-                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer"
+                class="shrink-0 px-2.5 sm:px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-[11px] sm:text-xs flex items-center gap-1.5 sm:gap-2 border border-white/10 transition-all cursor-pointer"
                 type="button">
                 <span id="tab-dot-discarded" class="w-1.5 h-1.5 bg-outline"></span>
                 <span>DISCARDED</span>
-                <span id="tab-discarded-count" class="px-1.5 py-0.5 bg-white/10 text-on-surface font-bold text-[11px] rounded-sm border border-white/10">0</span>
+                <span id="tab-discarded-count" class="px-1.5 py-0.5 bg-white/10 text-on-surface font-bold text-[10px] sm:text-[11px] rounded-sm border border-white/10">0</span>
               </button>
             </div>
-            <div class="hidden xl:flex items-center gap-2 font-mono text-[11px] text-outline">
+            <div class="hidden xl:flex items-center gap-2 font-mono text-[11px] text-outline shrink-0">
               <span class="w-1.5 h-1.5 bg-secondary"></span>
               <span>AUDIT POLICY: STRICT DETERMINISM</span>
             </div>
