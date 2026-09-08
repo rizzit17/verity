@@ -35,11 +35,11 @@ if not DEFAULT_DATASETS_DIR.exists():
     DEFAULT_DATASETS_DIR = Path(r"C:\Users\Rishit\Desktop\SUPERJOIN\starter-datasets")
 
 ORDERED_STARTER_FILES = [
-    # Dataset A — Delhivery
+    # Dataset A - Delhivery
     ("delhivery", "03-delhivery-q4-fy24-earnings-presentation.pdf"),
     ("delhivery", "02-delhivery-annual-report-fy24-excerpt.pdf"),
     ("delhivery", "01-delhivery-prospectus-2022-excerpt.pdf"),
-    # Dataset B — India Macroeconomy
+    # Dataset B - India Macroeconomy
     ("india-macroeconomy", "01-india-economic-survey-2024-25-excerpt.pdf"),
     ("india-macroeconomy", "02-rbi-annual-report-2024-25-excerpt.pdf"),
     ("india-macroeconomy", "03-imf-india-2025-article-iv-excerpt.pdf"),
@@ -92,7 +92,7 @@ def ingest_file(pdf_path: Path, db, max_pages: Optional[int] = None) -> str:
 
 def print_demo_cases(db):
     print("\n" + "=" * 80)
-    print("           VERITY FACT KNOWLEDGE LAYER — 4 REQUIRED DEMO CASES")
+    print("           VERITY FACT KNOWLEDGE LAYER - 4 REQUIRED DEMO CASES")
     print("=" * 80)
 
     # 1. Corroboration

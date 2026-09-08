@@ -77,6 +77,10 @@ class ExtractionFailureRead(BaseModel):
     page: Optional[int] = None
     raw_item: Dict[str, Any] = Field(default_factory=dict)
     reason: str
+    status: str = "pending"
+    resolution_notes: Optional[str] = None
+    resolved_at: Optional[datetime] = None
+    resolved_fact_id: Optional[str] = None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

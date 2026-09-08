@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Verity — API Documentation & Testing</title>
+  <title>Verity - API Documentation & Testing</title>
   <link rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234cd7f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 2 7 12 12 22 7 12 2'%3E%3C/polygon%3E%3Cpolyline points='2 17 12 22 22 17'%3E%3C/polyline%3E%3Cpolyline points='2 12 12 17 22 12'%3E%3C/polyline%3E%3C/svg%3E">
   <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -152,6 +152,7 @@
       }
     };
   </script>
+  <script src="/static/modal.js"></script>
 </head>
 
 <body class="bg-background font-body-md text-on-background min-h-screen">
@@ -394,7 +395,11 @@
       try {
         const res = await fetch('/admin/seed-demo', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Demo seeding initiated in the background!');
+        await showModalAlert({
+          title: 'DEMO SEEDING STARTED',
+          message: data.message || 'Demo seeding initiated in the background!',
+          type: 'success'
+        });
         await syncTelemetry();
         let pollCount = 0;
         const poller = setInterval(async () => {
@@ -403,21 +408,40 @@
           if (pollCount >= 20) clearInterval(poller);
         }, 3000);
       } catch (e) {
-        alert('Seeding error: ' + e);
+        await showModalAlert({
+          title: 'SEEDING ERROR',
+          message: 'Seeding error: ' + e,
+          type: 'error'
+        });
       } finally {
         if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
       }
     }
 
     async function handleClearDb() {
-      if (!confirm('Are you sure you want to clear all documents, facts, and relationships?')) return;
+      const confirmed = await showModalConfirm({
+        title: 'RESET KNOWLEDGE BASE',
+        message: 'Are you sure you want to clear all documents, facts, and relationships? All workspace data will be reset.',
+        confirmText: 'RESET ALL DATA',
+        cancelText: 'CANCEL',
+        danger: true
+      });
+      if (!confirmed) return;
       try {
         const res = await fetch('/admin/clear-db', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Database reset successfully!');
+        await showModalAlert({
+          title: 'WORKSPACE RESET',
+          message: data.message || 'Database reset successfully!',
+          type: 'success'
+        });
         await syncTelemetry();
       } catch (e) {
-        alert('Clear error: ' + e);
+        await showModalAlert({
+          title: 'CLEAR ERROR',
+          message: 'Clear error: ' + e,
+          type: 'error'
+        });
       }
     }
 

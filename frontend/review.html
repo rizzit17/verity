@@ -161,6 +161,7 @@
       }
     };
   </script>
+  <script src="/static/modal.js"></script>
 </head>
 
 <body class="bg-background font-body-md text-on-background min-h-screen flex flex-col">
@@ -417,23 +418,25 @@
           <!-- Filter Tabs Switcher -->
           <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/5">
             <div class="flex flex-wrap items-center gap-2" id="filterTabs">
-              <button
-                class="px-3.5 py-1.5 bg-error text-surface font-mono text-xs font-bold flex items-center gap-2 shadow-sm transition-all cursor-pointer"
+              <button onclick="setReviewTab('pending')" id="tab-btn-pending"
+                class="px-3.5 py-1.5 bg-error text-[#410006] font-mono text-xs font-extrabold flex items-center gap-2 shadow-sm transition-all cursor-pointer border border-error/50"
                 type="button">
                 <span>▲ NEEDS REVIEW</span>
-                <span id="tab-review-count" class="px-1.5 py-0.2 bg-black/30 text-white font-bold text-[11px]">0</span>
+                <span id="tab-review-count" class="px-1.5 py-0.5 bg-[#410006]/20 text-[#410006] font-extrabold text-[11px] rounded-sm border border-[#410006]/30">0</span>
               </button>
-              <button
-                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer"
+              <button onclick="setReviewTab('resolved')" id="tab-btn-resolved"
+                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer"
                 type="button">
-                <span class="w-1.5 h-1.5 bg-tertiary"></span>
-                <span>RESOLVED / APPROVED (14)</span>
+                <span id="tab-dot-resolved" class="w-1.5 h-1.5 bg-tertiary"></span>
+                <span>RESOLVED / APPROVED</span>
+                <span id="tab-resolved-count" class="px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold text-[11px] rounded-sm border border-tertiary/30">0</span>
               </button>
-              <button
-                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/5 transition-all cursor-pointer"
+              <button onclick="setReviewTab('discarded')" id="tab-btn-discarded"
+                class="px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer"
                 type="button">
-                <span class="w-1.5 h-1.5 bg-outline"></span>
-                <span>DISCARDED (0)</span>
+                <span id="tab-dot-discarded" class="w-1.5 h-1.5 bg-outline"></span>
+                <span>DISCARDED</span>
+                <span id="tab-discarded-count" class="px-1.5 py-0.5 bg-white/10 text-on-surface font-bold text-[11px] rounded-sm border border-white/10">0</span>
               </button>
             </div>
             <div class="hidden xl:flex items-center gap-2 font-mono text-[11px] text-outline">
@@ -505,6 +508,7 @@
   <script>
     let currentFailures = [];
     let activeFailureIndex = 0;
+    let currentReviewTab = 'pending';
 
     async function syncTelemetry() {
       try {
@@ -517,6 +521,10 @@
           document.getElementById('nav-queue').textContent = stats.failures_count > 0 ? `${stats.failures_count} Flagged` : '0 Clean';
           document.getElementById('stat-unresolved').textContent = stats.failures_count;
           document.getElementById('tab-review-count').textContent = stats.failures_count;
+          const resolvedEl = document.getElementById('tab-resolved-count');
+          if (resolvedEl) resolvedEl.textContent = stats.resolved_count || 0;
+          const discardedEl = document.getElementById('tab-discarded-count');
+          if (discardedEl) discardedEl.textContent = stats.discarded_count || 0;
         }
       } catch (err) {
         console.warn('Telemetry sync error:', err);
@@ -577,7 +585,12 @@
                     <span class="material-symbols-outlined ${isFailed ? 'text-error' : 'text-secondary'} text-[18px] shrink-0 group-hover:text-primary transition-colors">${isFailed ? 'error' : 'description'}</span>
                     <span class="font-mono text-xs text-on-surface font-semibold truncate">${escapeHtml(doc.filename)}</span>
                   </div>
-                  <span class="px-1.5 py-0.5 ${badgeClass} border font-mono text-[9px] tracking-wider uppercase shrink-0">${badgeText}</span>
+                  <div class="flex items-center gap-1.5 shrink-0">
+                    <span class="px-1.5 py-0.5 ${badgeClass} border font-mono text-[9px] tracking-wider uppercase">${badgeText}</span>
+                    <button onclick="deleteReviewDocument('${doc.id}', '${escapeHtml(doc.filename)}', event)" title="Delete Report" class="p-1 text-outline hover:text-error hover:bg-error/10 border border-transparent hover:border-error/30 transition-all cursor-pointer rounded flex items-center justify-center" type="button">
+                      <span class="material-symbols-outlined text-[15px] leading-none">delete</span>
+                    </button>
+                  </div>
                 </div>
                 <div class="flex items-center justify-between font-mono text-[10px] text-outline pl-6">
                   <span class="${isFailed ? 'text-error/80' : ''}">${factsText}</span>
@@ -592,17 +605,113 @@
       }
     }
 
+    async function deleteReviewDocument(docId, filename, event) {
+      if (event) event.stopPropagation();
+      const confirmed = await showModalConfirm({
+        title: 'DELETE INGESTED REPORT',
+        message: `Are you sure you want to delete "${filename}"?\n\nThis will remove the document, its extracted facts, and any cross-document relationships.`,
+        confirmText: 'DELETE REPORT',
+        cancelText: 'CANCEL',
+        danger: true
+      });
+      if (!confirmed) return;
+
+      try {
+        const res = await fetch(`/documents/${docId}`, { method: 'DELETE' });
+        if (res.ok) {
+          await showModalAlert({
+            title: 'REPORT DELETED',
+            message: `"${filename}" has been deleted successfully.`,
+            type: 'success'
+          });
+          await loadDocumentsList();
+          await loadFailures();
+          await syncTelemetry();
+        } else {
+          const err = await res.json();
+          await showModalAlert({
+            title: 'DELETION FAILED',
+            message: err.detail || 'Could not delete report from server.',
+            type: 'error'
+          });
+        }
+      } catch (err) {
+        await showModalAlert({
+          title: 'ERROR',
+          message: 'Error deleting report: ' + err,
+          type: 'error'
+        });
+      }
+    }
+
+    async function setReviewTab(tab) {
+      currentReviewTab = tab;
+
+      const tabConfigs = {
+        pending: {
+          btnId: 'tab-btn-pending',
+          activeClass: 'px-3.5 py-1.5 bg-error text-[#410006] font-mono text-xs font-extrabold flex items-center gap-2 shadow-sm transition-all cursor-pointer border border-error/50',
+          inactiveClass: 'px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer',
+          badgeId: 'tab-review-count',
+          activeBadge: 'px-1.5 py-0.5 bg-[#410006]/20 text-[#410006] font-extrabold text-[11px] rounded-sm border border-[#410006]/30',
+          inactiveBadge: 'px-1.5 py-0.5 bg-error/15 text-error font-bold text-[11px] rounded-sm border border-error/30'
+        },
+        resolved: {
+          btnId: 'tab-btn-resolved',
+          activeClass: 'px-3.5 py-1.5 bg-tertiary text-[#003822] font-mono text-xs font-extrabold flex items-center gap-2 shadow-sm transition-all cursor-pointer border border-tertiary/50',
+          inactiveClass: 'px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer',
+          dotId: 'tab-dot-resolved',
+          activeDot: 'w-1.5 h-1.5 bg-[#003822]',
+          inactiveDot: 'w-1.5 h-1.5 bg-tertiary',
+          badgeId: 'tab-resolved-count',
+          activeBadge: 'px-1.5 py-0.5 bg-[#003822]/20 text-[#003822] font-extrabold text-[11px] rounded-sm border border-[#003822]/30',
+          inactiveBadge: 'px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold text-[11px] rounded-sm border border-tertiary/30'
+        },
+        discarded: {
+          btnId: 'tab-btn-discarded',
+          activeClass: 'px-3.5 py-1.5 bg-outline text-surface font-mono text-xs font-extrabold flex items-center gap-2 shadow-sm transition-all cursor-pointer border border-outline/50',
+          inactiveClass: 'px-3.5 py-1.5 bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-mono text-xs flex items-center gap-2 border border-white/10 transition-all cursor-pointer',
+          dotId: 'tab-dot-discarded',
+          activeDot: 'w-1.5 h-1.5 bg-surface',
+          inactiveDot: 'w-1.5 h-1.5 bg-outline',
+          badgeId: 'tab-discarded-count',
+          activeBadge: 'px-1.5 py-0.5 bg-surface/20 text-surface font-extrabold text-[11px] rounded-sm border border-surface/30',
+          inactiveBadge: 'px-1.5 py-0.5 bg-white/10 text-on-surface font-bold text-[11px] rounded-sm border border-white/10'
+        }
+      };
+
+      for (const [key, cfg] of Object.entries(tabConfigs)) {
+        const btn = document.getElementById(cfg.btnId);
+        if (!btn) continue;
+        const isActive = (key === tab);
+        btn.className = isActive ? cfg.activeClass : cfg.inactiveClass;
+
+        if (cfg.dotId) {
+          const dot = document.getElementById(cfg.dotId);
+          if (dot) dot.className = isActive ? cfg.activeDot : cfg.inactiveDot;
+        }
+
+        if (cfg.badgeId) {
+          const badge = document.getElementById(cfg.badgeId);
+          if (badge) badge.className = isActive ? cfg.activeBadge : cfg.inactiveBadge;
+        }
+      }
+
+      await loadFailures();
+    }
+
     async function loadFailures() {
       try {
-        const res = await fetch('/failures');
+        const res = await fetch(`/failures?status=${currentReviewTab}`);
         if (res.ok) {
           currentFailures = await res.json();
           activeFailureIndex = 0;
-          renderActiveRemediation();
+          renderActiveView();
         }
       } catch (e) {
         console.error('Error loading failures:', e);
       }
+      await loadResolvedAuditsTrail();
     }
 
     function nextCase() {
@@ -616,6 +725,238 @@
       if (currentFailures.length > 0) {
         activeFailureIndex = (activeFailureIndex - 1 + currentFailures.length) % currentFailures.length;
         renderActiveRemediation();
+      }
+    }
+
+    function renderActiveView() {
+      if (currentReviewTab === 'resolved') {
+        renderResolvedView();
+      } else if (currentReviewTab === 'discarded') {
+        renderDiscardedView();
+      } else {
+        renderActiveRemediation();
+      }
+    }
+
+    function renderResolvedView() {
+      const container = document.getElementById('remediation-container');
+      const pager = document.getElementById('casePager');
+      if (pager) pager.classList.add('hidden');
+
+      if (currentFailures.length === 0) {
+        container.innerHTML = `
+          <div class="w-full bg-[#141822] p-8 lg:p-12 text-center flex flex-col items-center gap-4 border border-white/10 shadow-xl">
+            <div class="w-14 h-14 bg-tertiary/10 border border-tertiary/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-[36px]">verified</span>
+            </div>
+            <h3 class="font-sans text-lg lg:text-xl text-on-surface font-bold m-0">No Resolved Audits Yet</h3>
+            <p class="font-sans text-sm text-on-surface-variant max-w-lg leading-relaxed m-0">
+              Audit items that you review, disambiguate, and approve into the Knowledge Graph will be cataloged here with their complete resolution provenance.
+            </p>
+            <button onclick="setReviewTab('pending')" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-xs font-bold transition-colors cursor-pointer shadow-sm mt-2">
+              [GO TO NEEDS REVIEW QUEUE]
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between text-outline font-mono text-xs px-1">
+            <span>RESOLVED AUDIT RECORDS (${currentFailures.length} VERIFIED)</span>
+            <span class="text-tertiary font-bold">ALL INJECTED TO GRAPH</span>
+          </div>
+          ${currentFailures.map((fail) => {
+            const raw = fail.raw_item || {};
+            const timeStr = fail.resolved_at ? new Date(fail.resolved_at).toLocaleString() : 'RECENT';
+            const notes = fail.resolution_notes || 'Approved and verified by auditor';
+            return `
+              <div class="w-full bg-[#141822] border border-white/10 shadow-xl border-l-4 border-l-tertiary p-5 flex flex-col gap-4 transition-all hover:border-white/20">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-3">
+                  <div class="flex items-center gap-2.5 flex-wrap">
+                    <span class="px-2.5 py-0.5 bg-tertiary/15 border border-tertiary/30 text-tertiary font-mono text-xs font-bold flex items-center gap-1">
+                      <span>■</span> <span>VERIFIED AUDIT</span>
+                    </span>
+                    <span class="font-mono text-xs text-secondary bg-surface-container-lowest px-2 py-0.5 border border-white/5 font-semibold">
+                      PAGE ${fail.page || 1}
+                    </span>
+                    <span class="font-mono text-xs text-outline">
+                      RESOLVED: <span class="text-on-surface font-semibold">${escapeHtml(timeStr)}</span>
+                    </span>
+                  </div>
+                  <button onclick="reopenCase('${fail.id}')" class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-mono text-xs border border-white/10 transition-colors cursor-pointer flex items-center gap-1" type="button" title="Move back to needs review">
+                    <span class="material-symbols-outlined text-[14px] text-secondary">restart_alt</span>
+                    <span>REOPEN / EDIT</span>
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col gap-1">
+                    <span class="font-mono text-[10px] text-outline uppercase font-semibold">Target Entity</span>
+                    <span class="font-sans text-sm text-on-surface font-bold truncate">${escapeHtml(raw.subject || 'Delhivery Limited')}</span>
+                  </div>
+                  <div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col gap-1">
+                    <span class="font-mono text-[10px] text-outline uppercase font-semibold">Reconciled Metric</span>
+                    <span class="font-sans text-sm text-on-surface font-bold truncate">${escapeHtml(raw.metric || 'Financial Assertion')}</span>
+                  </div>
+                  <div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col gap-1">
+                    <span class="font-mono text-[10px] text-outline uppercase font-semibold">Reconciled Value &amp; Unit</span>
+                    <span class="font-mono text-sm text-secondary font-bold truncate">${escapeHtml(raw.value || 'N/A')} ${escapeHtml(raw.unit || '')}</span>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-surface-container-low/60 border border-white/5 flex flex-col gap-1 font-mono text-xs">
+                  <span class="text-outline uppercase text-[10px] font-bold">Auditor Resolution Notes:</span>
+                  <span class="text-on-surface leading-relaxed">${escapeHtml(notes)}</span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function renderDiscardedView() {
+      const container = document.getElementById('remediation-container');
+      const pager = document.getElementById('casePager');
+      if (pager) pager.classList.add('hidden');
+
+      if (currentFailures.length === 0) {
+        container.innerHTML = `
+          <div class="w-full bg-[#141822] p-8 lg:p-12 text-center flex flex-col items-center gap-4 border border-white/10 shadow-xl">
+            <div class="w-14 h-14 bg-surface-container-high border border-white/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-outline text-[36px]">delete_sweep</span>
+            </div>
+            <h3 class="font-sans text-lg lg:text-xl text-on-surface font-bold m-0">No Discarded Items</h3>
+            <p class="font-sans text-sm text-on-surface-variant max-w-lg leading-relaxed m-0">
+              Low-confidence extractions or noisy items that you dismiss from the review queue will appear here for audit trail and restoration if needed.
+            </p>
+            <button onclick="setReviewTab('pending')" class="px-4 py-2 bg-primary hover:bg-primary-fixed text-on-primary font-mono text-xs font-bold transition-colors cursor-pointer shadow-sm mt-2">
+              [GO TO NEEDS REVIEW QUEUE]
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between text-outline font-mono text-xs px-1">
+            <span>DISCARDED ITEMS (${currentFailures.length} DISMISSED)</span>
+            <span class="text-outline font-bold">EXCLUDED FROM GRAPH</span>
+          </div>
+          ${currentFailures.map((fail) => {
+            const raw = fail.raw_item || {};
+            const timeStr = fail.resolved_at ? new Date(fail.resolved_at).toLocaleString() : 'RECENT';
+            return `
+              <div class="w-full bg-[#141822] border border-white/10 shadow-xl border-l-4 border-l-outline p-5 flex flex-col gap-4 transition-all hover:border-white/20">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-3">
+                  <div class="flex items-center gap-2.5 flex-wrap">
+                    <span class="px-2.5 py-0.5 bg-surface-container-high border border-white/10 text-outline font-mono text-xs font-bold flex items-center gap-1">
+                      <span>■</span> <span>DISCARDED</span>
+                    </span>
+                    <span class="font-mono text-xs text-outline bg-surface-container-lowest px-2 py-0.5 border border-white/5">
+                      PAGE ${fail.page || 1}
+                    </span>
+                    <span class="font-mono text-xs text-outline">
+                      DISMISSED: <span class="text-on-surface font-semibold">${escapeHtml(timeStr)}</span>
+                    </span>
+                  </div>
+                  <button onclick="reopenCase('${fail.id}')" class="px-2.5 py-1 bg-surface-container-high hover:bg-white/10 text-on-surface font-mono text-xs border border-white/10 transition-colors cursor-pointer flex items-center gap-1" type="button" title="Restore back to needs review">
+                    <span class="material-symbols-outlined text-[14px] text-tertiary">undo</span>
+                    <span>RESTORE TO QUEUE</span>
+                  </button>
+                </div>
+
+                <div class="p-3 bg-surface-container-lowest border border-white/5 flex flex-col gap-1">
+                  <span class="font-mono text-[10px] text-outline uppercase font-semibold">Flag Reason:</span>
+                  <span class="font-sans text-sm text-error font-medium">${escapeHtml(fail.reason || 'Dismissed by auditor')}</span>
+                </div>
+
+                <div class="p-3 bg-surface-container-high/40 border border-white/5 font-mono text-xs leading-relaxed text-outline-variant">
+                  "${escapeHtml(raw.evidence_text || raw.snippet || 'No raw evidence snippet available')}"
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    async function reopenCase(failureId) {
+      const confirmed = await showModalConfirm({
+        title: 'REOPEN AUDIT CASE',
+        message: 'Move this item back to the Needs Review queue for re-evaluation?',
+        confirmText: 'REOPEN TO QUEUE',
+        cancelText: 'CANCEL'
+      });
+      if (!confirmed) return;
+      try {
+        const res = await fetch(`/failures/${failureId}/reopen`, { method: 'POST' });
+        if (res.ok) {
+          await showModalAlert({
+            title: 'CASE REOPENED',
+            message: 'Item has been returned to the Needs Review queue.',
+            type: 'success'
+          });
+          await loadFailures();
+          await syncTelemetry();
+        }
+      } catch (err) {
+        await showModalAlert({
+          title: 'ERROR',
+          message: 'Error reopening case: ' + err,
+          type: 'error'
+        });
+      }
+    }
+
+    async function loadResolvedAuditsTrail() {
+      const trailContainer = document.getElementById('resolved-audit-rows');
+      if (!trailContainer) return;
+      try {
+        const res = await fetch('/failures?status=resolved');
+        if (res.ok) {
+          const resolvedItems = await res.json();
+          if (resolvedItems.length === 0) {
+            trailContainer.innerHTML = `
+              <div class="px-5 py-6 text-center font-mono text-xs text-outline bg-surface-container-low">
+                No resolved audits recorded in database yet. Review and approve pending exceptions above to populate this trail.
+              </div>
+            `;
+            return;
+          }
+          trailContainer.innerHTML = resolvedItems.map(item => {
+            const raw = item.raw_item || {};
+            const timeStr = item.resolved_at ? new Date(item.resolved_at).toLocaleTimeString() : 'RECENT';
+            const subject = raw.subject || 'Delhivery Limited';
+            const metric = raw.metric || 'Reconciled Audit Assertion';
+            const notes = item.resolution_notes || item.reason || 'Human verified fact';
+            return `
+              <div class="grid grid-cols-12 items-center px-5 py-3.5 bg-surface-container-low hover:bg-surface-container transition-colors">
+                <div class="col-span-2 font-mono text-xs text-on-surface-variant flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                  <span>${escapeHtml(timeStr)}</span>
+                </div>
+                <div class="col-span-5 flex flex-col pr-4">
+                  <span class="font-sans text-sm text-on-surface font-semibold truncate">${escapeHtml(subject)} — ${escapeHtml(metric)}</span>
+                  <span class="font-mono text-xs text-outline mt-0.5">Page ${item.page || 1} • Doc ID: #${item.document_id.slice(0, 8)}</span>
+                </div>
+                <div class="col-span-3 font-sans text-sm text-secondary leading-snug truncate">
+                  ${escapeHtml(notes)}
+                </div>
+                <div class="col-span-2 text-right">
+                  <span class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/30 text-tertiary font-mono text-xs font-bold inline-flex items-center gap-1">
+                    <span>■</span> <span>VERIFIED AUDIT</span>
+                  </span>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        console.warn('Error loading resolved audits trail:', err);
       }
     }
 
@@ -853,26 +1194,49 @@
         });
 
         if (res.ok) {
-          alert('Fact successfully disambiguated, verified, and injected into the Knowledge Graph!');
+          await showModalAlert({
+            title: 'FACT RESOLVED & VERIFIED',
+            message: 'Fact successfully disambiguated, verified, and injected into the Knowledge Graph!',
+            type: 'success'
+          });
           await loadFailures();
           await syncTelemetry();
         }
       } catch (err) {
-        alert('Resolution error: ' + err);
+        await showModalAlert({
+          title: 'RESOLUTION ERROR',
+          message: 'Resolution error: ' + err,
+          type: 'error'
+        });
       }
     }
 
     async function discardCase(failureId) {
-      if (!confirm('Discard this flagged item without saving to the knowledge graph?')) return;
+      const confirmed = await showModalConfirm({
+        title: 'DISCARD FLAGGED ITEM',
+        message: 'Discard this flagged item without saving to the knowledge graph?',
+        confirmText: 'DISCARD ITEM',
+        cancelText: 'KEEP ITEM',
+        danger: true
+      });
+      if (!confirmed) return;
       try {
         const res = await fetch(`/failures/${failureId}/discard`, { method: 'POST' });
         if (res.ok) {
-          alert('Flagged item dismissed.');
+          await showModalAlert({
+            title: 'ITEM DISMISSED',
+            message: 'Flagged item has been dismissed from the audit queue.',
+            type: 'info'
+          });
           await loadFailures();
           await syncTelemetry();
         }
       } catch (err) {
-        alert('Discard error: ' + err);
+        await showModalAlert({
+          title: 'DISCARD ERROR',
+          message: 'Discard error: ' + err,
+          type: 'error'
+        });
       }
     }
 
@@ -882,7 +1246,11 @@
       try {
         const res = await fetch('/admin/seed-demo', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Demo seeding initiated in the background!');
+        await showModalAlert({
+          title: 'DEMO SEEDING STARTED',
+          message: data.message || 'Demo seeding initiated in the background!',
+          type: 'success'
+        });
         await loadDocumentsList();
         await loadFailures();
         await syncTelemetry();
@@ -895,23 +1263,42 @@
           if (pollCount >= 20) clearInterval(poller);
         }, 3000);
       } catch (e) {
-        alert('Seeding error: ' + e);
+        await showModalAlert({
+          title: 'SEEDING ERROR',
+          message: 'Seeding error: ' + e,
+          type: 'error'
+        });
       } finally {
         if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
       }
     }
 
     async function handleClearDb() {
-      if (!confirm('Are you sure you want to clear all documents, facts, and relationships?')) return;
+      const confirmed = await showModalConfirm({
+        title: 'RESET KNOWLEDGE BASE',
+        message: 'Are you sure you want to clear all documents, facts, and relationships? All workspace data will be reset.',
+        confirmText: 'RESET ALL DATA',
+        cancelText: 'CANCEL',
+        danger: true
+      });
+      if (!confirmed) return;
       try {
         const res = await fetch('/admin/clear-db', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Database reset successfully!');
+        await showModalAlert({
+          title: 'WORKSPACE RESET',
+          message: data.message || 'Database reset successfully!',
+          type: 'success'
+        });
         await loadDocumentsList();
         await loadFailures();
         await syncTelemetry();
       } catch (e) {
-        alert('Clear error: ' + e);
+        await showModalAlert({
+          title: 'CLEAR ERROR',
+          message: 'Clear error: ' + e,
+          type: 'error'
+        });
       }
     }
 

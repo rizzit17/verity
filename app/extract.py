@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def build_embedding_descriptor(fact_dict_or_model) -> str:
     """
     Builds the normalized descriptor string per system-design.md 3.1:
-    f"{subject} — {metric} — scope: {time_scope or 'unspecified'}"
+    f"{subject} - {metric} - scope: {time_scope or 'unspecified'}"
     Deliberately excludes value to ensure facts about the same entity/metric
     cluster together in embedding space regardless of whether values match or conflict.
     """
@@ -31,7 +31,7 @@ def build_embedding_descriptor(fact_dict_or_model) -> str:
         time_scope = fact_dict_or_model.time_scope
 
     scope_str = time_scope.strip() if time_scope else "unspecified"
-    return f"{subject} — {metric} — scope: {scope_str}"
+    return f"{subject} - {metric} - scope: {scope_str}"
 
 
 def process_document(

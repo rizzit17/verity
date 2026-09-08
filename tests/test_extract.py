@@ -28,11 +28,11 @@ def test_build_embedding_descriptor():
         "time_scope": "FY24"
     }
     desc = build_embedding_descriptor(fact)
-    assert desc == "Delhivery — Revenue — scope: FY24"
+    assert desc == "Delhivery - Revenue - scope: FY24"
 
     # Unspecified scope
     desc_no_scope = build_embedding_descriptor({"subject": "RBI", "metric": "CPI Inflation"})
-    assert desc_no_scope == "RBI — CPI Inflation — scope: unspecified"
+    assert desc_no_scope == "RBI - CPI Inflation - scope: unspecified"
 
 
 def test_process_document_success_and_failure_logging(test_db, tmp_path):

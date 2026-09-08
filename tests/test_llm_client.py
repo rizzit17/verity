@@ -83,7 +83,7 @@ def test_compare_facts_contextual_reconciliation():
 
 
 def test_embed_local():
-    vec = embed("Delhivery Limited — FY24 revenue — scope: FY2024")
+    vec = embed("Delhivery Limited - FY24 revenue - scope: FY2024")
     assert isinstance(vec, np.ndarray)
     assert len(vec) > 0
     assert vec.dtype == np.float32

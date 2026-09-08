@@ -148,6 +148,7 @@
       }
     };
   </script>
+  <script src="/static/modal.js"></script>
 </head>
 
 <body class="bg-background font-body-md text-on-background min-h-screen">
@@ -312,6 +313,31 @@
               class="px-1.5 py-0.5 bg-surface-container-high border border-white/10 text-secondary font-mono text-[10px]">MIME:
               PDF</span>
           </div>
+          <!-- Page Count / Extraction Depth Toggle -->
+          <div class="flex flex-col gap-1.5 bg-surface-container-lowest/90 p-2.5 border border-white/10">
+            <div class="flex items-center justify-between font-mono text-[11px]">
+              <span class="text-outline uppercase font-semibold text-[10px] tracking-wider flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px] text-primary">layers</span>
+                PAGE EXTRACTION LIMIT:
+              </span>
+              <span id="page-count-hint" class="text-primary text-[10px] font-bold">15 Pgs (Fast)</span>
+            </div>
+            <div class="grid grid-cols-4 gap-1 pt-1" id="page-count-selector">
+              <button type="button" data-pages="15" onclick="setPageCount(15, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono font-bold bg-primary text-on-primary transition-all cursor-pointer shadow-sm">
+                15 pgs
+              </button>
+              <button type="button" data-pages="30" onclick="setPageCount(30, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">
+                30 pgs
+              </button>
+              <button type="button" data-pages="50" onclick="setPageCount(50, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">
+                50 pgs
+              </button>
+              <button type="button" data-pages="0" onclick="setPageCount(0, this)" class="page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer" title="Extract All Pages">
+                ALL ∞
+              </button>
+            </div>
+          </div>
+
           <div
             class="relative group bg-surface-container-low/80 hover:bg-surface-container-high p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 border border-dashed border-white/20 hover:border-primary/60"
             id="drop-zone">
@@ -326,7 +352,7 @@
               class="w-full bg-surface-container-lowest/80 p-2 border border-white/5 flex items-center justify-between font-mono text-[10px] text-on-surface-variant">
               <span class="flex items-center gap-1 text-tertiary">
                 <span class="material-symbols-outlined text-[13px]">bolt</span>
-                PYMUPDUL OCR CHUNKING
+                PYMUPDF OCR CHUNKING
               </span>
               <span class="text-outline">FACT DEDUPLICATION ON</span>
             </div>
@@ -470,33 +496,33 @@
         <!-- Segmented Tab Filter Bar -->
         <div class="flex flex-wrap items-center gap-2 bg-surface-container-low/60 border border-white/10 p-1.5"
           id="rel-filter-tabs">
-          <button onclick="setRelTypeFilter('all')"
-            class="rel-tab px-3 py-1.5 font-mono text-xs bg-primary text-on-primary font-bold shadow-sm flex items-center gap-2 transition-all cursor-pointer"
+          <button onclick="setRelTypeFilter('all')" id="rel-tab-all"
+            class="rel-tab px-3 py-1.5 font-mono text-xs bg-primary text-[#1c1445] font-extrabold shadow-sm border border-primary/50 flex items-center gap-2 transition-all cursor-pointer"
             data-type="all">
             <span>ALL RELATIONSHIPS</span>
-            <span id="tab-count-all" class="px-1.5 py-0.2 bg-black/20 text-on-primary font-bold rounded-sm">0</span>
+            <span id="tab-count-all" class="px-1.5 py-0.5 bg-[#1c1445]/20 text-[#1c1445] font-extrabold rounded-sm border border-[#1c1445]/30">0</span>
           </button>
-          <button onclick="setRelTypeFilter('corroborates')"
-            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
+          <button onclick="setRelTypeFilter('corroborates')" id="rel-tab-corroborates"
+            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-2 cursor-pointer"
             data-type="corroborates">
-            <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+            <span id="tab-dot-corrob" class="w-2 h-2 rounded-full bg-tertiary"></span>
             <span>CORROBORATES</span>
-            <span id="tab-count-corrob" class="px-1.5 py-0.2 bg-tertiary/10 text-tertiary font-bold rounded-sm">0</span>
+            <span id="tab-count-corrob" class="px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold rounded-sm border border-tertiary/30">0</span>
           </button>
-          <button onclick="setRelTypeFilter('contradicts')"
-            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
+          <button onclick="setRelTypeFilter('contradicts')" id="rel-tab-contradicts"
+            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-2 cursor-pointer"
             data-type="contradicts">
-            <span class="w-2 h-2 rounded-full bg-error"></span>
+            <span id="tab-dot-contradict" class="w-2 h-2 rounded-full bg-error"></span>
             <span>CONTRADICTS</span>
-            <span id="tab-count-contradict" class="px-1.5 py-0.2 bg-error/10 text-error font-bold rounded-sm">0</span>
+            <span id="tab-count-contradict" class="px-1.5 py-0.5 bg-error/15 text-error font-bold rounded-sm border border-error/30">0</span>
           </button>
-          <button onclick="setRelTypeFilter('contextual_reconciliation')"
-            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer"
+          <button onclick="setRelTypeFilter('contextual_reconciliation')" id="rel-tab-contextual_reconciliation"
+            class="rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent transition-all flex items-center gap-2 cursor-pointer"
             data-type="contextual_reconciliation">
-            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span id="tab-dot-reconcile" class="w-2 h-2 rounded-full bg-amber-400"></span>
             <span>CONTEXTUAL RECONCILIATION</span>
             <span id="tab-count-reconcile"
-              class="px-1.5 py-0.2 bg-amber-500/10 text-amber-400 font-bold rounded-sm">0</span>
+              class="px-1.5 py-0.5 bg-amber-400/15 text-amber-300 font-bold rounded-sm border border-amber-400/30">0</span>
           </button>
         </div>
 
@@ -594,7 +620,12 @@
                 <span class="material-symbols-outlined ${isFailed ? 'text-error' : 'text-secondary'} text-[18px] shrink-0 group-hover:text-primary transition-colors">${isFailed ? 'error' : 'description'}</span>
                 <span class="font-mono text-xs text-on-surface font-semibold truncate">${escapeHtml(doc.filename)}</span>
               </div>
-              <span class="px-1.5 py-0.5 ${badgeClass} border font-mono text-[9px] tracking-wider uppercase shrink-0">${badgeText}</span>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <span class="px-1.5 py-0.5 ${badgeClass} border font-mono text-[9px] tracking-wider uppercase">${badgeText}</span>
+                <button onclick="deleteDocumentItem('${doc.id}', '${escapeHtml(doc.filename)}', event)" title="Delete Report" class="p-1 text-outline hover:text-error hover:bg-error/10 border border-transparent hover:border-error/30 transition-all cursor-pointer rounded flex items-center justify-center" type="button">
+                  <span class="material-symbols-outlined text-[15px] leading-none">delete</span>
+                </button>
+              </div>
             </div>
             <div class="flex items-center justify-between font-mono text-[10px] text-outline pl-6">
               <span class="${isFailed ? 'text-error/80' : ''}">${factsText}</span>
@@ -603,6 +634,45 @@
           </div>
         `;
       }).join('');
+    }
+
+    async function deleteDocumentItem(docId, filename, event) {
+      if (event) event.stopPropagation();
+      const confirmed = await showModalConfirm({
+        title: 'DELETE INGESTED REPORT',
+        message: `Are you sure you want to delete "${filename}"?\n\nThis will permanently remove the report, its extracted facts, and associated cross-document relationships from history.`,
+        confirmText: 'DELETE REPORT',
+        cancelText: 'KEEP REPORT',
+        danger: true
+      });
+      if (!confirmed) return;
+
+      try {
+        const res = await fetch(`/documents/${docId}`, { method: 'DELETE' });
+        if (res.ok) {
+          await showModalAlert({
+            title: 'REPORT DELETED',
+            message: `"${filename}" has been successfully removed from the knowledge base and history.`,
+            type: 'success'
+          });
+          await loadDocuments();
+          await loadRelationships();
+          await syncTelemetry();
+        } else {
+          const err = await res.json();
+          await showModalAlert({
+            title: 'DELETION FAILED',
+            message: err.detail || 'Could not delete report from server.',
+            type: 'error'
+          });
+        }
+      } catch (err) {
+        await showModalAlert({
+          title: 'ERROR',
+          message: 'Network error deleting document: ' + err,
+          type: 'error'
+        });
+      }
     }
 
     async function loadRelationships() {
@@ -632,18 +702,57 @@
 
     function setRelTypeFilter(type) {
       currentRelTypeFilter = type;
-      document.querySelectorAll('.rel-tab').forEach(tab => {
-        const tabType = tab.getAttribute('data-type');
-        if (tabType === type) {
-          let activeBg = 'bg-primary text-on-primary';
-          if (type === 'corroborates') activeBg = 'bg-tertiary text-on-tertiary';
-          else if (type === 'contradicts') activeBg = 'bg-error text-white';
-          else if (type === 'contextual_reconciliation') activeBg = 'bg-amber-500 text-black';
-          tab.className = `rel-tab px-3 py-1.5 font-mono text-xs ${activeBg} font-bold shadow-sm flex items-center gap-2 transition-all cursor-pointer`;
-        } else {
-          tab.className = 'rel-tab px-3 py-1.5 font-mono text-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 cursor-pointer';
+      
+      const tabConfigs = {
+        all: {
+          activeTab: 'bg-primary text-[#1c1445] font-extrabold shadow-sm border border-primary/50',
+          inactiveTab: 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent',
+          activeBadge: 'px-1.5 py-0.5 bg-[#1c1445]/20 text-[#1c1445] font-extrabold rounded-sm border border-[#1c1445]/30',
+          inactiveBadge: 'px-1.5 py-0.5 bg-white/10 text-on-surface font-bold rounded-sm border border-white/10'
+        },
+        corroborates: {
+          activeTab: 'bg-tertiary text-[#003822] font-extrabold shadow-sm border border-tertiary/50',
+          inactiveTab: 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent',
+          activeDot: 'w-2 h-2 rounded-full bg-[#003822]',
+          inactiveDot: 'w-2 h-2 rounded-full bg-tertiary',
+          activeBadge: 'px-1.5 py-0.5 bg-[#003822]/20 text-[#003822] font-extrabold rounded-sm border border-[#003822]/30',
+          inactiveBadge: 'px-1.5 py-0.5 bg-tertiary/15 text-tertiary font-bold rounded-sm border border-tertiary/30'
+        },
+        contradicts: {
+          activeTab: 'bg-error text-[#410006] font-extrabold shadow-sm border border-error/50',
+          inactiveTab: 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent',
+          activeDot: 'w-2 h-2 rounded-full bg-[#410006]',
+          inactiveDot: 'w-2 h-2 rounded-full bg-error',
+          activeBadge: 'px-1.5 py-0.5 bg-[#410006]/20 text-[#410006] font-extrabold rounded-sm border border-[#410006]/30',
+          inactiveBadge: 'px-1.5 py-0.5 bg-error/15 text-error font-bold rounded-sm border border-error/30'
+        },
+        contextual_reconciliation: {
+          activeTab: 'bg-amber-400 text-[#3d2300] font-extrabold shadow-sm border border-amber-300',
+          inactiveTab: 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high border border-transparent',
+          activeDot: 'w-2 h-2 rounded-full bg-[#3d2300]',
+          inactiveDot: 'w-2 h-2 rounded-full bg-amber-400',
+          activeBadge: 'px-1.5 py-0.5 bg-[#3d2300]/25 text-[#3d2300] font-extrabold rounded-sm border border-[#3d2300]/35',
+          inactiveBadge: 'px-1.5 py-0.5 bg-amber-400/15 text-amber-300 font-bold rounded-sm border border-amber-400/30'
         }
-      });
+      };
+
+      for (const [key, cfg] of Object.entries(tabConfigs)) {
+        const tabEl = document.getElementById(`rel-tab-${key}`);
+        if (!tabEl) continue;
+        const isActive = (key === type);
+        tabEl.className = `rel-tab px-3 py-1.5 font-mono text-xs ${isActive ? cfg.activeTab : cfg.inactiveTab} flex items-center gap-2 transition-all cursor-pointer`;
+        
+        const dotEl = tabEl.querySelector('[id^="tab-dot-"]');
+        if (dotEl && cfg.activeDot) {
+          dotEl.className = isActive ? cfg.activeDot : cfg.inactiveDot;
+        }
+
+        const badgeEl = tabEl.querySelector('[id^="tab-count-"]');
+        if (badgeEl) {
+          badgeEl.className = isActive ? cfg.activeBadge : cfg.inactiveBadge;
+        }
+      }
+
       renderRelationships();
     }
 
@@ -847,11 +956,39 @@
       }).join('');
     }
 
+    let selectedMaxPages = 15;
+
+    function setPageCount(pages, btn) {
+      selectedMaxPages = pages;
+      document.querySelectorAll('.page-toggle-btn').forEach(b => {
+        b.className = 'page-toggle-btn py-1 px-1 text-center text-xs font-mono text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all cursor-pointer';
+      });
+      btn.className = 'page-toggle-btn py-1 px-1 text-center text-xs font-mono font-bold bg-primary text-on-primary transition-all cursor-pointer shadow-sm';
+      
+      const hint = document.getElementById('page-count-hint');
+      if (hint) {
+        if (pages === 0) {
+          hint.textContent = 'Full Document (All Pages)';
+          hint.className = 'text-secondary text-[10px] font-bold';
+        } else if (pages === 15) {
+          hint.textContent = '15 Pgs (Fast)';
+          hint.className = 'text-primary text-[10px] font-bold';
+        } else {
+          hint.textContent = `${pages} Pages`;
+          hint.className = 'text-primary text-[10px] font-bold';
+        }
+      }
+    }
+
     async function handleFileUpload(files) {
       if (!files || files.length === 0) return;
       const file = files[0];
       if (!file.name.toLowerCase().endsWith('.pdf')) {
-        alert('Please select a PDF document.');
+        await showModalAlert({
+          title: 'INVALID FILE FORMAT',
+          message: 'Please select a valid PDF document to extract facts and cross-document relationships.',
+          type: 'warning'
+        });
         return;
       }
 
@@ -863,33 +1000,51 @@
       formData.append('file', file);
 
       try {
-        const res = await fetch('/documents', {
+        const url = `/documents?max_pages=${selectedMaxPages}`;
+        const res = await fetch(url, {
           method: 'POST',
           body: formData
         });
 
         if (!res.ok) {
           const err = await res.json();
-          alert('Upload failed: ' + (err.detail || 'Unknown error'));
+          await showModalAlert({
+            title: 'UPLOAD FAILED',
+            message: 'Upload failed: ' + (err.detail || 'Unknown error'),
+            type: 'error'
+          });
           return;
         }
 
         const data = await res.json();
-        alert(`Extraction Complete! Extracted ${data.facts_extracted} facts and found ${data.relationships_found} relationships.`);
+        await showModalAlert({
+          title: 'EXTRACTION COMPLETE',
+          message: `Extracted ${data.facts_extracted} facts across ${data.page_count || 'all'} pages and found ${data.relationships_found} relationships.`,
+          type: 'success',
+          confirmText: 'DONE'
+        });
         await loadDocuments();
         await loadRelationships();
         await syncTelemetry();
       } catch (err) {
-        alert('Network/upload error: ' + err);
+        await showModalAlert({
+          title: 'ERROR',
+          message: 'Network/upload error: ' + err,
+          type: 'error'
+        });
       } finally {
         stepper.classList.add('hidden');
         document.getElementById('pdf-input').value = '';
       }
     }
 
-    function exportRelationshipsCSV() {
+    async function exportRelationshipsCSV() {
       if (allRelationships.length === 0) {
-        alert('No relationships to export.');
+        await showModalAlert({
+          title: 'NO RELATIONSHIPS',
+          message: 'No relationships found to export.',
+          type: 'info'
+        });
         return;
       }
       let csv = 'ID,Type,Confidence,Reasoning,FactA_Doc,FactA_Page,FactA_Metric,FactA_Value,FactB_Doc,FactB_Page,FactB_Metric,FactB_Value\n';
@@ -930,7 +1085,11 @@
       try {
         const res = await fetch('/admin/seed-demo', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Demo seeding initiated in the background!');
+        await showModalAlert({
+          title: 'DEMO SEEDING STARTED',
+          message: data.message || 'Demo seeding initiated in the background!',
+          type: 'success'
+        });
         
         // Immediate refresh
         await loadDocuments();
@@ -948,7 +1107,11 @@
         }, 3000);
 
       } catch (e) {
-        alert('Seeding error: ' + e);
+        await showModalAlert({
+          title: 'SEEDING ERROR',
+          message: 'Seeding error: ' + e,
+          type: 'error'
+        });
       } finally {
         if (btn) { btn.textContent = '[SEED DEMO]'; btn.disabled = false; }
         if (seedRunBtn) { seedRunBtn.textContent = '[TRIGGER SEED RUN]'; seedRunBtn.disabled = false; }
@@ -956,16 +1119,31 @@
     }
 
     async function handleClearDb() {
-      if (!confirm('Are you sure you want to clear all documents, facts, and relationships?')) return;
+      const confirmed = await showModalConfirm({
+        title: 'RESET KNOWLEDGE BASE',
+        message: 'Are you sure you want to clear all documents, facts, and relationships? All workspace data will be reset.',
+        confirmText: 'RESET ALL DATA',
+        cancelText: 'CANCEL',
+        danger: true
+      });
+      if (!confirmed) return;
       try {
         const res = await fetch('/admin/clear-db', { method: 'POST' });
         const data = await res.json();
-        alert(data.message || 'Database reset successfully!');
+        await showModalAlert({
+          title: 'WORKSPACE RESET',
+          message: data.message || 'Database reset successfully!',
+          type: 'success'
+        });
         await loadDocuments();
         await loadRelationships();
         await syncTelemetry();
       } catch (e) {
-        alert('Clear error: ' + e);
+        await showModalAlert({
+          title: 'CLEAR ERROR',
+          message: 'Clear error: ' + e,
+          type: 'error'
+        });
       }
     }
 

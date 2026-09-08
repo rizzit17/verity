@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app.main import app
-from app.db import Base, DocumentModel, FactModel, RelationshipModel, get_db
+from app.db import Base, DocumentModel, ExtractionFailureModel, FactModel, RelationshipModel, get_db
 
 test_engine = create_engine(
     "sqlite:///:memory:",
@@ -132,3 +132,139 @@ def test_relationships_endpoints():
     res_empty = client.get("/relationships?type=contradicts")
     assert res_empty.status_code == 200
     assert len(res_empty.json()) == 0
+
+
+def test_delete_document_endpoint():
+    db = TestSessionLocal()
+    doc1 = DocumentModel(id="del-doc-1", filename="to_delete.pdf", status="done")
+    doc2 = DocumentModel(id="del-doc-2", filename="keep.pdf", status="done")
+    db.add_all([doc1, doc2])
+
+    f1 = FactModel(id="f-del-1", document_id="del-doc-1", page=1, subject="Company", metric="Profit", value="100", evidence_text="e1")
+    f2 = FactModel(id="f-del-2", document_id="del-doc-2", page=1, subject="Company", metric="Profit", value="100", evidence_text="e2")
+    db.add_all([f1, f2])
+
+    rel = RelationshipModel(
+        id="rel-del-1",
+        fact_a_id="f-del-1",
+        fact_b_id="f-del-2",
+        relation_type="corroborates",
+        reasoning="Test relationship",
+        confidence=0.9
+    )
+    db.add(rel)
+    db.commit()
+    db.close()
+
+    # Verify document exists
+    res = client.get("/documents/del-doc-1")
+    assert res.status_code == 200
+
+    # Delete document
+    del_res = client.delete("/documents/del-doc-1")
+    assert del_res.status_code == 200
+    assert del_res.json()["status"] == "deleted"
+
+    # Verify document is gone
+    res_gone = client.get("/documents/del-doc-1")
+    assert res_gone.status_code == 404
+
+    # Verify facts of deleted document are gone
+    facts_res = client.get("/documents/del-doc-1/facts")
+    assert facts_res.status_code == 200
+    assert len(facts_res.json()) == 0
+
+    # Verify relationship was cleaned up
+    db2 = TestSessionLocal()
+    remaining_rels = db2.query(RelationshipModel).filter(RelationshipModel.id == "rel-del-1").all()
+    assert len(remaining_rels) == 0
+    # Keep doc2 intact
+    doc2_check = db2.query(DocumentModel).filter(DocumentModel.id == "del-doc-2").first()
+    assert doc2_check is not None
+    db2.close()
+
+    # 404 on deleting non-existent doc
+    del_res_404 = client.delete("/documents/non-existent-doc")
+    assert del_res_404.status_code == 404
+
+
+def test_failures_lifecycle_and_review_tabs():
+    db = TestSessionLocal()
+    doc = DocumentModel(id="doc-fail-1", filename="report_audit.pdf", status="done")
+    db.add(doc)
+
+    fail1 = ExtractionFailureModel(
+        id="f-fail-1",
+        document_id="doc-fail-1",
+        page=3,
+        raw_item_json=json.dumps({"subject": "Acme Corp", "metric": "Revenue", "value": "500", "unit": "INR Cr"}),
+        reason="Low confidence extraction (0.45)",
+        status="pending"
+    )
+    fail2 = ExtractionFailureModel(
+        id="f-fail-2",
+        document_id="doc-fail-1",
+        page=4,
+        raw_item_json=json.dumps({"subject": "Acme Corp", "metric": "Noise", "value": "Unknown"}),
+        reason="Missing evidence_text",
+        status="pending"
+    )
+    db.add_all([fail1, fail2])
+    db.commit()
+    db.close()
+
+    # 1. Test listing pending failures
+    res_pending = client.get("/failures?status=pending")
+    assert res_pending.status_code == 200
+    pending_items = res_pending.json()
+    assert len(pending_items) == 2
+
+    # Stats should show 2 pending
+    stats = client.get("/stats").json()
+    assert stats["failures_count"] == 2
+    assert stats["resolved_count"] == 0
+    assert stats["discarded_count"] == 0
+
+    # 2. Resolve fail1
+    res_resolve = client.post("/failures/f-fail-1/resolve", json={
+        "subject": "Acme Corp",
+        "metric": "Revenue",
+        "value": "500",
+        "unit": "INR Cr",
+        "notes": "Auditor verified from page 3 footnote"
+    })
+    assert res_resolve.status_code == 200
+    assert res_resolve.json()["status"] == "resolved"
+
+    # 3. Discard fail2
+    res_discard = client.post("/failures/f-fail-2/discard")
+    assert res_discard.status_code == 200
+    assert res_discard.json()["status"] == "discarded"
+
+    # 4. Check stats after resolution & discard
+    stats2 = client.get("/stats").json()
+    assert stats2["failures_count"] == 0
+    assert stats2["resolved_count"] == 1
+    assert stats2["discarded_count"] == 1
+
+    # 5. Check tabs filtering
+    res_tab_pending = client.get("/failures?status=pending")
+    assert len(res_tab_pending.json()) == 0
+
+    res_tab_resolved = client.get("/failures?status=resolved")
+    assert len(res_tab_resolved.json()) == 1
+    assert res_tab_resolved.json()[0]["id"] == "f-fail-1"
+    assert res_tab_resolved.json()[0]["resolution_notes"] == "Auditor verified from page 3 footnote"
+
+    res_tab_discarded = client.get("/failures?status=discarded")
+    assert len(res_tab_discarded.json()) == 1
+    assert res_tab_discarded.json()[0]["id"] == "f-fail-2"
+
+    # 6. Reopen discarded item back to pending
+    res_reopen = client.post("/failures/f-fail-2/reopen")
+    assert res_reopen.status_code == 200
+    assert res_reopen.json()["status"] == "reopened"
+
+    stats3 = client.get("/stats").json()
+    assert stats3["failures_count"] == 1
+    assert stats3["discarded_count"] == 0

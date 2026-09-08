@@ -197,7 +197,7 @@ This system intentionally rejects heavy drop shadows and fuzzy ambient blurs. De
 
 ## Shapes
 
-The roundedness level is strictly **0**. Every element—from high-level modal containers to buttons, tabs, input fields, confidence tags, and source highlights—features crisp 90-degree corners (`border-radius: 0px`).
+The roundedness level is strictly **0**. Every element-from high-level modal containers to buttons, tabs, input fields, confidence tags, and source highlights-features crisp 90-degree corners (`border-radius: 0px`).
 
 This uncompromising geometric profile reinforces the terminal-like nature of the application. It creates an uninterrupted rectilinear flow where adjacent borders fuse cleanly into unified 1px structural frameworks. Precision indicators, such as source-snippet bookmarks or status ribbons, utilize pure rectangular notches, vertical tick marks, or 1px hairline brackets.
 

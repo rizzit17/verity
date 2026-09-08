@@ -1,4 +1,4 @@
-# context.md — Fact Knowledge Layer (Superjoin VIT 2026 Assignment)
+# context.md - Fact Knowledge Layer (Superjoin VIT 2026 Assignment)
 
 ## 1. What this project is
 
@@ -14,16 +14,16 @@ reasoning that links facts together.
 ## 2. Hard requirements (from the assignment PDF)
 
 1. Extract meaningful numerical or semantic facts from any PDF (not
-   hard-coded to these three starter docs — must generalize to unseen PDFs).
+   hard-coded to these three starter docs - must generalize to unseen PDFs).
 2. Every fact must link to evidence in its source document (page number +
    quoted/paraphrased span).
 3. Detect relationships between facts:
-   - **Corroboration** — same underlying fact stated differently across docs.
-   - **Contradiction** — genuine or likely conflict.
-   - **Contextual reconciliation** — apparent contradiction explained by
+   - **Corroboration** - same underlying fact stated differently across docs.
+   - **Contradiction** - genuine or likely conflict.
+   - **Contextual reconciliation** - apparent contradiction explained by
      different time period, scope, or units.
 4. Simple API or UI to upload PDFs and inspect results.
-5. No hard-coded filenames, schemas, or document-specific rules — schema
+5. No hard-coded filenames, schemas, or document-specific rules - schema
    should emerge from the documents (dynamic fact schema).
 6. Must demonstrate all 4 cases explicitly, with evidence and system
    reasoning shown for the first three:
@@ -39,7 +39,7 @@ reasoning that links facts together.
 
 ## 3. Explicit non-goals / what NOT to over-build
 
-- No fancy graph DB or graph visualization as "the solution" — it's
+- No fancy graph DB or graph visualization as "the solution" - it's
   explicitly called out as insufficient on its own. A graph *can* exist as
   a nice-to-have view, but the reasoning/evidence/comparison layer is what
   matters.
@@ -47,15 +47,15 @@ reasoning that links facts together.
 - No fine-tuned models. Use an off-the-shelf LLM via API for extraction and
   reasoning.
 - Don't hand-write per-document parsing rules (e.g. "Delhivery revenue is
-  always on slide 5") — the pipeline must work on a fact sheet it has never
+  always on slide 5") - the pipeline must work on a fact sheet it has never
   seen.
 
-## 4. Starter datasets (for local dev/testing only — not to be hard-coded against)
+## 4. Starter datasets (for local dev/testing only - not to be hard-coded against)
 
-**Dataset A — Delhivery (company facts, 3 docs, different formats/dates)**
-- `01-delhivery-prospectus-2022-excerpt.pdf` — IPO prospectus, 2022
-- `02-delhivery-annual-report-fy24-excerpt.pdf` — Annual report FY23-24
-- `03-delhivery-q4-fy24-earnings-presentation.pdf` — Q4 FY24 earnings deck
+**Dataset A - Delhivery (company facts, 3 docs, different formats/dates)**
+- `01-delhivery-prospectus-2022-excerpt.pdf` - IPO prospectus, 2022
+- `02-delhivery-annual-report-fy24-excerpt.pdf` - Annual report FY23-24
+- `03-delhivery-q4-fy24-earnings-presentation.pdf` - Q4 FY24 earnings deck
 - Known overlapping facts to expect: revenue figures across different
   periods (FY22/FY23/FY24, quarterly vs annual), EBITDA/Adjusted EBITDA
   (different definitions!), director/management status changes between
@@ -66,30 +66,30 @@ reasoning that links facts together.
     report and the earnings deck.
   - Contradiction/context: "EBITDA" vs "Adjusted EBITDA" vs "Service EBITDA"
     are three different, non-interchangeable metrics with very different
-    values (₹127 Cr vs ₹76 Cr vs ₹941 Cr for FY24) — an extractor that
+    values (₹127 Cr vs ₹76 Cr vs ₹941 Cr for FY24) - an extractor that
     doesn't capture the metric *name* precisely will see false
     contradictions.
   - Context reconciliation: FY22 numbers are noted as "pro forma basis" in
-    the earnings deck — same label, different accounting basis.
+    the earnings deck - same label, different accounting basis.
   - Likely genuine extraction failure case: a director/officer listed as
     active in the 2022 prospectus who may have changed role or resigned by
-    FY24 — good candidate to manually verify and show as the "failure or
+    FY24 - good candidate to manually verify and show as the "failure or
     limitation" case if extraction misses the nuance.
 
-**Dataset B — India macroeconomy (3 institutional reports, different
+**Dataset B - India macroeconomy (3 institutional reports, different
 publishers/vintages)**
 - `01-india-economic-survey-2024-25-excerpt.pdf`
 - `02-rbi-annual-report-2024-25-excerpt.pdf`
 - `03-imf-india-2025-article-iv-excerpt.pdf`
 - Expect overlapping facts: GDP growth rate, inflation (CPI), current
-  account deficit, forex reserves — each publisher may report slightly
+  account deficit, forex reserves - each publisher may report slightly
   different figures due to different reference periods, forecast vs
-  actual, or methodology — rich source of "contradiction explained by
+  actual, or methodology - rich source of "contradiction explained by
   context" cases (natural fit for case 3).
 
 Both datasets' README.md files note that page numbers inside curated
 excerpts follow the **original document's printed page numbers**, not the
-PDF's physical page order — the extraction pipeline should capture the
+PDF's physical page order - the extraction pipeline should capture the
 PDF's physical page index for citation purposes (reliable), and may
 additionally capture the printed page label if easily available, but must
 not assume the two match.
@@ -107,7 +107,7 @@ This must be built and demoed within **~1 day**. Priorities, in order:
 ## 6. Design philosophy
 
 - **LLM does the semantic heavy lifting** (fact extraction, fact comparison
-  reasoning) — don't hand-write regex/NER rules per fact type.
+  reasoning) - don't hand-write regex/NER rules per fact type.
 - **Deterministic code does the plumbing**: PDF → text+page map, chunking,
   candidate-pair generation via embeddings (so we don't pay for O(n²) LLM
   comparisons), storage, API.
@@ -119,7 +119,7 @@ This must be built and demoed within **~1 day**. Priorities, in order:
   before don't break storage.
 - Keep it minimal first (flat file / SQLite, plain HTML+fetch or a small
   React app, single FastAPI service). Theming/UI polish is deliberately
-  deferred — this is pass 1.
+  deferred - this is pass 1.
 
 ## 7. Definition of done for pass 1 (today)
 

@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 import hashlib
 import json
 import logging
@@ -38,7 +39,7 @@ logging.basicConfig(level=logging.INFO)
 init_db()
 
 app = FastAPI(
-    title="Verity — Fact Knowledge Layer",
+    title="Verity - Fact Knowledge Layer",
     description=(
         "Cross-document fact extraction, evidence grounding, and relationship reasoning engine. "
         "Extracts discrete factual claims from PDFs with source page & verbatim evidence, "
@@ -83,30 +84,57 @@ def upload_document(
     content = file.file.read()
     content_hash = hashlib.sha256(content).hexdigest()
 
+    effective_max_pages = None if (max_pages is not None and max_pages <= 0) else (max_pages or 15)
+
     # Check if this document content was already uploaded and successfully processed
     existing = db.query(DocumentModel).filter(
         DocumentModel.content_hash == content_hash
     ).first()
 
     if existing and existing.status == "done":
-        logger.info("Document '%s' already ingested (id: %s, hash: %s). Reusing existing record.", file.filename, existing.id, content_hash)
-        facts_count = db.query(FactModel).filter(FactModel.document_id == existing.id).count()
-        rels_count = db.query(RelationshipModel).filter(
-            (RelationshipModel.fact_a_id.in_(db.query(FactModel.id).filter(FactModel.document_id == existing.id))) |
-            (RelationshipModel.fact_b_id.in_(db.query(FactModel.id).filter(FactModel.document_id == existing.id)))
-        ).count()
-        failures_count = db.query(ExtractionFailureModel).filter(
-            ExtractionFailureModel.document_id == existing.id
-        ).count()
-        return DocumentProcessSummary(
-            document_id=existing.id,
-            filename=existing.filename,
-            page_count=existing.page_count,
-            facts_extracted=facts_count,
-            relationships_found=rels_count,
-            failures_count=failures_count,
-            status=existing.status
-        )
+        # Check if existing document already has enough pages
+        has_enough = False
+        if effective_max_pages is not None and existing.page_count and existing.page_count >= effective_max_pages:
+            has_enough = True
+        elif effective_max_pages is None and existing.page_count and existing.page_count > 20:
+            has_enough = True
+
+        if has_enough:
+            logger.info("Document '%s' already ingested with %s pages (id: %s). Reusing existing record.", file.filename, existing.page_count, existing.id)
+            facts_count = db.query(FactModel).filter(FactModel.document_id == existing.id).count()
+            rels_count = db.query(RelationshipModel).filter(
+                (RelationshipModel.fact_a_id.in_(db.query(FactModel.id).filter(FactModel.document_id == existing.id))) |
+                (RelationshipModel.fact_b_id.in_(db.query(FactModel.id).filter(FactModel.document_id == existing.id)))
+            ).count()
+            failures_count = db.query(ExtractionFailureModel).filter(
+                ExtractionFailureModel.document_id == existing.id
+            ).count()
+            return DocumentProcessSummary(
+                document_id=existing.id,
+                filename=existing.filename,
+                page_count=existing.page_count,
+                facts_extracted=facts_count,
+                relationships_found=rels_count,
+                failures_count=failures_count,
+                status=existing.status
+            )
+        else:
+            logger.info("Document '%s' previously had %s pages, re-extracting with max_pages=%s", file.filename, existing.page_count, effective_max_pages)
+            extracted_facts = process_document(existing.id, db=db, max_pages=effective_max_pages)
+            relationships = relate_new_facts(existing.id, db=db)
+            failures_count = db.query(ExtractionFailureModel).filter(
+                ExtractionFailureModel.document_id == existing.id
+            ).count()
+            db.refresh(existing)
+            return DocumentProcessSummary(
+                document_id=existing.id,
+                filename=existing.filename,
+                page_count=existing.page_count,
+                facts_extracted=len(extracted_facts),
+                relationships_found=len(relationships),
+                failures_count=failures_count,
+                status=existing.status
+            )
 
     doc_id = str(uuid.uuid4())
     save_path = UPLOAD_DIR / f"{doc_id}.pdf"
@@ -162,14 +190,19 @@ def upload_document(
 
 
 @app.post("/process/{document_id}", response_model=DocumentProcessSummary, tags=["Documents"])
-def process_existing_document(document_id: str, db: Session = Depends(get_db)):
+def process_existing_document(
+    document_id: str,
+    max_pages: Optional[int] = Query(None, description="Max pages to extract (0 or None for all)"),
+    db: Session = Depends(get_db)
+):
     """Triggers or re-triggers extraction and cross-document reconciliation for an existing document."""
     doc = db.query(DocumentModel).filter(DocumentModel.id == document_id).first()
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
 
     try:
-        extracted_facts = process_document(document_id, db=db)
+        effective_max_pages = None if (max_pages is not None and max_pages <= 0) else max_pages
+        extracted_facts = process_document(document_id, db=db, max_pages=effective_max_pages)
         relationships = relate_new_facts(document_id, db=db)
         failures_count = db.query(ExtractionFailureModel).filter(
             ExtractionFailureModel.document_id == document_id
@@ -226,6 +259,57 @@ def get_document(document_id: str, db: Session = Depends(get_db)):
     )
 
 
+@app.delete("/documents/{document_id}", tags=["Documents"])
+def delete_document(document_id: str, db: Session = Depends(get_db)):
+    """Deletes a document and its associated facts, relationships, failures, and file."""
+    doc = db.query(DocumentModel).filter(DocumentModel.id == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    filename = doc.filename
+    try:
+        # 1. Clean up relationships involving facts of this document
+        fact_ids_subquery = db.query(FactModel.id).filter(FactModel.document_id == document_id)
+        db.query(RelationshipModel).filter(
+            (RelationshipModel.fact_a_id.in_(fact_ids_subquery)) |
+            (RelationshipModel.fact_b_id.in_(fact_ids_subquery))
+        ).delete(synchronize_session=False)
+
+        # 2. Delete extraction failures for this document
+        db.query(ExtractionFailureModel).filter(
+            ExtractionFailureModel.document_id == document_id
+        ).delete(synchronize_session=False)
+
+        # 3. Delete facts for this document
+        db.query(FactModel).filter(
+            FactModel.document_id == document_id
+        ).delete(synchronize_session=False)
+
+        # 4. Remove stored PDF file from disk if present
+        pdf_file = UPLOAD_DIR / f"{document_id}.pdf"
+        if pdf_file.exists():
+            try:
+                pdf_file.unlink()
+            except Exception as e:
+                logger.warning("Could not delete file %s: %s", pdf_file, e)
+
+        # 5. Delete document record
+        db.delete(doc)
+        db.commit()
+
+        logger.info("Successfully deleted document %s ('%s') and its associated knowledge graph records.", document_id, filename)
+        return {
+            "status": "deleted",
+            "document_id": document_id,
+            "filename": filename,
+            "message": f"Report '{filename}' and all associated facts were successfully removed."
+        }
+    except Exception as exc:
+        db.rollback()
+        logger.exception("Failed to delete document %s: %s", document_id, exc)
+        raise HTTPException(status_code=500, detail=f"Failed to delete document: {exc}")
+
+
 @app.get("/documents/{document_id}/facts", response_model=List[FactRead], tags=["Facts"])
 def get_document_facts(document_id: str, db: Session = Depends(get_db)):
     """Retrieves all discrete facts extracted from a specific document with page provenance."""
@@ -271,6 +355,10 @@ def get_document_failures(document_id: str, db: Session = Depends(get_db)):
             page=fail.page,
             raw_item=raw_data,
             reason=fail.reason,
+            status=fail.status or "pending",
+            resolution_notes=fail.resolution_notes,
+            resolved_at=fail.resolved_at,
+            resolved_fact_id=fail.resolved_fact_id,
             created_at=fail.created_at
         ))
     return results
@@ -439,9 +527,24 @@ def get_relationship(relationship_id: str, db: Session = Depends(get_db)):
 
 
 @app.get("/failures", response_model=List[ExtractionFailureRead], tags=["Review"])
-def list_all_failures(db: Session = Depends(get_db)):
-    """Lists all extraction failures and flagged review items across documents."""
-    failures = db.query(ExtractionFailureModel).order_by(ExtractionFailureModel.created_at.desc()).all()
+def list_all_failures(
+    status: Optional[str] = None,
+    document_id: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    """Lists extraction failures and review items across documents, optionally filtered by status."""
+    query = db.query(ExtractionFailureModel)
+    if status:
+        if status == "pending":
+            query = query.filter(
+                (ExtractionFailureModel.status == "pending") | (ExtractionFailureModel.status == None)
+            )
+        else:
+            query = query.filter(ExtractionFailureModel.status == status)
+    if document_id:
+        query = query.filter(ExtractionFailureModel.document_id == document_id)
+
+    failures = query.order_by(ExtractionFailureModel.created_at.desc()).all()
     results = []
     for fail in failures:
         try:
@@ -455,6 +558,10 @@ def list_all_failures(db: Session = Depends(get_db)):
             page=fail.page,
             raw_item=raw_data,
             reason=fail.reason,
+            status=fail.status or "pending",
+            resolution_notes=fail.resolution_notes,
+            resolved_at=fail.resolved_at,
+            resolved_fact_id=fail.resolved_fact_id,
             created_at=fail.created_at
         ))
     return results
@@ -466,14 +573,16 @@ def resolve_failure(
     payload: Optional[Dict[str, Any]] = None,
     db: Session = Depends(get_db)
 ):
-    """Resolves an extraction failure, optionally saving an edited fact into FactModel."""
+    """Resolves an extraction failure, saving an edited fact into FactModel and recording resolution history."""
     fail = db.query(ExtractionFailureModel).filter(ExtractionFailureModel.id == failure_id).first()
     if not fail:
         raise HTTPException(status_code=404, detail="Failure record not found")
 
+    new_fact_id = None
     if payload and payload.get("metric"):
+        new_fact_id = str(uuid.uuid4())
         fact = FactModel(
-            id=str(uuid.uuid4()),
+            id=new_fact_id,
             document_id=fail.document_id,
             page=fail.page or 1,
             subject=payload.get("subject", "Unspecified"),
@@ -488,20 +597,40 @@ def resolve_failure(
         )
         db.add(fact)
 
-    db.delete(fail)
+    fail.status = "resolved"
+    fail.resolved_at = datetime.now(timezone.utc)
+    fail.resolution_notes = payload.get("notes") if payload else None
+    fail.resolved_fact_id = new_fact_id
     db.commit()
-    return {"status": "resolved", "failure_id": failure_id}
+    return {"status": "resolved", "failure_id": failure_id, "fact_id": new_fact_id}
 
 
 @app.post("/failures/{failure_id}/discard", tags=["Review"])
 def discard_failure(failure_id: str, db: Session = Depends(get_db)):
-    """Discards a failure record without creating a fact."""
+    """Discards a failure record without creating a fact, recording dismissal history."""
     fail = db.query(ExtractionFailureModel).filter(ExtractionFailureModel.id == failure_id).first()
     if not fail:
         raise HTTPException(status_code=404, detail="Failure record not found")
-    db.delete(fail)
+    fail.status = "discarded"
+    fail.resolved_at = datetime.now(timezone.utc)
     db.commit()
     return {"status": "discarded", "failure_id": failure_id}
+
+
+@app.post("/failures/{failure_id}/reopen", tags=["Review"])
+def reopen_failure(failure_id: str, db: Session = Depends(get_db)):
+    """Reopens a resolved or discarded item back to pending review queue."""
+    fail = db.query(ExtractionFailureModel).filter(ExtractionFailureModel.id == failure_id).first()
+    if not fail:
+        raise HTTPException(status_code=404, detail="Failure record not found")
+    if fail.resolved_fact_id:
+        db.query(FactModel).filter(FactModel.id == fail.resolved_fact_id).delete()
+        fail.resolved_fact_id = None
+    fail.status = "pending"
+    fail.resolved_at = None
+    fail.resolution_notes = None
+    db.commit()
+    return {"status": "reopened", "failure_id": failure_id}
 
 
 @app.get("/stats", tags=["Telemetry"])
@@ -510,7 +639,15 @@ def get_global_stats(db: Session = Depends(get_db)):
     files_count = db.query(DocumentModel).count()
     facts_count = db.query(FactModel).count()
     relations_count = db.query(RelationshipModel).count()
-    failures_count = db.query(ExtractionFailureModel).count()
+    failures_count = db.query(ExtractionFailureModel).filter(
+        (ExtractionFailureModel.status == "pending") | (ExtractionFailureModel.status == None)
+    ).count()
+    resolved_count = db.query(ExtractionFailureModel).filter(
+        ExtractionFailureModel.status == "resolved"
+    ).count()
+    discarded_count = db.query(ExtractionFailureModel).filter(
+        ExtractionFailureModel.status == "discarded"
+    ).count()
 
     facts = db.query(FactModel.confidence).all()
     if facts:
@@ -523,6 +660,8 @@ def get_global_stats(db: Session = Depends(get_db)):
         "facts_count": facts_count,
         "relations_count": relations_count,
         "failures_count": failures_count,
+        "resolved_count": resolved_count,
+        "discarded_count": discarded_count,
         "avg_confidence": avg_conf
     }
 

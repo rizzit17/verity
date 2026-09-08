@@ -132,6 +132,10 @@ class ExtractionFailureModel(Base):
     page = Column(Integer, nullable=True)
     raw_item_json = Column(Text, nullable=False)
     reason = Column(Text, nullable=False)
+    status = Column(String(32), default="pending", nullable=False)
+    resolution_notes = Column(Text, nullable=True)
+    resolved_at = Column(DateTime, nullable=True)
+    resolved_fact_id = Column(String(36), nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
     document = relationship("DocumentModel", back_populates="failures")
@@ -147,6 +151,20 @@ def init_db():
             if "content_hash" not in col_names:
                 conn.execute(text("ALTER TABLE documents ADD COLUMN content_hash VARCHAR(64);"))
                 conn.commit()
+
+            # Check if status and resolution columns exist in extraction_failures table
+            fail_result = conn.execute(text("PRAGMA table_info(extraction_failures);")).fetchall()
+            fail_cols = [r[1] for r in fail_result]
+            if "status" not in fail_cols:
+                conn.execute(text("ALTER TABLE extraction_failures ADD COLUMN status VARCHAR(32) DEFAULT 'pending';"))
+            if "resolution_notes" not in fail_cols:
+                conn.execute(text("ALTER TABLE extraction_failures ADD COLUMN resolution_notes TEXT;"))
+            if "resolved_at" not in fail_cols:
+                conn.execute(text("ALTER TABLE extraction_failures ADD COLUMN resolved_at DATETIME;"))
+            if "resolved_fact_id" not in fail_cols:
+                conn.execute(text("ALTER TABLE extraction_failures ADD COLUMN resolved_fact_id VARCHAR(36);"))
+            conn.commit()
+
             # Sweep any documents left stuck in processing or pending from interrupted past sessions
             conn.execute(text("UPDATE documents SET status = 'failed', error_message = 'Extraction interrupted or terminated unexpectedly' WHERE status IN ('processing', 'pending');"))
             conn.commit()
