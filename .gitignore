@@ -5,6 +5,8 @@ __pycache__/
 *.sqlite
 *.sqlite3
 data/facts.db
+data/facts.db-wal
+data/facts.db-shm
 data/uploads/*
 !data/uploads/.gitkeep
 .pytest_cache/
