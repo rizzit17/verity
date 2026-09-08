@@ -606,54 +606,9 @@ if FRONTEND_DIR.exists():
 
     @app.get("/docs", include_in_schema=False)
     def custom_swagger_ui_html():
-        return HTMLResponse("""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verity — API Documentation & Testing</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 2 7 12 12 22 7 12 2'%3E%3C/polygon%3E%3Cpolyline points='2 17 12 22 22 17'%3E%3C/polyline%3E%3Cpolyline points='2 12 12 17 22 12'%3E%3C/polyline%3E%3C/svg%3E">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css">
-  <link rel="stylesheet" href="/static/swagger-theme.css">
-</head>
-<body>
-  <header class="verity-nav-header">
-    <a href="/" class="verity-brand">
-      <span class="verity-brand-title">VERITY</span>
-      <span class="verity-brand-pill">API v1.0</span>
-    </a>
-    <nav class="verity-nav-links">
-      <a href="/" class="verity-nav-link">Overview</a>
-      <a href="/workspace" class="verity-nav-link">Workspace</a>
-      <a href="/explorer" class="verity-nav-link">Explorer</a>
-      <a href="/review" class="verity-nav-link">Review Queue</a>
-      <a href="/docs" class="verity-nav-link active">API Docs</a>
-    </nav>
-  </header>
-  <div id="swagger-ui"></div>
-  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
-  <script type="module" src="/static/light-rays.js"></script>
-  <script>
-    window.onload = () => {
-      window.ui = SwaggerUIBundle({
-        url: '/openapi.json',
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIBundle.SwaggerUIStandalonePreset
-        ],
-        layout: "BaseLayout",
-        defaultModelsExpandDepth: 1,
-        defaultModelExpandDepth: 1,
-        docExpansion: "list",
-        filter: true,
-        showExtensions: true,
-        showCommonExtensions: true
-      });
-    };
-  </script>
-</body>
-</html>""")
+        docs_file = FRONTEND_DIR / "docs.html"
+        if docs_file.exists():
+            return FileResponse(docs_file)
+        return FileResponse(FRONTEND_DIR / "index.html")
 
 
