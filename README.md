@@ -51,7 +51,7 @@ Corporate disclosures and financial reports scatter critical data across dozens 
 
 ## Video Demo & The 4 Required Cases
 
-> **Demo Video (Took me 5 Minutes)**: *[https://drive.google.com/file/d/1hi7dd1_oQKU56NBWSWdNoQYVdtQhKf97/view?usp=sharing]*  
+> **Demo Video (Took me 5 Minutes)**: [https://drive.google.com/file/d/1hi7dd1_oQKU56NBWSWdNoQYVdtQhKf97/view?usp=sharing](https://drive.google.com/file/d/1hi7dd1_oQKU56NBWSWdNoQYVdtQhKf97/view?usp=sharing)  
 
 Verity directly detects and surfaces the four core cases required by the assignment specification:
 
