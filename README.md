@@ -6,6 +6,20 @@ Built for the **Superjoin VIT 2026 Hiring Assignment**.
 
 ---
 
+## 🌐 Live Demo & Recruiter Quick Access
+
+> [!NOTE]
+> **Cold Start Notice**: The live deployment is hosted on a free cloud tier. If the instance is currently sleeping due to inactivity, please allow **~30–45 seconds** for the initial cold start to wake up. Subsequent requests will be instantaneous.
+
+### 🔗 Evaluation Deep Links
+- 🚀 **Live Landing Page**: [https://verity-demo.onrender.com/](https://verity-demo.onrender.com/) *(Replace with your deployed Render URL)*
+- 📊 **Workspace (Cross-Document Matrix)**: [https://verity-demo.onrender.com/workspace](https://verity-demo.onrender.com/workspace)
+- 🔍 **Fact & Document Explorer**: [https://verity-demo.onrender.com/explorer](https://verity-demo.onrender.com/explorer)
+- ⚖️ **Module 04 Human Review Queue**: [https://verity-demo.onrender.com/review](https://verity-demo.onrender.com/review)
+- 📖 **Interactive Swagger API Documentation**: [https://verity-demo.onrender.com/docs](https://verity-demo.onrender.com/docs)
+
+---
+
 ## Table of Contents
 
 1. [Setup and Run Instructions](#1-setup-and-run-instructions)
