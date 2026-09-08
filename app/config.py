@@ -22,7 +22,7 @@ TOP_K_CANDIDATES = int(os.getenv("TOP_K_CANDIDATES", "3"))
 EXCLUDE_SAME_DOCUMENT = os.getenv("EXCLUDE_SAME_DOCUMENT", "true").lower() in ("true", "1", "yes")
 
 # Concurrency & Worker Batching
-EXTRACTION_MAX_WORKERS = int(os.getenv("EXTRACTION_MAX_WORKERS", "2"))
+EXTRACTION_MAX_WORKERS = int(os.getenv("EXTRACTION_MAX_WORKERS", "4"))
 
 # Storage paths
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'data' / 'facts.db'}")

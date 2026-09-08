@@ -34,12 +34,13 @@ DEFAULT_DATASETS_DIR = BASE_DIR / "starter-datasets"
 if not DEFAULT_DATASETS_DIR.exists():
     DEFAULT_DATASETS_DIR = Path(r"C:\Users\Rishit\Desktop\SUPERJOIN\starter-datasets")
 
+# 5 Baseline documents seeded in full (all pages); 6th document
+# (02-delhivery-annual-report-fy24-excerpt.pdf) is reserved for real-time comparison upload during video demo.
 ORDERED_STARTER_FILES = [
-    # Dataset A - Delhivery
+    # Dataset A - Delhivery Baseline
     ("delhivery", "03-delhivery-q4-fy24-earnings-presentation.pdf"),
-    ("delhivery", "02-delhivery-annual-report-fy24-excerpt.pdf"),
     ("delhivery", "01-delhivery-prospectus-2022-excerpt.pdf"),
-    # Dataset B - India Macroeconomy
+    # Dataset B - India Macroeconomy Baseline
     ("india-macroeconomy", "01-india-economic-survey-2024-25-excerpt.pdf"),
     ("india-macroeconomy", "02-rbi-annual-report-2024-25-excerpt.pdf"),
     ("india-macroeconomy", "03-imf-india-2025-article-iv-excerpt.pdf"),
@@ -56,8 +57,11 @@ def ingest_file(pdf_path: Path, db, max_pages: Optional[int] = None) -> str:
     ).first()
 
     if existing and existing.status == "done":
-        print(f"\nDocument '{pdf_path.name}' already ingested with status 'done' (Doc ID: {existing.id}). Skipping re-upload.")
-        return existing.id
+        if max_pages is None and existing.page_count and existing.page_count < 25:
+            print(f"\nDocument '{pdf_path.name}' previously had only {existing.page_count} pages. Upgrading to FULL document extraction...")
+        else:
+            print(f"\nDocument '{pdf_path.name}' already ingested with {existing.page_count} pages (Doc ID: {existing.id}). Skipping re-upload.")
+            return existing.id
 
     doc_id = existing.id if existing else str(uuid.uuid4())
     dest_path = UPLOAD_DIR / f"{doc_id}.pdf"
@@ -205,8 +209,8 @@ def main():
                         help="Path to starter-datasets directory")
     parser.add_argument("--single-dataset", type=str, choices=["delhivery", "india-macroeconomy"], default=None,
                         help="Run only one dataset")
-    parser.add_argument("--max-pages", type=int, default=8,
-                        help="Max pages per document to process (default: 8 pages covering executive summary/highlights)")
+    parser.add_argument("--max-pages", type=int, default=None,
+                        help="Max pages per document to process (default: None for full document extraction)")
     parser.add_argument("--report-only", action="store_true",
                         help="Skip ingestion and only print the 4 demo cases from existing database")
     args = parser.parse_args()

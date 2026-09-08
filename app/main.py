@@ -742,18 +742,30 @@ def clear_database(db: Session = Depends(get_db)):
     return {"status": "cleared", "message": "All workspace data reset successfully."}
 
 
+# 5 Baseline documents seeded in full; 6th document (02-delhivery-annual-report-fy24-excerpt.pdf)
+# is reserved for real-time comparison upload during the video demo.
+SEED_5_STARTER_FILES = [
+    ("delhivery", "03-delhivery-q4-fy24-earnings-presentation.pdf"),
+    ("delhivery", "01-delhivery-prospectus-2022-excerpt.pdf"),
+    ("india-macroeconomy", "01-india-economic-survey-2024-25-excerpt.pdf"),
+    ("india-macroeconomy", "02-rbi-annual-report-2024-25-excerpt.pdf"),
+    ("india-macroeconomy", "03-imf-india-2025-article-iv-excerpt.pdf"),
+]
+
+
 def run_seed_background():
-    """Ingests starter documents incrementally in a background worker."""
+    """Ingests 5 starter documents with FULL pages in a background worker, leaving the 6th PDF for demo upload."""
     try:
-        from scripts.seed_demo import DEFAULT_DATASETS_DIR, ORDERED_STARTER_FILES, ingest_file
+        from scripts.seed_demo import DEFAULT_DATASETS_DIR, ingest_file
         from app.db import SessionLocal
         with SessionLocal() as db:
             if DEFAULT_DATASETS_DIR.exists():
-                for folder_name, filename in ORDERED_STARTER_FILES:
+                for folder_name, filename in SEED_5_STARTER_FILES:
                     pdf_path = DEFAULT_DATASETS_DIR / folder_name / filename
                     if pdf_path.exists():
                         try:
-                            ingest_file(pdf_path, db, max_pages=6)
+                            logger.info("Seeding full document: %s (all pages)", filename)
+                            ingest_file(pdf_path, db, max_pages=None)
                         except Exception as e:
                             logger.warning("Error seeding %s: %s", filename, e)
     except Exception as exc:
