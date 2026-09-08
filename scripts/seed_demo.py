@@ -218,6 +218,15 @@ def main():
     init_db()
     db = SessionLocal()
 
+    # Guard: If running in Render environment without explicit local override,
+    # skip heavy CLI seeding to allow immediate port binding and prevent API quota exhaustion
+    import os
+    if os.getenv("RENDER") and not args.max_pages:
+        print("\n[Render Environment Detected] Skipping heavy CLI seeding on container boot to allow immediate port binding.")
+        print("Demo data can be seeded on-demand via the web UI or background API.\n")
+        db.close()
+        return
+
     if args.report_only:
         print_demo_cases(db)
         db.close()
