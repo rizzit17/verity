@@ -25,7 +25,7 @@ Corporate disclosures and financial reports scatter critical data across dozens 
 > [!NOTE]
 > **Cloud Instance Wakeup**: Hosted on Render. If the free-tier service has spun down due to inactivity, allow **~20–30 seconds** for the initial cold start. All subsequent API calls and page loads are instantaneous.
 
-- **Web Application**: [https://verity-rishit17.onrender.com/](https://verity-rishit17.onrender.com/) *(or your custom Render URL)*
+- **Web Application**: [https://verity-rishit17.onrender.com/](https://verity-rishit17.onrender.com/) 
 - **Workspace (Comparison Matrix)**: [https://verity-rishit17.onrender.com/workspace](https://verity-rishit17.onrender.com/workspace)
 - **Fact & Evidence Explorer**: [https://verity-rishit17.onrender.com/explorer](https://verity-rishit17.onrender.com/explorer)
 - **Human Review Queue**: [https://verity-rishit17.onrender.com/review](https://verity-rishit17.onrender.com/review)
@@ -35,8 +35,7 @@ Corporate disclosures and financial reports scatter critical data across dozens 
 
 ## Video Demo & The 4 Required Cases
 
-> **Demo Video (Under 3 Minutes)**: *[Insert your YouTube / Loom link here]*  
-> *A full step-by-step recording script matching exact screen output is provided in `demo_script.md`.*
+> **Demo Video (Took me 5 Minutes)**: *[https://drive.google.com/file/d/1hi7dd1_oQKU56NBWSWdNoQYVdtQhKf97/view?usp=sharing]*  
 
 Verity directly detects and surfaces the four core cases required by the assignment specification:
 
