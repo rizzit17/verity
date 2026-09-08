@@ -153,14 +153,21 @@
   <header
     class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-white/10">
     <div class="h-16 w-full px-space-4 flex items-center justify-between gap-space-3">
-      <div class="flex items-center gap-space-3 shrink-0">
-        <a href="/" class="flex items-center gap-space-2 text-decoration-none">
-          <span class="font-headline-md text-headline-md tracking-tight text-on-surface font-bold">Verity</span>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
+          <div class="w-8 h-8 rounded bg-gradient-to-br from-primary/30 to-secondary/20 border border-primary/50 text-primary flex items-center justify-center shadow-[0_0_15px_rgba(208,188,255,0.3)] group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[20px] text-tertiary">verified</span>
+          </div>
+          <span class="font-headline-md text-xl sm:text-2xl tracking-tight text-white font-extrabold">Verity</span>
           <span
-            class="hidden sm:inline-block px-space-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-label-caps text-[10px] uppercase tracking-wider">
+            class="hidden sm:inline-block px-2 py-0.5 bg-gradient-to-r from-primary-container/30 to-secondary/20 border border-primary/40 text-primary font-mono text-[10px] uppercase font-bold tracking-wider">
             FACT LAYER v2.4
           </span>
         </a>
+        <div class="hidden xl:flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-low border border-white/10 font-mono text-[10px] text-outline uppercase tracking-wider">
+          <span>BY</span>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary font-bold">RISHIT</span>
+        </div>
         <div
           class="hidden 2xl:flex items-center gap-space-3 px-space-3 py-space-1 bg-surface-container-low border border-white/10 font-body-sm text-body-sm text-on-surface-variant">
           <span class="flex items-center gap-space-1"><span class="text-outline">Files:</span><span id="nav-files"
