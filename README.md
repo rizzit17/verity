@@ -5,7 +5,7 @@
 
 ---
 
-## 🌟 Executive Overview
+## Executive Overview
 
 Corporate disclosures and financial reports scatter critical data across dozens of PDFs. Key figures are often reported in divergent units (crores vs. millions), updated across quarters, or silently revised across annual excerpts. 
 
@@ -20,22 +20,22 @@ Corporate disclosures and financial reports scatter critical data across dozens 
 
 ---
 
-## 🔗 Live Access & Deployment
+## Live Access & Deployment
 
 > [!NOTE]
 > **Cloud Instance Wakeup**: Hosted on Render. If the free-tier service has spun down due to inactivity, allow **~20–30 seconds** for the initial cold start. All subsequent API calls and page loads are instantaneous.
 
-- **Web Application**: [https://verity-demo.onrender.com/](https://verity-demo.onrender.com/) *(or your custom Render URL)*
-- **Workspace (Comparison Matrix)**: [https://verity-demo.onrender.com/workspace](https://verity-demo.onrender.com/workspace)
-- **Fact & Evidence Explorer**: [https://verity-demo.onrender.com/explorer](https://verity-demo.onrender.com/explorer)
-- **Human Review Queue**: [https://verity-demo.onrender.com/review](https://verity-demo.onrender.com/review)
-- **Interactive OpenAPI / Swagger Docs**: [https://verity-demo.onrender.com/docs](https://verity-demo.onrender.com/docs)
+- **Web Application**: [https://verity-rishit17.onrender.com/](https://verity-rishit17.onrender.com/) *(or your custom Render URL)*
+- **Workspace (Comparison Matrix)**: [https://verity-rishit17.onrender.com/workspace](https://verity-rishit17.onrender.com/workspace)
+- **Fact & Evidence Explorer**: [https://verity-rishit17.onrender.com/explorer](https://verity-rishit17.onrender.com/explorer)
+- **Human Review Queue**: [https://verity-rishit17.onrender.com/review](https://verity-rishit17.onrender.com/review)
+- **Interactive OpenAPI / Swagger Docs**: [https://verity-rishit17.onrender.com/docs](https://verity-rishit17.onrender.com/docs)
 
 ---
 
-## ⏱️ Video Demo & The 4 Required Cases
+## Video Demo & The 4 Required Cases
 
-> 📺 **Demo Video (Under 3 Minutes)**: *[Insert your YouTube / Loom link here]*  
+> **Demo Video (Under 3 Minutes)**: *[Insert your YouTube / Loom link here]*  
 > *A full step-by-step recording script matching exact screen output is provided in `demo_script.md`.*
 
 Verity directly detects and surfaces the four core cases required by the assignment specification:
@@ -92,7 +92,7 @@ Verity directly detects and surfaces the four core cases required by the assignm
 
 ---
 
-## 🛠️ Architecture & Key Engineering Decisions
+## Architecture & Key Engineering Decisions
 
 ```
 +----------------------------------------------------------------------------------+
@@ -133,7 +133,7 @@ No hardcoded entities, companies, or filenames. The extraction schema supports a
 
 ---
 
-## 🚀 Setup and Run Instructions
+## Setup and Run Instructions
 
 ### Prerequisites
 - Python 3.10, 3.11, or 3.13
@@ -195,7 +195,7 @@ Open your browser at **`http://localhost:8080`**.
 
 ---
 
-## 🧪 Testing & Seeding
+## Testing & Seeding
 
 ### Run Automated Tests
 ```bash
@@ -212,7 +212,7 @@ python scripts/prepare_demo.py
 
 ---
 
-## 🏆 Brownie Points & Scalability Extensions
+## Brownie Points & Scalability Extensions
 
 1. **Large Document Handling**: Evaluated across 100-page corporate IPO prospectus filings and central bank monetary policy reports without timeouts using physical-page chunking and background streaming tasks.
 2. **Multi-Document Knowledge Pool**: Ingests across multiple independent entities (Delhivery Logistics, RBI Annual Report, Economic Survey, and IMF Article IV) within a single unified matrix.
@@ -221,7 +221,7 @@ python scripts/prepare_demo.py
 
 ---
 
-## ⚠️ Limitations & Future Roadmap
+## Limitations & Future Roadmap
 
 1. **Dense PDF Slide Tables**: Highly stylized multi-column slide presentations can occasionally interleave adjacent table columns. Integrating structural table parsers (`pdfplumber` / `camelot`) or a multimodal vision-language second pass would enhance complex financial statement parsing.
 2. **Vector Scale at $10^6$ Facts**: In-memory NumPy cosine similarity is fast for thousands of facts. For millions of facts, swapping in `sqlite-vec` or `pgvector` will provide horizontal scale without changing the extraction pipeline.
@@ -229,7 +229,7 @@ python scripts/prepare_demo.py
 
 ---
 
-## 🔒 Security & Credentials Note
+## Security & Credentials Note
 - Zero API keys, credentials, or secrets are tracked in this repository.
 - `.env`, SQLite WAL files, and cached uploads are strictly excluded via `.gitignore`.
 
