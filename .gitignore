@@ -7,6 +7,7 @@ __pycache__/
 data/facts.db
 data/facts.db-wal
 data/facts.db-shm
+data/llm_cache.json
 data/uploads/*
 !data/uploads/.gitkeep
 .pytest_cache/
