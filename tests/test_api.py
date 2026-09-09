@@ -268,3 +268,79 @@ def test_failures_lifecycle_and_review_tabs():
     stats3 = client.get("/stats").json()
     assert stats3["failures_count"] == 1
     assert stats3["discarded_count"] == 0
+
+
+def test_telemetry_endpoint():
+    db = TestSessionLocal()
+    doc1 = DocumentModel(id="tel-doc-1", filename="annual.pdf", status="done")
+    db.add(doc1)
+    f1 = FactModel(id="tf1", document_id="tel-doc-1", page=1, subject="Delhivery", metric="EBITDA", value="1266", evidence_text="EBITDA was 1266")
+    f2 = FactModel(id="tf2", document_id="tel-doc-1", page=2, subject="Delhivery", metric="Revenue", value="8142", evidence_text="Revenue was 8142")
+    db.add_all([f1, f2])
+    db.commit()
+    db.close()
+
+    res = client.get("/telemetry")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["total_facts"] >= 2
+    assert "combinatorial_space" in data
+    assert "possible_pairwise_comparisons" in data["combinatorial_space"]
+    assert "pruning_efficiency_percentage" in data["combinatorial_space"]
+    assert "finops_economics" in data
+    assert "tokens_saved" in data["finops_economics"]
+    assert "cost_saved_usd" in data["finops_economics"]
+
+
+def test_page_snippet_endpoints(tmp_path):
+    import fitz
+    from pathlib import Path
+
+    # 1. Non-existent fact returns 404
+    res_404 = client.get("/facts/non-existent-fact/page-snippet")
+    assert res_404.status_code == 404
+
+    # 2. Create a test PDF and DB models
+    pdf_path = tmp_path / "snippet_test.pdf"
+    doc = fitz.open()
+    page = doc.new_page()
+    page.insert_text((50, 72), "Delhivery achieved EBITDA profit of 1,266 million in FY24.")
+    doc.save(pdf_path)
+    doc.close()
+
+    db = TestSessionLocal()
+    doc_model = DocumentModel(id="snip-doc-1", filename=str(pdf_path), status="done")
+    db.add(doc_model)
+    fact = FactModel(
+        id="fact-snip-1",
+        document_id="snip-doc-1",
+        page=1,
+        subject="Delhivery",
+        metric="EBITDA",
+        value="1266",
+        evidence_text="EBITDA profit of 1,266 million"
+    )
+    db.add(fact)
+    db.commit()
+    db.close()
+
+    # Test image format
+    res_img = client.get("/facts/fact-snip-1/page-snippet?format=image&dpi=72")
+    assert res_img.status_code == 200
+    assert res_img.headers["content-type"] == "image/png"
+    assert len(res_img.content) > 100
+
+    # Test json format
+    res_json = client.get("/facts/fact-snip-1/page-snippet?format=json")
+    assert res_json.status_code == 200
+    data = res_json.json()
+    assert data["fact_id"] == "fact-snip-1"
+    assert data["page"] == 1
+    assert data["match_count"] >= 1
+    assert data["matched"] is True
+
+    # Test document direct snippet
+    res_doc_snip = client.get("/documents/snip-doc-1/page-snippet?page=1&highlight=EBITDA")
+    assert res_doc_snip.status_code == 200
+    assert res_doc_snip.headers["content-type"] == "image/png"
+

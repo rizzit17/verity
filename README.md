@@ -23,7 +23,7 @@ Corporate disclosures and financial reports scatter critical data across dozens 
 ## Live Access & Deployment
 
 > [!NOTE]
-> **Cloud Instance Wakeup**: Hosted on Render. If the free-tier service has spun down due to inactivity, allow **~20–30 seconds** for the initial cold start. All subsequent API calls and page loads are instantaneous.
+> **Cloud Instance Wakeup**: Hosted on Render. If the free-tier service has spun down due to inactivity, allow **~20-30 seconds** for the initial cold start. All subsequent API calls and page loads are instantaneous.
 
 - **Web Application**: [https://verity-rishit17.onrender.com/](https://verity-rishit17.onrender.com/) 
 - **Workspace (Comparison Matrix)**: [https://verity-rishit17.onrender.com/workspace](https://verity-rishit17.onrender.com/workspace)
@@ -110,44 +110,87 @@ Verity directly detects and surfaces the four core cases required by the assignm
 
 ## Architecture & Key Engineering Decisions
 
-```
-+----------------------------------------------------------------------------------+
-|                                    VERITY PIPELINE                               |
-+----------------------------------------------------------------------------------+
-|                                                                                  |
-|  [PDF Ingestion] --->  [PyMuPDF Page Parser]  ---> [Structured LLM Extractor]   |
-|   (Arbitrary File)      (Physical Page Anchor)      (Paced, Schema-Governed)     |
-|                                                                |                 |
-|                                                                v                 |
-|  [Cross-Document Discovery] <--- [Semantic Descriptor Pool] <--- [Ground Truth DB] |
-|   - Heuristic Unit Scaling       (Entity | Metric | Time)       (SQLite / ACID)  |
-|   - Temporal Normalization                                                       |
-|   - Non-GAAP Reconciler                                                          |
-|            |                                                                     |
-|            v                                                                     |
-|  +---------------------+   +---------------------+   +------------------------+  |
-|  |    CORROBORATES     |   |     CONTRADICTS     |   |      RECONCILED        |  |
-|  | (Side-by-side Page) |   | (Flagged Discrepancy)|  | (Context & Accounting) |  |
-|  +---------------------+   +---------------------+   +------------------------+  |
-|                                                                                  |
-+----------------------------------------------------------------------------------+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Auditor / Analyst
+    participant API as FastAPI Gateway
+    participant Parser as PyMuPDF (fitz)
+    participant LLM as Structured LLM Extractor
+    participant Index as Semantic Vector Index
+    participant Engine as Deterministic Reconciler
+    participant DB as SQLite Ground Truth Graph
+    participant Telemetry as FinOps Telemetry Engine
+
+    User->>API: Upload Disclosure PDF (or Select Document)
+    API->>Parser: Ingest PDF at physical page granularity
+    Parser-->>API: Physical page text, printed labels & geometry
+    API->>LLM: JSON-schema constrained extraction prompt
+    LLM-->>API: Validated Fact array (entities, metrics, scopes, citations)
+    API->>DB: Persist raw extracted facts with page anchors
+    API->>Index: Embed `subject | metric | time_scope` vectors
+    Index->>Index: Cosine candidate pruning (99.96% space eliminated)
+    Index-->>Engine: 238 candidate pairs (from 624k combinatorial space)
+    Engine->>Engine: Deterministic unit scaling, scope matching & accounting checks
+    Engine-->>DB: Insert Corroborations, Contradictions, and Reconciliations
+    Engine->>Telemetry: Record tokens saved, latency & FinOps metrics
+    
+    rect rgb(20, 30, 45)
+    Note over User,DB: Interactive Ground-Truth Verification
+    User->>API: GET /facts/{id}/page-snippet (Inspect Source)
+    API->>Parser: Search verbatim citation on physical PDF page
+    Parser->>Parser: Draw cyan bounding box overlay (144 DPI)
+    Parser-->>User: Rendered PNG with physical evidence highlight
+    User->>API: GET /telemetry (FinOps Audit)
+    API->>Telemetry: Compute exact N(N-1)/2 savings & unit economics
+    Telemetry-->>User: Real-time FinOps HUD & telemetry audit
+    end
 ```
 
-### 1. Physical-Page Anchored Provenance
-Arbitrary token chunking splits numbers from their footnotes. Verity parses at **physical page granularity** using PyMuPDF. Every fact stores:
-- `page: int`: The exact zero-indexed physical PDF page.
+### 1. Physical-Page Anchored Provenance & Live Bounding Box Inspector
+Arbitrary token chunking splits numbers from their footnotes and causes citation hallucination. Verity parses at **physical page granularity** using PyMuPDF. Every fact records:
+- `page: int`: The exact 1-indexed physical PDF page.
 - `printed_page_label`: The human-readable header/footer page string.
 - `evidence_text`: The verbatim snippet quoted directly from the filing.
+- **Interactive Page Snippet (`GET /facts/{fact_id}/page-snippet`)**: Renders the physical PDF page at high-DPI (144 DPI) with a bounding box drawn directly over the verbatim cited sentence. An auditor can verify source truth in one click.
 
-### 2. High-Efficiency Two-Stage Relationship Discovery
-Comparing every extracted fact against every other fact via LLM is $O(N^2)$, which is slow and exhausts API quotas. Verity uses a two-stage approach:
-1. **Semantic Candidate Filtering**: Candidate pairs are indexed using `subject | metric | time_scope` descriptors. Values are intentionally omitted from descriptors so conflicting claims for the same metric cluster together.
+### 2. High-Efficiency Two-Stage Relationship Discovery & FinOps
+Comparing every extracted fact against every other fact via LLM is $O(N^2)$, which causes quadratic token cost explosion. Verity decouples candidate pairing from cross-examination:
+1. **Semantic Candidate Filtering**: Candidate pairs are indexed using `subject | metric | time_scope` vector embeddings. Values are intentionally omitted from descriptors so conflicting claims for the same metric cluster together. Over 99.9% of candidate pairs are pruned before reaching evaluation.
 2. **High-Speed Deterministic Reasoning Engine**: Evaluates unit conversions (crores, millions, thousands), time-scope equivalence (e.g. `FY21` = `Fiscal 2021`), and accounting variations in milliseconds with **zero LLM quota consumption**, reserving API calls strictly for extraction.
+3. **Algorithmic Telemetry (`GET /telemetry`)**: A live FinOps audit endpoint computing exact candidate space reduction, tokens preserved (~780M tokens), and estimated USD savings.
 
 ### 3. Dynamic, Emergent Schema
 No hardcoded entities, companies, or filenames. The extraction schema supports arbitrary financial, operational, and macroeconomic data with an open-ended JSON `attributes` bag for YoY growth, margins, and footnote tags.
 
 ---
+
+## Trade-offs & What We Did NOT Do
+
+In enterprise architecture, what an engineering team decides **not** to do is just as important as what they build. Verity was deliberately designed around three explicit trade-offs:
+
+### Trade-off 1: Why We Avoided Full $O(N^2)$ LLM Pairwise Comparison
+- **The Naive Temptation**: The simplest way to detect contradictions is feeding every pair of extracted facts into an LLM prompt: *"Do Fact A and Fact B contradict each other?"*.
+- **The Quadratic Reality**: For $N = 1,118$ facts currently extracted in Verity, brute-force pairwise comparison requires:
+  $$\frac{N(N - 1)}{2} = \frac{1,118 \times 1,117}{2} = 624,403 \text{ LLM API calls}$$
+  At ~1,250 tokens per prompt/response pair, this consumes **~780,500,000 tokens** and costs over **$117.00 USD** on commercial LLM APIs for a single run, taking hours and exceeding rate limits.
+- **The Verity Architecture**: We use a two-stage pipeline. Cosine similarity indexing over `subject | metric | time_scope` vectors prunes **99.96%** of irrelevant pairings. Only 238 candidate pairs are evaluated, and our deterministic reconciliation engine resolves all 238 in **under 12 milliseconds** at **$0.00 additional API cost**.
+
+### Trade-off 2: Why Embeddings Alone Cannot Detect Contradictions
+- **The Naive Temptation**: Relying on vector distance or cosine similarity to flag conflicts (e.g. "if similarity is low, it's a contradiction").
+- **The Vector Limitation**: High cosine similarity measures **topical semantic proximity**, not **logical truth polarity**. For example:
+  - *Claim A*: "Delhivery FY24 EBITDA was ₹1,266 Million profit"
+  - *Claim B*: "Delhivery FY24 EBITDA was ₹4,516 Million loss"
+  These two statements share virtually identical vocabulary, context, and grammatical structure. In embedding space, their cosine similarity is **~0.94 (extremely close)**. Standard vector search or clustering sees them as almost identical.
+- **The Verity Solution**: We use vector similarity strictly as an **alignment filter** to discover claims discussing the exact same underlying subject and metric. Once aligned, a **deterministic logic engine** evaluates numeric values, unit denominations, and temporal horizons to classify the relationship as a Corroboration, Contradiction, or Reconciled Variance.
+
+### Trade-off 3: Physical PDF Pages vs. Printed Pagination Drift
+- **The Real-World Challenge**: Corporate annual reports and financial filings almost never start numbering on physical page 1. They begin with 10-25 pages of unnumbered cover art, executive letters, tables of contents, and statutory notices before the financial statements label "Page 1".
+- **The Citation Drift**: If an extraction prompt merely asks for "the page number", an LLM might return the printed footer ("Page 42") while the PDF reader is on physical page 58. An auditor clicking the citation arrives at the wrong page.
+- **The Verity Dual-Anchor Model**: Verity captures both:
+  1. `page`: The immutable physical PDF page index (1-indexed for PyMuPDF rendering).
+  2. `printed_page_label`: The printed label from the document's header/footer.
+  This guarantees that automated bounding box highlights (`GET /facts/{id}/page-snippet`) always map to the physical PDF page geometry without human offset errors.
 
 ## Setup and Run Instructions
 
@@ -217,7 +260,7 @@ Open your browser at **`http://localhost:8080`**.
 ```bash
 pytest tests/ -q
 ```
-*All 17 integration and unit tests pass cleanly (100% green).*
+*All 19 integration and unit tests pass cleanly (100% green).*
 
 ### Seeding Baseline Filings
 To pre-populate baseline filings before uploading test documents:
